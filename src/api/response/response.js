@@ -42,7 +42,17 @@ class RTMResponse {
    * @returns {boolean}
    */
   has(property) {
-    return this.hasOwnProperty(property);
+    let parts = property.split('.');
+    let object = this;
+
+    for ( let i = 0; i < parts.length; i++ ) {
+      object = object[parts[i]];
+      if ( object === undefined ) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
 }
