@@ -5,6 +5,13 @@
   "author": "David Waring <dev@davidwaring.net> (https://davidwaring.net)",
   "license": "MIT",
   "main": "src/index.js",
+  "scripts": {
+    "docs": "jsdoc -c jsdoc.json --readme README.md --template $NODE_PATH/docdash"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.5.5",
+    "docdash": "^0.4.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dwaring87/rtm-api.git"
