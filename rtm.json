@@ -1,0 +1,7 @@
+{
+  "api": {
+    "scheme": "https",
+    "url": "api.rememberthemilk.com/services/rest/",
+    "format": "json"
+  }
+}
