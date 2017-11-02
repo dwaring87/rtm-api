@@ -71,5 +71,14 @@ RTMError.responseError = function() {
   return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
 };
 
+/**
+ * Create a new `RTMError` that represents an API Authentication error
+ * @param {string} [details] Additional error details
+ * @returns {RTMError}
+ */
+RTMError.authError = function(details="Could not authenticate user") {
+  return new RTMError(-3, "Authentication Error: " + details);
+};
+
 
 module.exports = RTMError;
