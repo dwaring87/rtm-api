@@ -10,6 +10,8 @@ const RTMResponse = require('./response.js');
  * RTM API Server returned a response with a status of 'fail'.  This
  * Class will include the error code and error message from the
  * response.
+ *
+ * `RTMError` extends {@link RTMResponse}
  * @class
  */
 class RTMError extends RTMResponse{

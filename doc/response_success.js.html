@@ -1,9 +1,10 @@
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Home - Documentation</title>
+    <title>response/success.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,31 +29,52 @@
 
 <div id="main">
     
+    <h1 class="page-title">response/success.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const RTMResponse = require('./response.js');
+
+/**
+ * ### RTM Success Response
+ *
+ * This Class represents a successful response from the RTM API Server: the
+ * RTM API Server returned a response with a status of 'ok'. This Class will
+ * include all of the properties of the RTM `rsp` property.
+ *
+ * `RTMSuccess` extends {@link RTMResponse}
+ */
+class RTMSuccess extends RTMResponse {
+
+  /**
+   * Create a new RTM Success Response
+   * @param {object} rsp The RTM API Response's `rsp` property
+   */
+  constructor(rsp) {
+    super(RTMResponse.STATUS_OK);
+
+    // Parse the response properties
+    for ( let key in rsp ) {
+      if ( rsp.hasOwnProperty(key) &amp;&amp; key !== 'stat' ) {
+        this[key] = rsp[key];
+      }
+    }
+  }
+
+}
 
 
-
-
-
-
-
-
-
-    
-
-
-    <section class="readme">
-        <article><h1>Remember The Milk API Interface</h1><p><strong>node module:</strong> <a href="https://www.npmjs.com/package/rtm-api">rtm-api</a><br><strong>GitHub repo:</strong> <a href="https://github.com/dwaring87/rtm-api">dwaring87/rtm-api</a></p>
-<hr>
-<p>This project is still being actively developed and is in a state of flux.</p></article>
+module.exports = RTMSuccess;</code></pre>
+        </article>
     </section>
-
-
 
 
 

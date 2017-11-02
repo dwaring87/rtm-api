@@ -1,9 +1,10 @@
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Home - Documentation</title>
+    <title>response/error.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,31 +29,104 @@
 
 <div id="main">
     
+    <h1 class="page-title">response/error.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const RTMResponse = require('./response.js');
 
 
+/**
+ * ### RTM Error Response
+ *
+ * This Class represents a failed request to the RTM API Server: the
+ * RTM API Server returned a response with a status of 'fail'.  This
+ * Class will include the error code and error message from the
+ * response.
+ *
+ * `RTMError` extends {@link RTMResponse}
+ * @class
+ */
+class RTMError extends RTMResponse{
+
+  /**
+   * Create a new RTM Error Response
+   * @param {number} code Error Code
+   * @param {string} msg Error Message
+   * @constructor
+   */
+  constructor(code, msg) {
+    super(RTMResponse.STATUS_FAIL);
+    this._code = code;
+    this._msg = msg;
+  }
+
+  /**
+   * Get the Error Code
+   * @returns {number}
+   */
+  get code() {
+    return this._code;
+  }
+
+  /**
+   * Get the Error Message
+   * @returns {string}
+   */
+  get msg() {
+    return this._msg;
+  }
+
+  /**
+   * Get a String representation of the Error
+   * @returns {string}
+   */
+  toString() {
+    return "ERROR " + this._code + ": " + this._msg;
+  }
+
+}
 
 
+// === CUSTOM ERRORS ==== //
+
+/**
+ * Create a new `RTMError` that represents a network error
+ * @returns {RTMError}
+ */
+RTMError.networkError = function() {
+  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
+};
+
+/**
+ * Create a new `RTMError` that represents an API response error
+ * @returns {RTMError}
+ */
+RTMError.responseError = function() {
+  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
+};
+
+/**
+ * Create a new `RTMError` that represents an API Authentication error
+ * @param {string} [details] Additional error details
+ * @returns {RTMError}
+ */
+RTMError.authError = function(details="Could not authenticate user") {
+  return new RTMError(-3, "Authentication Error: " + details);
+};
 
 
-
-
-
-    
-
-
-    <section class="readme">
-        <article><h1>Remember The Milk API Interface</h1><p><strong>node module:</strong> <a href="https://www.npmjs.com/package/rtm-api">rtm-api</a><br><strong>GitHub repo:</strong> <a href="https://github.com/dwaring87/rtm-api">dwaring87/rtm-api</a></p>
-<hr>
-<p>This project is still being actively developed and is in a state of flux.</p></article>
+module.exports = RTMError;</code></pre>
+        </article>
     </section>
-
-
 
 
 

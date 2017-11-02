@@ -8,6 +8,8 @@ const RTMResponse = require('./response.js');
  * This Class represents a successful response from the RTM API Server: the
  * RTM API Server returned a response with a status of 'ok'. This Class will
  * include all of the properties of the RTM `rsp` property.
+ *
+ * `RTMSuccess` extends {@link RTMResponse}
  */
 class RTMSuccess extends RTMResponse {
 
