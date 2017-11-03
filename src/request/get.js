@@ -12,6 +12,8 @@ const URL = require('url');
 const sign = require('./sign.js');
 const parse = require('../response/parse.js');
 const error = require('../response/error.js');
+const RTMClient = require('../client.js');
+const RTMUser = require('../user.js');
 
 // API Configuration Properties
 const config = require('../../rtm.json');
@@ -40,21 +42,18 @@ const version = config.api.version;
 /**
  * Make the specified RTM API call
  * @param {string} method RTM API Method
- * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
+ * @param {object} [params={}] RTM Method Parameters (as an object with key/value pairs)
+ * @param {RTMUser} [user=undefined] The RTM User making the request
  * @param {RTMClient} client The RTM Client making the request
  * @param {function} callback {@link module:request/get~getCallback|getCallback} callback function
  */
-function get(method, params, client, callback) {
+function get(method, params, user, client, callback) {
 
-  // Check params and callback
-  if ( callback === undefined && typeof client === 'function' && typeof params === 'object' ) {
-    callback = client;
-    client = params;
-    params = {};
-  }
+  // Parse the given arguments
+  let args = _parseGetArgs(method, params, user, client, callback);
 
   // Build the Request URL
-  let requestUrl = _buildRequestUrl(method, params, client);
+  let requestUrl = _buildRequestUrl(args.method, args.params, args.user, args.client);
 
   // Parse the URL
   let url = URL.parse(requestUrl);
@@ -83,16 +82,57 @@ function get(method, params, client, callback) {
     });
     response.on('end', function() {
       let parsed = parse(resp);
-      callback(parsed);
+      args.callback(parsed);
     });
   });
   req.on('error', function(err) {
     console.error(err);
-    callback(error.networkError());
+    args.callback(error.networkError());
   });
   req.end();
 
 }
+
+
+/**
+ * Parse the arguments given to the get() function
+ * @returns {{method: *, params: *, user: *, client: *, callback: *}}
+ * @private
+ */
+function _parseGetArgs() {
+
+  // Parsed arguments to return
+  let rtn = {};
+
+  // Parse each of the arguments
+  for ( let key in arguments ) {
+    if ( arguments.hasOwnProperty(key) ) {
+      let arg = arguments[key];
+      if ( typeof arg === 'string' ) {
+        rtn.method = arg;
+      }
+      else if ( typeof arg === 'function' ) {
+        rtn.callback = arg;
+      }
+      else if ( typeof arg === 'object' ) {
+        if ( arg instanceof RTMClient ) {
+          rtn.client = arg;
+        }
+        else if ( arg instanceof  RTMUser ) {
+          rtn.user = arg;
+        }
+        else {
+          rtn.params = arg;
+        }
+      }
+    }
+  }
+
+  // Return the parsed arguments
+  return rtn;
+
+}
+
 
 
 /**
@@ -103,30 +143,70 @@ function get(method, params, client, callback) {
  * query string from the passed parameters and add a signature to the request.
  * @param {string} method RTM API Method
  * @param {Object} [params={}] Request Parameters
+ * @param {RTMUser} [user=undefined] The RTM User making the request
  * @param {RTMClient} client The RTM Client making the request
  * @returns {string} Signed Request URL
  * @private
  */
-function _buildRequestUrl(method, params, client) {
+function _buildRequestUrl(method, params, user, client) {
 
-  // Check parameters
-  if ( client === undefined && typeof params === 'object' ) {
-    client = params;
-    params = {};
+  // Parse the given arguments
+  let args = _parseBuildRequestUrlArgs(method, params, user, client);
+
+  // Add User Auth Token, if provided
+  if ( args.user && args.user.authToken ) {
+    args.params.auth_token = args.user.authToken;
   }
 
   // Add method, api key, version and format to params
-  params.method = method;
-  params.api_key = client.key;
-  params.version = version;
-  params.format = format;
-  params.api_sig = sign(params, client);
+  args.params.method = args.method;
+  args.params.api_key = args.client.key;
+  args.params.version = version;
+  args.params.format = format;
+  args.params.api_sig = sign(args.params, args.client);
 
   // Generate query string from params
-  let query = _formQuery(params);
+  let query = _formQuery(args.params);
 
   // Build the API request URL
   return scheme + '://' + base + "?" + query;
+
+}
+
+/**
+ * Parse the arguments given to the _buildRequestUrl function
+ * @returns {{method: *, params: *, user: *, client: *}}
+ * @private
+ */
+function _parseBuildRequestUrlArgs(arg1, arg2, arg3, arg4) {
+
+  // Parsed arguments to return
+  let rtn = {};
+  rtn.params = {};
+
+  // Parse each of the arguments
+  for ( let key in arguments ) {
+    if ( arguments.hasOwnProperty(key) ) {
+      let arg = arguments[key];
+      if ( typeof arg === 'string' ) {
+        rtn.method = arg;
+      }
+      else if ( typeof arg === 'object' ) {
+        if ( arg instanceof RTMUser ) {
+          rtn.user = arg;
+        }
+        else if ( arg instanceof RTMClient ) {
+          rtn.client = arg;
+        }
+        else {
+          rtn.params = arg;
+        }
+      }
+    }
+  }
+
+  // Return the parsed arguments
+  return rtn;
 
 }
 
