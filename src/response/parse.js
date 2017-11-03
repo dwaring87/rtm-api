@@ -5,7 +5,7 @@
  *
  * Parse the RTM API Response into either a {@link RTMSuccess} or
  * {@link RTMError} Class.
- * @module api/response/
+ * @module response/parse
  */
 
 

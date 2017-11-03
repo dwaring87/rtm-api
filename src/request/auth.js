@@ -5,15 +5,15 @@
  *
  * This module is used to authenticate a user with RTM and retrieve an
  * authentication token that will be used with future API calls.
- * @module api/auth
+ * @module request/auth
  */
 
 const get = require('./get.js');
 const sign = require('./sign.js');
-const error = require('../response/error.js');
+const RTMUser = require('../user.js');
 
 // API Configuration Properties
-const config = require('../../../rtm.json');
+const config = require('../../rtm.json');
 const scheme = config.api.scheme;
 const base = config.api.url.auth;
 
@@ -24,7 +24,7 @@ const base = config.api.url.auth;
  * This function is called after requesting an authentication url.  The callback
  * function will return the URL to be opened by the RTM User and the User's
  * `frob` which will be used to get an authentication token.
- * @callback module:api/auth~authUrlCallback
+ * @callback module:request/auth~authUrlCallback
  * @param {RTMError} err RTM Error, if encountered
  * @param {string} authUrl RTM Authentication URL
  * @param {string} authFrob RTM Frob
@@ -34,19 +34,15 @@ const base = config.api.url.auth;
  * This function is called after requesting an authentication token.  The callback
  * function will return the authentication token and the authenticated user's
  * information.
- * @callback module:api/auth~authTokenCallback
+ * @callback module:request/auth~authTokenCallback
  * @param {RTMError} err RTM Error, if encountered
- * @param {string} token RTM Authentication Token
- * @param {object} user RTM User information
- * @param {string} user.id RTM User ID
- * @param {string} user.username RTM Username
- * @param {string} user.fullname RTM User Fullname
+ * @param {RTMUser} user RTM User information
  */
 
 /**
  * This function is called after verifying the user's authentication token.
  * The callback function will return the verification status.
- * @callback module:api/auth~verifyAuthTokenCallback
+ * @callback module:request/auth~verifyAuthTokenCallback
  * @param {boolean} verified True if the auth token was successfully verified
  */
 
@@ -60,27 +56,19 @@ const base = config.api.url.auth;
  *
  * This URL will prompt the RTM User to grant access to the program using
  * the API Key.
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
- * @param {string} [perms=read] RTM API Permissions (read, write or delete)
- * @param {function} callback {@link module:api/auth~authUrlCallback|authUrlCallback} callback function
+ * @param {RTMClient} client The RTM Client making the request
+ * @param {function} callback {@link module:request/auth~authUrlCallback|authUrlCallback} callback function
  */
-function getAuthUrl(apiKey, apiSecret, perms, callback) {
-
-  // Parse arguments
-  if ( callback === undefined && typeof perms === 'function' ) {
-    callback = perms;
-    perms = 'read';
-  }
+function getAuthUrl(client, callback) {
 
   // Get a frob from the API Server
-  _getFrob(apiKey, apiSecret, function(err, frob) {
+  _getFrob(client, function(err, frob) {
     if ( err ) {
       return callback(err);
     }
 
     // Build the AUTH URL
-    let authUrl = _buildAuthURL(apiKey, apiSecret, perms, frob);
+    let authUrl = _buildAuthURL(client, frob);
 
     // Return the Auth URL
     return callback(null, authUrl, frob);
@@ -95,12 +83,11 @@ function getAuthUrl(apiKey, apiSecret, perms, callback) {
  *
  * This token will be used to authenticate all future RTM API requests on
  * behalf of the RTM User
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {string} frob RTM Frob, from {@link getAuthUrl}
- * @param {function} callback {@link module:api/auth~authTokenCallback|authTokenCallback} callback function
+ * @param {function} callback {@link module:request/auth~authTokenCallback|authTokenCallback} callback function
  */
-function getAuthToken(apiKey, apiSecret, frob, callback) {
+function getAuthToken(client, frob, callback) {
 
   // Set request parameters
   let params = {
@@ -108,11 +95,17 @@ function getAuthToken(apiKey, apiSecret, frob, callback) {
   };
 
   // Get Auth Token
-  get('rtm.auth.getToken', apiKey, apiSecret, params, function(resp) {
-    if ( !resp.isOk || !resp.has('auth.token') ) {
-      return callback(error.authError('Could not get user auth token from API Server'));
+  get('rtm.auth.getToken', client, params, function(resp) {
+    if ( !resp.isOk ) {
+      return callback(resp);
     }
-    return callback(null, resp.auth.token, resp.auth.user);
+    let user = new RTMUser(
+      resp.auth.user.id,
+      resp.auth.user.username,
+      resp.auth.user.fullname,
+      resp.auth.token
+    );
+    return callback(null, user);
   });
 
 }
@@ -123,12 +116,11 @@ function getAuthToken(apiKey, apiSecret, frob, callback) {
  *
  * This will check if the RTM User's authentication token is still valid
  * to make API requests.
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {string} token RTM User Authentication Token
- * @param {function} callback {@link module:api/auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
+ * @param {function} callback {@link module:request/auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
  */
-function verifyAuthToken(apiKey, apiSecret, token, callback) {
+function verifyAuthToken(client, token, callback) {
 
   // Set request parameters
   let params = {
@@ -136,7 +128,7 @@ function verifyAuthToken(apiKey, apiSecret, token, callback) {
   };
 
   // Verify Token
-  get('rtm.auth.checkToken', apiKey, apiSecret, params, function(resp) {
+  get('rtm.auth.checkToken', client, params, function(resp) {
     return callback(resp.isOk);
   });
 
@@ -149,16 +141,15 @@ function verifyAuthToken(apiKey, apiSecret, token, callback) {
 
 /**
  * Get RTM Authentication Frob
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {function} callback Callback function(err, frob)
  * @private
  */
-function _getFrob(apiKey, apiSecret, callback) {
+function _getFrob(client, callback) {
 
-  get('rtm.auth.getFrob', apiKey, apiSecret, function(resp) {
-    if ( !resp.isOk || !resp.has('frob') ) {
-      return callback(error.authError('Could not get user frob from RTM API Server'));
+  get('rtm.auth.getFrob', client, function(resp) {
+    if ( !resp.isOk ) {
+      return callback(resp);
     }
     return callback(null, resp.frob);
   });
@@ -167,21 +158,19 @@ function _getFrob(apiKey, apiSecret, callback) {
 
 /**
  * Build the Authentication URL to send to the User
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
- * @param {string} perms RTM API Permissions
+ * @param {RTMClient} client The RTM Client making the request
  * @param {string} frob RTM Authentication Frob
  * @returns {string} RTM Auth URL
  * @private
  */
-function _buildAuthURL(apiKey, apiSecret, perms, frob) {
+function _buildAuthURL(client, frob) {
 
   // Build Request Parameters
   let params = {};
-  params.api_key = apiKey;
-  params.perms = perms;
+  params.api_key = client.key;
+  params.perms = client.perms;
   params.frob = frob;
-  params.api_sig = sign(apiSecret, params);
+  params.api_sig = sign(client, params);
 
   // Form Query
   let query = _formQuery(params);

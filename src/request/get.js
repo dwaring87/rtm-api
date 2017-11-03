@@ -4,16 +4,16 @@
  * ### RTM API Request
  *
  * This module can be used to make a request to the RTM API Server.
- * @module api/get
+ * @module request/get
  */
 
 const URL = require('url');
 const sign = require('./sign.js');
-const parse = require('../response/index.js');
+const parse = require('../response/parse.js');
 const error = require('../response/error.js');
 
 // API Configuration Properties
-const config = require('../../../rtm.json');
+const config = require('../../rtm.json');
 const scheme = config.api.scheme;
 const base = config.api.url.base;
 const format = config.api.format;
@@ -39,12 +39,11 @@ const version = config.api.version;
 /**
  * Make the specified RTM API call
  * @param {string} method RTM API Method
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
- * @param {function} callback {@link module:api/get~getCallback|getCallback} callback function
+ * @param {function} callback {@link module:request/get~getCallback|getCallback} callback function
  */
-function get(method, apiKey, apiSecret, params, callback) {
+function get(method, client, params, callback) {
 
   // Check params and callback
   if ( callback === undefined && typeof params === 'function' ) {
@@ -53,7 +52,7 @@ function get(method, apiKey, apiSecret, params, callback) {
   }
 
   // Build the Request URL
-  let requestUrl = _buildRequestUrl(method, apiKey, apiSecret, params);
+  let requestUrl = _buildRequestUrl(method, client, params);
 
   // Parse the URL
   let url = URL.parse(requestUrl);
@@ -101,20 +100,19 @@ function get(method, apiKey, apiSecret, params, callback) {
  * URL scheme, base URL, format and version.  It will create a URL encoded
  * query string from the passed parameters and add a signature to the request.
  * @param {string} method RTM API Method
- * @param {string} apiKey RTM API Key
- * @param {string} apiSecret RTM API Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {Object} [params={}] Request Parameters
  * @returns {string} Signed Request URL
  * @private
  */
-function _buildRequestUrl(method, apiKey, apiSecret, params={}) {
+function _buildRequestUrl(method, client, params={}) {
 
   // Add method, api key, version and format to params
   params.method = method;
-  params.api_key = apiKey;
+  params.api_key = client.key;
   params.version = version;
   params.format = format;
-  params.api_sig = sign(apiSecret, params);
+  params.api_sig = sign(client, params);
 
   // Generate query string from params
   let query = _formQuery(params);

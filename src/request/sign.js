@@ -17,7 +17,7 @@
  *  abc: "baz"
  * }
  * ```
- * @module api/sign
+ * @module request/sign
  */
 
 
@@ -26,11 +26,11 @@ const crypto = require('crypto');
 
 /**
  * Sign the RTM API Request
- * @param {string} apiSecret RTM API Shared Secret
+ * @param {RTMClient} client The RTM Client making the request
  * @param {object} params Request parameters
  * @return {string} RTM API Signature
  */
-function sign(apiSecret, params) {
+function sign(client, params) {
 
   // Sort the properties of the parameters
   params = _sort(params);
@@ -39,7 +39,7 @@ function sign(apiSecret, params) {
   let cat = _concat(params);
 
   // Add to Shared Secret
-  let toHash = apiSecret + cat;
+  let toHash = client.secret + cat;
 
   // Return the Hash
   return crypto.createHash('md5').update(toHash).digest("hex");
