@@ -9,11 +9,11 @@
 
 const URL = require('url');
 const sign = require('./sign.js');
-const parse = require('./response/index.js');
-const error = require('./response/error.js');
+const parse = require('../response/index.js');
+const error = require('../response/error.js');
 
 // API Configuration Properties
-const config = require('../../rtm.json');
+const config = require('../../../rtm.json');
 const scheme = config.api.scheme;
 const base = config.api.url.base;
 const format = config.api.format;

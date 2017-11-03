@@ -10,10 +10,10 @@
 
 const get = require('./get.js');
 const sign = require('./sign.js');
-const error = require('./response/error.js');
+const error = require('../response/error.js');
 
 // API Configuration Properties
-const config = require('../../rtm.json');
+const config = require('../../../rtm.json');
 const scheme = config.api.scheme;
 const base = config.api.url.auth;
 
