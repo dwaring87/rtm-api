@@ -17,23 +17,29 @@ their account details.
 
 Account permissions can be granted in one of three categories:
 
-  - read – gives the ability to read task, contact, group and list details and contents.
-  - write – gives the ability to add and modify task, contact, group and list details and contents (also allows you to read).
-  - delete – gives the ability to delete tasks, contacts, groups and lists (also allows you to read and write).
+  - **read** – gives the ability to read task, contact, group and list details and contents.
+  - **write** – gives the ability to add and modify task, contact, group and list details and contents (also allows you to read).
+  - **delete** – gives the ability to delete tasks, contacts, groups and lists (also allows you to read and write).
 
 
 #### Generate an Auth URL
 
-First, generate an Auth URL that the RTM User will have to open in their 
-browser.  This will direct the RTM User to the Remember the Milk website 
-where they will log in and authorize this program to access their accounts.
+First, generate an Auth URL that the RTM User will open in their browser.  This 
+will direct the RTM User to the Remember the Milk website where they will log in 
+and authorize this program to access their account.
 
 ```javascript
-const auth = require('./src/api/auth.js');
-let API_KEY = "Your RTM API Key";
-let API_SECRET = "Your RTM API Secret";
+const RTM = require('rtm-api');
 
-auth.getAuthUrl(API_KEY, API_SECRET, "delete", function(err, authUrl, frob) {
+// Get an API Key and Secret from the Remember the Milk website
+const API_KEY = "Your RTM API Key";
+const API_SECRET = "Your RTM API Secret";
+
+// Create a RTMClient with your RTM API credentials and desired access level
+let client = new RTM.client(API_KEY, API_SECRET, RTM.client.PERM_DELETE);
+
+// Get an RTM Auth URL that will ask the RTM User to grant access to your client
+RTM.auth.getAuthUrl(client, function(err, authUrl, frob) {
   
   // Have the User open the authUrl
   // Save the frob for the next step
@@ -48,15 +54,15 @@ pass the `frob` from the first step to the `getAuthToken` function to
 get an Auth Token to be used in future API calls.
 
 ```javascript
-const auth = require('./src/api/auth.js');
-let API_KEY = "Your RTM API Key";
-let API_SECRET = "Your RTM API Secret";
-let frob = "";  // Use from from first step
+// From previous example...
+const RTM = ...
+let client = ...
+let frob = ...
 
-auth.getAuthToken(API_KEY, API_SECRET, frob, function(err, token, user) {
+// Get an Auth Token for the User once they've authorized the frob
+RTM.auth.getAuthToken(frob, client, function(err, user) {
   
-  // Save the token for future use
-  // user includes authenticated user information
+  // If successful, the returned user will include the property `authToken`
   
 });
 ```
@@ -66,12 +72,12 @@ auth.getAuthToken(API_KEY, API_SECRET, frob, function(err, token, user) {
 The Auth Token can be verified at any point using the `verifyAuthToken` function.
 
 ```javascript
-const auth = require('./src/api/auth.js');
-let API_KEY = "Your RTM API Key";
-let API_SECRET = "Your RTM API Secret";
-let token = ""; // Use previously obtained auth token
+// From previous example...
+const RTM = ...
+let client = ...
+let user = ...
 
-auth.verifyAuthToken(API_KEY, API_SECRET, token, function(verified) {
+RTM.auth.verifyAuthToken(user.authToken, client, function(verified) {
   
   // verified will be true if auth token can be used for API calls
   
