@@ -1,7 +1,9 @@
 'use strict';
 
 module.exports = {
-  auth: require('./auth.js'),
   request: require('./request/'),
-  response: require('./response/')
+  response: require('./response/'),
+  auth: require('./auth.js'),
+  client: require('./client.js'),
+  user: require('./user.js')
 };
