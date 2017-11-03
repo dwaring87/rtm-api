@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RTMSuccess - Documentation</title>
+    <title>request/get - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">RTMSuccess</h1>
+    <h1 class="page-title">request/get</h1>
     
 
     
@@ -40,15 +40,8 @@
 
 <header>
     
-        <h2>
-        RTMSuccess
-        </h2>
         
-            <div class="class-description"><h3>RTM Success Response</h3><p>This Class represents a successful response from the RTM API Server: the
-RTM API Server returned a response with a status of 'ok'. This Class will
-include all of the properties of the RTM <code>rsp</code> property.</p>
-<p><code>RTMSuccess</code> extends <a href="RTMResponse.html">RTMResponse</a></p>
-<p><strong>Module:</strong> response/success</p></div>
+            
         
     
 </header>
@@ -57,12 +50,109 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
     <div class="container-overview">
     
         
+            <div class="description"><h3>RTM API Request</h3><p>This module provides the <code>get()</code> function which can be used to make a general
+request to the RTM API Server.</p></div>
+        
+
+        
+            
+
+
+
+
+<dl class="details">
 
     
-    <h2>Constructor</h2>
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="request_get.js.html">request/get.js</a>, <a href="request_get.js.html#line3">line 3</a>
+    </li></ul></dd>
     
 
-    <h4 class="name" id="RTMSuccess"><span class="type-signature"></span>new RTMSuccess<span class="signature">(rsp)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~get"><span class="type-signature">(inner) </span>get<span class="signature">(method, params<span class="signature-attributes">opt</span>, client, callback)</span><span class="type-signature"></span></h4>
 
     
 
@@ -74,7 +164,7 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="response_success.js.html">response/success.js</a>, <a href="response_success.js.html#line26">line 26</a>
+        <a href="request_get.js.html">request/get.js</a>, <a href="request_get.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -114,7 +204,7 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
 
 
 <div class="description">
-    <p>Create a new RTM Success Response</p>
+    <p>Make the specified RTM API call</p>
 </div>
 
 
@@ -140,6 +230,8 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -152,7 +244,38 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
 
         <tr>
             
-                <td class="name"><code>rsp</code></td>
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>RTM API Method</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -165,10 +288,82 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>The RTM API Response's <code>rsp</code> property</p></td>
+            <td class="description last"><p>RTM Method Parameters (as an object with key/value pairs)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>client</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMClient.html">RTMClient</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The RTM Client making the request</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>getCallback callback function</p></td>
         </tr>
 
     
@@ -190,21 +385,7 @@ include all of the properties of the RTM <code>rsp</code> property.</p>
 
 
 
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
+        
     
 
     

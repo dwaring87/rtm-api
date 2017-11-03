@@ -3,7 +3,8 @@
 /**
  * ### RTM API Request
  *
- * This module can be used to make a request to the RTM API Server.
+ * This module provides the `get()` function which can be used to make a general
+ * request to the RTM API Server.
  * @module request/get
  */
 

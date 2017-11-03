@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>response/parse.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">response/parse.js</h1>
     
 
     
@@ -42,94 +42,62 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
- * ### RTMError
- * @see RTMError
- * @module response/error
+ * ### RTM API Response
+ *
+ * This module provides the `parse()` function which can be used to parse the
+ * RTM API Response into either a {@link RTMSuccess} or {@link RTMError} Class.
+ * @module response/parse
  */
 
 
-const RTMResponse = require('./response.js');
+const success = require('./success.js');
+const error = require('./error.js');
 
 
 /**
- * ### RTM Error Response
- *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
- *
- * `RTMError` extends {@link RTMResponse}
- *
- * **Module:** response/error
- * @class
- * @alias RTMError
+ * Parse the raw RTM API Response into either a `RTMSuccess` or
+ * `RTMError` Class with the Response's properties.
+ * @param {string} raw Raw RTM API Server Response (as a JSON-formatted String)
+ * @returns {RTMError|RTMSuccess}
  */
-class RTMError extends RTMResponse{
+function parse(raw) {
 
-  /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
-   * @constructor
-   */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
+  // Parse the response into JSON
+  let response = undefined;
+  try {
+    response = JSON.parse(raw);
+  }
+  catch(exception) {
+    return error.responseError();
   }
 
-  /**
-   * Get the Error Code
-   * @returns {number}
-   */
-  get code() {
-    return this._code;
+  // Make sure there is a response status
+  if ( !response || !response.rsp || !response.rsp.stat ) {
+    return error.responseError();
   }
 
-  /**
-   * Get the Error Message
-   * @returns {string}
-   */
-  get msg() {
-    return this._msg;
+  // Get the response status
+  let status = response.rsp.stat;
+
+  // SUCCESS
+  if ( status === 'ok' ) {
+    return new success(response.rsp);
   }
 
-  /**
-   * Get a String representation of the Error
-   * @returns {string}
-   */
-  toString() {
-    return "ERROR " + this._code + ": " + this._msg;
+  // ERROR
+  else if ( status === 'fail' ) {
+    return new error(response.rsp.err.code, response.rsp.err.msg);
+  }
+
+  // UNKNOWN STATUS
+  else {
+    return error.responseError();
   }
 
 }
 
 
-// === CUSTOM ERRORS ==== //
-
-/**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
- */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
-
-
-module.exports = RTMError;</code></pre>
+module.exports = parse;</code></pre>
         </article>
     </section>
 

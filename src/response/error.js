@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * ### RTMError
+ * @see RTMError
+ * @module response/error
+ */
+
+
 const RTMResponse = require('./response.js');
 
 
@@ -12,7 +19,10 @@ const RTMResponse = require('./response.js');
  * response.
  *
  * `RTMError` extends {@link RTMResponse}
+ *
+ * **Module:** response/error
  * @class
+ * @alias RTMError
  */
 class RTMError extends RTMResponse{
 
@@ -58,7 +68,9 @@ class RTMError extends RTMResponse{
 // === CUSTOM ERRORS ==== //
 
 /**
- * Create a new `RTMError` that represents a network error
+ * Create a new `RTMError` that represents a network error.
+ *
+ * Error Code: `-1`
  * @returns {RTMError}
  */
 RTMError.networkError = function() {
@@ -66,7 +78,9 @@ RTMError.networkError = function() {
 };
 
 /**
- * Create a new `RTMError` that represents an API response error
+ * Create a new `RTMError` that represents an API response error.
+ *
+ * Error Code: `-2`
  * @returns {RTMError}
  */
 RTMError.responseError = function() {

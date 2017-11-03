@@ -1,10 +1,9 @@
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>response/error - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,109 +28,136 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">response/error</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>'use strict';
+        
+            
+        
+    
+</header>
 
-/**
- * ### RTMError
- * @see RTMError
- * @module response/error
- */
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><h3>RTMError</h3></div>
+        
 
-
-const RTMResponse = require('./response.js');
-
-
-/**
- * ### RTM Error Response
- *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
- *
- * `RTMError` extends {@link RTMResponse}
- *
- * **Module:** response/error
- * @class
- * @alias RTMError
- */
-class RTMError extends RTMResponse{
-
-  /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
-   * @constructor
-   */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
-  }
-
-  /**
-   * Get the Error Code
-   * @returns {number}
-   */
-  get code() {
-    return this._code;
-  }
-
-  /**
-   * Get the Error Message
-   * @returns {string}
-   */
-  get msg() {
-    return this._msg;
-  }
-
-  /**
-   * Get a String representation of the Error
-   * @returns {string}
-   */
-  toString() {
-    return "ERROR " + this._code + ": " + this._msg;
-  }
-
-}
+        
+            
 
 
-// === CUSTOM ERRORS ==== //
-
-/**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
- */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
 
 
-module.exports = RTMError;</code></pre>
-        </article>
-    </section>
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="response_error.js.html">response/error.js</a>, <a href="response_error.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="RTMError.html">RTMError</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

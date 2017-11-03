@@ -1,6 +1,12 @@
 'use strict';
 
 /**
+ * ### RTMResponse
+ * @see RTMResponse
+ * @module response/response
+ */
+
+/**
  * ### RTM Generic Response
  *
  * This Class represents a generic Response from the RTM API Server.
@@ -8,6 +14,10 @@
  * and successful responses from the RTM API Server.
  *
  * This Class is extended by the {@link RTMSuccess} and {@link RTMError} Classes.
+ *
+ * **Module:** response/response
+ * @class
+ * @alias RTMResponse
  */
 class RTMResponse {
 
@@ -15,6 +25,7 @@ class RTMResponse {
    * Create a new Generic RTM Response with a status of either
    * {@link RTMResponse.STATUS_OK} or {@link RTMResponse.STATUS_FAIL}.
    * @param {string} status RTM API Status
+   * @constructor
    */
   constructor(status) {
     this._status = status;

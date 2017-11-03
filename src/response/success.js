@@ -1,6 +1,14 @@
 'use strict';
 
+/**
+ * ### RTMSuccess
+ * @see RTMSuccess
+ * @module response/success
+ */
+
+
 const RTMResponse = require('./response.js');
+
 
 /**
  * ### RTM Success Response
@@ -10,12 +18,17 @@ const RTMResponse = require('./response.js');
  * include all of the properties of the RTM `rsp` property.
  *
  * `RTMSuccess` extends {@link RTMResponse}
+ *
+ * **Module:** response/success
+ * @class
+ * @alias RTMSuccess
  */
 class RTMSuccess extends RTMResponse {
 
   /**
    * Create a new RTM Success Response
    * @param {object} rsp The RTM API Response's `rsp` property
+   * @constructor
    */
   constructor(rsp) {
     super(RTMResponse.STATUS_OK);

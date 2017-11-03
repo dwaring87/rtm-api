@@ -1,6 +1,8 @@
 'use strict';
 
 /**
+ * ### RTMClient
+ * @see RTMClient
  * @module client
  */
 
@@ -10,7 +12,10 @@
  * This Class is used to represent an API Client.  The Client contains
  * the API Key, API Secret and access permissions used to access the
  * RTM API.
+ *
+ * **Module:** client
  * @class
+ * @alias RTMClient
  */
 class RTMClient {
 
@@ -19,8 +24,8 @@ class RTMClient {
    * @param {string} apiKey RTM API Key
    * @param {string} apiSecret RTM API Secret
    * @param {string} [perms=RTMClient.PERM_READ] RTM API Access Permissions. This
-   * should be one of RTMClient.PERM_READ, RTMClient.PERM_WRITE or
-   * RTMClient.PERM_DELETE.
+   * should be one of {@link RTMClient.PERM_READ}, {@link RTMClient.PERM_WRITE} or
+   * {@link RTMClient.PERM_DELETE}.
    * @constructor
    */
   constructor(apiKey, apiSecret, perms=RTMClient.PERM_READ) {

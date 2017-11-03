@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>user.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">user.js</h1>
     
 
     
@@ -42,94 +42,80 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 /**
- * ### RTMError
- * @see RTMError
- * @module response/error
+ * ### RTMUser
+ * @see RTMUser
+ * @module user
  */
-
-
-const RTMResponse = require('./response.js');
-
 
 /**
- * ### RTM Error Response
+ * ### RTM User
  *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
+ * This Class is used to represent an authorized RTM User.  The User contains
+ * the user's ID, username and fullname as well as an auth token that can
+ * be used in RTM API calls.
  *
- * `RTMError` extends {@link RTMResponse}
- *
- * **Module:** response/error
+ * **Module:** user
  * @class
- * @alias RTMError
+ * @alias RTMUser
  */
-class RTMError extends RTMResponse{
+class RTMUser {
 
   /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
+   * Create a new RTM User.
+   *
+   * A fully instantiated `RTMUser` is returned from a successful call to
+   * `auth.getAuthToken()` after a user has authorized a `frob` via the
+   * RTM website.
+   * @param {string} id The RTM User's ID
+   * @param {string} username The RTM User's username
+   * @param {string} fullname The RTM User's full name
+   * @param {string} authToken The RTM User's Auth Token
    * @constructor
    */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
+  constructor(id, username, fullname, authToken) {
+    this._id = id;
+    this._username = username;
+    this._fullname = fullname;
+    this._authToken = authToken;
   }
 
   /**
-   * Get the Error Code
-   * @returns {number}
-   */
-  get code() {
-    return this._code;
-  }
-
-  /**
-   * Get the Error Message
+   * RTM User ID
    * @returns {string}
    */
-  get msg() {
-    return this._msg;
+  get id() {
+    return this._id;
   }
 
   /**
-   * Get a String representation of the Error
+   * RTM User Username
    * @returns {string}
    */
-  toString() {
-    return "ERROR " + this._code + ": " + this._msg;
+  get username() {
+    return this._username;
+  }
+
+  /**
+   * RTM User fullname
+   * @returns {string}
+   */
+  get fullname() {
+    return this._fullname;
+  }
+
+  /**
+   * RTM User Auth Token
+   * @returns {string}
+   */
+  get authToken() {
+    return this._authToken;
   }
 
 }
 
 
-// === CUSTOM ERRORS ==== //
-
-/**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
- */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
-
-
-module.exports = RTMError;</code></pre>
+module.exports = RTMUser;
+</code></pre>
         </article>
     </section>
 

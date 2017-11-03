@@ -3,8 +3,8 @@
 /**
  * ### RTM API Response
  *
- * Parse the RTM API Response into either a {@link RTMSuccess} or
- * {@link RTMError} Class.
+ * This module provides the `parse()` function which can be used to parse the
+ * RTM API Response into either a {@link RTMSuccess} or {@link RTMError} Class.
  * @module response/parse
  */
 

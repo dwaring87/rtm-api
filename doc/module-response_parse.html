@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>api/response/ - Documentation</title>
+    <title>response/parse - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -23,12 +23,12 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.authError">authError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a></li></ul><h3>Modules</h3><ul><li><a href="module-api_auth.html">api/auth</a><ul class='methods'><li data-type='method'><a href="module-api_auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-api_auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-api_auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-api_get.html">api/get</a><ul class='methods'><li data-type='method'><a href="module-api_get.html#~get">get</a></li></ul></li><li><a href="module-api_response_.html">api/response/</a><ul class='methods'><li data-type='method'><a href="module-api_response_.html#~parse">parse</a></li></ul></li><li><a href="module-api_sign.html">api/sign</a><ul class='methods'><li data-type='method'><a href="module-api_sign.html#~sign">sign</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-client.html">client</a></li><li><a href="module-request_get.html">request/get</a><ul class='methods'><li data-type='method'><a href="module-request_get.html#~get">get</a></li></ul></li><li><a href="module-request_sign.html">request/sign</a><ul class='methods'><li data-type='method'><a href="module-request_sign.html#~sign">sign</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
 </nav>
 
 <div id="main">
     
-    <h1 class="page-title">api/response/</h1>
+    <h1 class="page-title">response/parse</h1>
     
 
     
@@ -50,8 +50,8 @@
     <div class="container-overview">
     
         
-            <div class="description"><h3>RTM API Response</h3><p>Parse the RTM API Response into either a <a href="RTMSuccess.html">RTMSuccess</a> or
-<a href="RTMError.html">RTMError</a> Class.</p></div>
+            <div class="description"><h3>RTM API Response</h3><p>This module provides the <code>parse()</code> function which can be used to parse the
+RTM API Response into either a <a href="RTMSuccess.html">RTMSuccess</a> or <a href="RTMError.html">RTMError</a> Class.</p></div>
         
 
         
@@ -65,7 +65,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="response_index.js.html">response/index.js</a>, <a href="response_index.js.html#line3">line 3</a>
+        <a href="response_parse.js.html">response/parse.js</a>, <a href="response_parse.js.html#line3">line 3</a>
     </li></ul></dd>
     
 
@@ -164,7 +164,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="response_index.js.html">response/index.js</a>, <a href="response_index.js.html#line22">line 22</a>
+        <a href="response_parse.js.html">response/parse.js</a>, <a href="response_parse.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -320,7 +320,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Nov 02 2017 18:29:21 GMT-0400 (EDT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 03 2017 14:03:03 GMT-0400 (EDT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

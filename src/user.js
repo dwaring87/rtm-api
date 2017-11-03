@@ -1,6 +1,8 @@
 'use strict';
 
 /**
+ * ### RTMUser
+ * @see RTMUser
  * @module user
  */
 
@@ -10,7 +12,10 @@
  * This Class is used to represent an authorized RTM User.  The User contains
  * the user's ID, username and fullname as well as an auth token that can
  * be used in RTM API calls.
+ *
+ * **Module:** user
  * @class
+ * @alias RTMUser
  */
 class RTMUser {
 

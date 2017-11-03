@@ -3,8 +3,8 @@
 /**
  * ### RTM API Signature
  *
- * This module is used to sign the RTM API requests given a set
- * of parameters and the RTM API shared secret.
+ * This module provides the `sign()` function which can be used to sign the RTM
+ * API requests for a given set of parameters and `RTMClient`.
  *
  * The parameters should be given as a single object with a set of
  * key/value pairs as the object's properties.  For example, the

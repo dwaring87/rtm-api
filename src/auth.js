@@ -3,8 +3,11 @@
 /**
  * ### RTM API Authentication
  *
- * This module is used to authenticate a user with RTM and retrieve an
- * authentication token that will be used with future API calls.
+ * This module provides functions that can be used to authenticate a user with
+ * RTM and retrieve an authentication token that will be used with future API calls.
+ *
+ * See the project's `README` and documentation for an example on how to
+ * authenticate a user and authorize a program to access a user's RTM account.
  * @module auth
  */
 
