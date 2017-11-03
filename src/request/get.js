@@ -39,20 +39,21 @@ const version = config.api.version;
 /**
  * Make the specified RTM API call
  * @param {string} method RTM API Method
- * @param {RTMClient} client The RTM Client making the request
  * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
+ * @param {RTMClient} client The RTM Client making the request
  * @param {function} callback {@link module:request/get~getCallback|getCallback} callback function
  */
-function get(method, client, params, callback) {
+function get(method, params, client, callback) {
 
   // Check params and callback
-  if ( callback === undefined && typeof params === 'function' ) {
-    callback = params;
+  if ( callback === undefined && typeof client === 'function' && typeof params === 'object' ) {
+    callback = client;
+    client = params;
     params = {};
   }
 
   // Build the Request URL
-  let requestUrl = _buildRequestUrl(method, client, params);
+  let requestUrl = _buildRequestUrl(method, params, client);
 
   // Parse the URL
   let url = URL.parse(requestUrl);
@@ -100,19 +101,25 @@ function get(method, client, params, callback) {
  * URL scheme, base URL, format and version.  It will create a URL encoded
  * query string from the passed parameters and add a signature to the request.
  * @param {string} method RTM API Method
- * @param {RTMClient} client The RTM Client making the request
  * @param {Object} [params={}] Request Parameters
+ * @param {RTMClient} client The RTM Client making the request
  * @returns {string} Signed Request URL
  * @private
  */
-function _buildRequestUrl(method, client, params={}) {
+function _buildRequestUrl(method, params, client) {
+
+  // Check parameters
+  if ( client === undefined && typeof params === 'object' ) {
+    client = params;
+    params = {};
+  }
 
   // Add method, api key, version and format to params
   params.method = method;
   params.api_key = client.key;
   params.version = version;
   params.format = format;
-  params.api_sig = sign(client, params);
+  params.api_sig = sign(params, client);
 
   // Generate query string from params
   let query = _formQuery(params);

@@ -26,11 +26,11 @@ const crypto = require('crypto');
 
 /**
  * Sign the RTM API Request
- * @param {RTMClient} client The RTM Client making the request
  * @param {object} params Request parameters
+ * @param {RTMClient} client The RTM Client making the request
  * @return {string} RTM API Signature
  */
-function sign(client, params) {
+function sign(params, client) {
 
   // Sort the properties of the parameters
   params = _sort(params);

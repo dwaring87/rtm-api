@@ -68,7 +68,7 @@ function getAuthUrl(client, callback) {
     }
 
     // Build the AUTH URL
-    let authUrl = _buildAuthURL(client, frob);
+    let authUrl = _buildAuthURL(frob, client);
 
     // Return the Auth URL
     return callback(null, authUrl, frob);
@@ -83,11 +83,11 @@ function getAuthUrl(client, callback) {
  *
  * This token will be used to authenticate all future RTM API requests on
  * behalf of the RTM User
- * @param {RTMClient} client The RTM Client making the request
  * @param {string} frob RTM Frob, from {@link getAuthUrl}
+ * @param {RTMClient} client The RTM Client making the request
  * @param {function} callback {@link module:request/auth~authTokenCallback|authTokenCallback} callback function
  */
-function getAuthToken(client, frob, callback) {
+function getAuthToken(frob, client, callback) {
 
   // Set request parameters
   let params = {
@@ -95,7 +95,7 @@ function getAuthToken(client, frob, callback) {
   };
 
   // Get Auth Token
-  get('rtm.auth.getToken', client, params, function(resp) {
+  get('rtm.auth.getToken', params, client, function(resp) {
     if ( !resp.isOk ) {
       return callback(resp);
     }
@@ -116,11 +116,11 @@ function getAuthToken(client, frob, callback) {
  *
  * This will check if the RTM User's authentication token is still valid
  * to make API requests.
- * @param {RTMClient} client The RTM Client making the request
  * @param {string} token RTM User Authentication Token
+ * @param {RTMClient} client The RTM Client making the request
  * @param {function} callback {@link module:request/auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
  */
-function verifyAuthToken(client, token, callback) {
+function verifyAuthToken(token, client, callback) {
 
   // Set request parameters
   let params = {
@@ -128,7 +128,7 @@ function verifyAuthToken(client, token, callback) {
   };
 
   // Verify Token
-  get('rtm.auth.checkToken', client, params, function(resp) {
+  get('rtm.auth.checkToken', params, client, function(resp) {
     return callback(resp.isOk);
   });
 
@@ -158,19 +158,19 @@ function _getFrob(client, callback) {
 
 /**
  * Build the Authentication URL to send to the User
- * @param {RTMClient} client The RTM Client making the request
  * @param {string} frob RTM Authentication Frob
+ * @param {RTMClient} client The RTM Client making the request
  * @returns {string} RTM Auth URL
  * @private
  */
-function _buildAuthURL(client, frob) {
+function _buildAuthURL(frob, client) {
 
   // Build Request Parameters
   let params = {};
   params.api_key = client.key;
   params.perms = client.perms;
   params.frob = frob;
-  params.api_sig = sign(client, params);
+  params.api_sig = sign(params, client);
 
   // Form Query
   let query = _formQuery(params);
