@@ -41,6 +41,14 @@ class RTMSuccess extends RTMResponse {
     }
   }
 
+  /**
+   * Get a String representation of the Success Response
+   * @returns {string}
+   */
+  toString() {
+    return super.toString() + " " + JSON.stringify(this.props);
+  }
+
 }
 
 

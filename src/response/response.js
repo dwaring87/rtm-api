@@ -48,6 +48,20 @@ class RTMResponse {
   }
 
   /**
+   * Get the properties of the Response
+   * @returns {{}}
+   */
+  get props() {
+    let rtn = {};
+    for ( let key in this ) {
+      if ( this.hasOwnProperty(key) && key !== '_status' ) {
+        rtn[key] = this[key];
+      }
+    }
+    return rtn;
+  }
+
+  /**
    * Check if the Response has the specified property
    * @param {string} property Property Name
    * @returns {boolean}
@@ -64,6 +78,14 @@ class RTMResponse {
     }
 
     return true;
+  }
+
+  /**
+   * Get a String representation of the Response
+   * @returns {string}
+   */
+  toString() {
+    return "[" + this._status + "]";
   }
 
 }

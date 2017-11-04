@@ -59,7 +59,7 @@ class RTMError extends RTMResponse{
    * @returns {string}
    */
   toString() {
-    return "ERROR " + this._code + ": " + this._msg;
+    return super.toString() + " ERROR " + this._code + ": " + this._msg;
   }
 
 }
