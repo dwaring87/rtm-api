@@ -7,7 +7,7 @@
         "excludePattern": "(^|\\/|\\\\)_"
     },
     "opts": {
-        "destination": "doc/",
+        "destination": "docs/",
         "recurse": true
     }
 }
