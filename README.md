@@ -25,12 +25,25 @@ or downloaded directly from the [GitHub repository](https://github.com/dwaring87
 
 ## Documentation
 
-Full documentation is available in the **/doc/** directory of this repository.
+Full documentation is available in the **/docs/** directory of this repository or 
+online at [https://dwaring87.github.io/rtm-api/](https://dwaring87.github.io/rtm-api/).
 
-Examples of recommended usage can be found in the repository's wiki pages.
+Examples of recommended usage can be found in the repository's [wiki pages](https://github.com/dwaring87/rtm-api/wiki).
 
 
 ## Usage
+
+Almost all RTM API methods require an authorized user's `authToken`.  This is 
+kept in the `RTMUser` class which can be instantiated manually if you already 
+have a valid `authToken`:
+
+```javascript
+const RTM = require('rtm-api');
+let user = new RTM.user('id', 'username', 'fullname', 'authToken');
+``` 
+
+Otherwise, an `authToken` can be obtained via the API using the steps outlined 
+in the following section.
 
 
 ### User Authentication
