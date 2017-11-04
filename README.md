@@ -6,7 +6,31 @@ Remember The Milk API Interface
 
 ---
 
-This project is still being actively developed and is in a state of flux.
+This Node module provides a wrapper around the Remember the Milk API.
+
+You will need your own RTM API Key and Secret, available from the Remember the 
+Milk [website](https://www.rememberthemilk.com/services/api/keys.rtm).
+
+
+## Installation
+
+This module can be installed via `npm`:
+
+```
+npm install rtm-api
+```
+
+or downloaded directly from the [GitHub repository](https://github.com/dwaring87/rtm-api).
+
+
+## Documentation
+
+Full documentation is available in the **/doc/** directory of this repository.
+
+Examples of recommended usage can be found in the repository's wiki pages.
+
+
+## Usage
 
 
 ### User Authentication
