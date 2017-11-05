@@ -1,5 +1,7 @@
 'use strict';
 
+const crypto = require('crypto');
+
 /**
  * ### RTM API Signature
  *
@@ -17,11 +19,9 @@
  *  abc: "baz"
  * }
  * ```
- * @module request/sign
+ * @module utils/sign
+ * @private
  */
-
-
-const crypto = require('crypto');
 
 
 /**
@@ -29,6 +29,7 @@ const crypto = require('crypto');
  * @param {object} params Request parameters
  * @param {RTMClient} client The RTM Client making the request
  * @return {string} RTM API Signature
+ * @private
  */
 function sign(params, client) {
 

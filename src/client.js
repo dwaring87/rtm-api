@@ -1,19 +1,54 @@
 'use strict';
 
 /**
- * ### RTMClient
+ * ### RTM Client
  * @see RTMClient
- * @module client
+ * @module /
  */
 
 /**
  * ### RTM Client
  *
- * This Class is used to represent an API Client.  The Client contains
+ * This Class is used to represent an RTM API Client.  The Client contains
  * the API Key, API Secret and access permissions used to access the
  * RTM API.
  *
- * **Module:** client
+ * The `RTMClient` Class is what is exported when the entire `rtm-api` module
+ * is loaded via `require`.
+ *
+ * Example:
+ * ```
+ * const RTM = require('rtm-api');
+ * let client = new RTM(API_KEY, API_SECRET, RTM.PERM_DELETE);
+ * ```
+ *
+ * An `RTMClient` instance also provides access to the main API helper functions.
+ *
+ * Auth Example:
+ *
+ * ```
+ * client.auth.getAuthUrl(function(err, authUrl, frob) {
+ *    // Have user authenticate and authorize the program with the authUrl
+ *    // Once authorized by the user, use the frob to get an authToken
+ * )};
+ * ```
+ *
+ * To access any RTM API endpoint:
+ *
+ * ```
+ * let user = ...   // from getAuthToken function
+ * let params = {
+ *    foo: 'bar'
+ * }
+ * client.get('rtm.method', params, user, function(resp) {
+ *    if ( !resp.isOk ) {
+ *      // handle error
+ *    }
+ *    // use the response
+ * });
+ * ```
+ *
+ * **Module:** /
  * @class
  * @alias RTMClient
  */
@@ -33,6 +68,7 @@ class RTMClient {
     this._apiSecret = apiSecret;
     this._perms = perms;
   }
+
 
   /**
    * RTM API Key
@@ -58,8 +94,37 @@ class RTMClient {
     return this._perms;
   }
 
+
+  /**
+   * Make a RTM-API request
+   * @see {@link module:get|get}
+   * @returns {function}
+   */
+  get get() {
+    return require('./get.js')(this);
+  }
+
+  /**
+   * Auth-related functions: `getAuthUrl`, `getAuthToken` and `verifyAuthToken`
+   * @see {@link module:auth|auth}
+   * @returns {{getAuthUrl, getAuthToken, verifyAuthToken}}
+   */
+  get auth() {
+    return require('./auth.js')(this);
+  }
+
 }
 
+
+/**
+ * Create a new `RTMUser` manually
+ * @type {RTMUser}
+ */
+RTMClient.user = require('./user.js');
+
+
+
+// ==== RTM API PERMISSION LEVELS ==== //
 
 /**
  * RTM API Access: `read` -

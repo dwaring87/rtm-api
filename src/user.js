@@ -70,6 +70,14 @@ class RTMUser {
     return this._authToken;
   }
 
+  /**
+   * Set the RTM User Auth Token
+   * @param {string} token
+   */
+  set authToken(token) {
+    this._authToken = token;
+  }
+
 }
 
 
