@@ -1,5 +1,9 @@
 'use strict';
 
+const success = require('./success.js');
+const error = require('./error.js');
+
+
 /**
  * ### RTM API Response
  *
@@ -7,10 +11,6 @@
  * RTM API Response into either a {@link RTMSuccess} or {@link RTMError} Class.
  * @module response/parse
  */
-
-
-const success = require('./success.js');
-const error = require('./error.js');
 
 
 /**

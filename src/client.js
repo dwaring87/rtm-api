@@ -1,5 +1,8 @@
 'use strict';
 
+const user = require('./user.js');
+
+
 /**
  * ### RTM Client
  * @see RTMClient
@@ -120,7 +123,7 @@ class RTMClient {
  * Create a new `RTMUser` manually
  * @type {RTMUser}
  */
-RTMClient.user = require('./user.js');
+RTMClient.user = user;
 
 
 

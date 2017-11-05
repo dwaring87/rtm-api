@@ -2,6 +2,7 @@
 
 const crypto = require('crypto');
 
+
 /**
  * ### RTM API Signature
  *

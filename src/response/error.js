@@ -1,13 +1,13 @@
 'use strict';
 
+const RTMResponse = require('./response.js');
+
+
 /**
  * ### RTMError
  * @see RTMError
  * @module response/error
  */
-
-
-const RTMResponse = require('./response.js');
 
 
 /**

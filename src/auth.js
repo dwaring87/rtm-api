@@ -1,5 +1,8 @@
 'use strict';
 
+const RTMUser = require('./user.js');
+const sign = require('./utils/sign.js');
+
 // API Configuration Properties
 const config = require('../rtm.json');
 const scheme = config.api.scheme;
@@ -25,10 +28,8 @@ const base = config.api.url.auth;
  */
 module.exports = function(client) {
 
-  // Import project modules
+  // Import get with the client
   const get = require('./get.js')(client);
-  const RTMUser = require('./user.js');
-  const sign = require('./utils/sign.js');
 
   /**
    * Get the Authentication URL.

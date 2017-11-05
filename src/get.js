@@ -2,13 +2,17 @@
 
 const URL = require('url');
 
+const parse = require('./response/parse.js');
+const error = require('./response/error.js');
+const RTMUser = require('./user.js');
+const sign = require('./utils/sign.js');
+
 // API Configuration Properties
 const config = require('../rtm.json');
 const scheme = config.api.scheme;
 const base = config.api.url.base;
 const format = config.api.format;
 const version = config.api.version;
-
 
 
 /**
@@ -44,13 +48,6 @@ const version = config.api.version;
  * @module get
  */
 module.exports = function(client) {
-
-  // Import project modules
-  const parse = require('./response/parse.js');
-  const error = require('./response/error.js');
-  const RTMUser = require('./user.js');
-  const sign = require('./utils/sign.js');
-
 
   /**
    * Make the specified RTM API call

@@ -1,7 +1,5 @@
 'use strict';
 
-const _get = require('./get.js');
-
 /**
  * ### RTMUser
  * @see RTMUser
@@ -117,7 +115,8 @@ class RTMUser {
     }
 
     // Call the main get() function
-    _get(this.client)(method, params, this, callback);
+    let _get = require('./get.js')(this.client);
+    _get(method, params, this, callback);
   }
 
 }
