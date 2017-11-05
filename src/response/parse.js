@@ -10,6 +10,7 @@ const error = require('./error.js');
  * This module provides the `parse()` function which can be used to parse the
  * RTM API Response into either a {@link RTMSuccess} or {@link RTMError} Class.
  * @module response/parse
+ * @private
  */
 
 
@@ -18,6 +19,7 @@ const error = require('./error.js');
  * `RTMError` Class with the Response's properties.
  * @param {string} raw Raw RTM API Server Response (as a JSON-formatted String)
  * @returns {RTMError|RTMSuccess}
+ * @private
  */
 function parse(raw) {
 
