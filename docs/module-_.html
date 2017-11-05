@@ -1,10 +1,9 @@
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/success.js - Documentation</title>
+    <title>/ - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,73 +28,136 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/success.js</h1>
+    <h1 class="page-title">/</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>'use strict';
+        
+            
+        
+    
+</header>
 
-/**
- * ### RTMSuccess
- * @see RTMSuccess
- * @module response/success
- */
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><h3>RTM Client</h3></div>
+        
 
-
-const RTMResponse = require('./response.js');
-
-
-/**
- * ### RTM Success Response
- *
- * This Class represents a successful response from the RTM API Server: the
- * RTM API Server returned a response with a status of 'ok'. This Class will
- * include all of the properties of the RTM `rsp` property.
- *
- * `RTMSuccess` extends {@link RTMResponse}
- *
- * **Module:** response/success
- * @class
- * @alias RTMSuccess
- */
-class RTMSuccess extends RTMResponse {
-
-  /**
-   * Create a new RTM Success Response
-   * @param {object} rsp The RTM API Response's `rsp` property
-   * @constructor
-   */
-  constructor(rsp) {
-    super(RTMResponse.STATUS_OK);
-
-    // Parse the response properties
-    for ( let key in rsp ) {
-      if ( rsp.hasOwnProperty(key) &amp;&amp; key !== 'stat' ) {
-        this[key] = rsp[key];
-      }
-    }
-  }
-
-  /**
-   * Get a String representation of the Success Response
-   * @returns {string}
-   */
-  toString() {
-    return super.toString() + " " + JSON.stringify(this.props);
-  }
-
-}
+        
+            
 
 
-module.exports = RTMSuccess;</code></pre>
-        </article>
-    </section>
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="client.js.html">client.js</a>, <a href="client.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="RTMClient.html">RTMClient</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

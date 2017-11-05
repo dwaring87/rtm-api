@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-client.html">client</a></li><li><a href="module-request_get.html">request/get</a><ul class='methods'><li data-type='method'><a href="module-request_get.html#~get">get</a></li></ul></li><li><a href="module-request_sign.html">request/sign</a><ul class='methods'><li data-type='method'><a href="module-request_sign.html#~sign">sign</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
 </nav>
 
 <div id="main">
@@ -53,7 +53,11 @@
             <div class="description"><h3>RTM API Authentication</h3><p>This module provides functions that can be used to authenticate a user with
 RTM and retrieve an authentication token that will be used with future API calls.</p>
 <p>See the project's <code>README</code> and documentation for an example on how to
-authenticate a user and authorize a program to access a user's RTM account.</p></div>
+authenticate a user and authorize a program to access a user's RTM account.</p>
+<p><strong>Note:</strong> This module requires an <code>RTMClient</code> as an argument when loaded
+separately via <code>require</code>.</p>
+<pre class="prettyprint source"><code>let client = new RTM(API_KEY, API_SECRET, RTM.PERM_DELETE);
+const auth = require('./auth.js')(client);</code></pre></div>
         
 
         
@@ -67,7 +71,7 @@ authenticate a user and authorize a program to access a user's RTM account.</p><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line3">line 3</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -154,7 +158,7 @@ authenticate a user and authorize a program to access a user's RTM account.</p><
 
     
 
-    <h4 class="name" id="~getAuthToken"><span class="type-signature">(inner) </span>getAuthToken<span class="signature">(frob, client, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAuthToken"><span class="type-signature">(inner) </span>getAuthToken<span class="signature">(frob, callback)</span><span class="type-signature"></span></h4>
 
     
 
@@ -166,7 +170,7 @@ authenticate a user and authorize a program to access a user's RTM account.</p><
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line93">line 93</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -269,29 +273,6 @@ behalf of the RTM User</p>
 
         <tr>
             
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="RTMClient.html">RTMClient</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The RTM Client making the request</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -335,7 +316,7 @@ behalf of the RTM User</p>
 
     
 
-    <h4 class="name" id="~getAuthUrl"><span class="type-signature">(inner) </span>getAuthUrl<span class="signature">(client, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~getAuthUrl"><span class="type-signature">(inner) </span>getAuthUrl<span class="signature">(callback)</span><span class="type-signature"></span></h4>
 
     
 
@@ -347,7 +328,7 @@ behalf of the RTM User</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line65">line 65</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -427,29 +408,6 @@ the API Key.</p>
 
         <tr>
             
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="RTMClient.html">RTMClient</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The RTM Client making the request</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -493,7 +451,7 @@ the API Key.</p>
 
     
 
-    <h4 class="name" id="~verifyAuthToken"><span class="type-signature">(inner) </span>verifyAuthToken<span class="signature">(token, client, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~verifyAuthToken"><span class="type-signature">(inner) </span>verifyAuthToken<span class="signature">(token, callback)</span><span class="type-signature"></span></h4>
 
     
 
@@ -505,7 +463,7 @@ the API Key.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line126">line 126</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line99">line 99</a>
     </li></ul></dd>
     
 
@@ -608,29 +566,6 @@ to make API requests.</p>
 
         <tr>
             
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="RTMClient.html">RTMClient</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The RTM Client making the request</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>callback</code></td>
             
 
@@ -692,7 +627,7 @@ to make API requests.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line36">line 36</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -733,8 +668,8 @@ to make API requests.</p>
 
 <div class="description">
     <p>This function is called after requesting an authentication token.  The callback
-function will return the authentication token and the authenticated user's
-information.</p>
+function will return an instance of <a href="RTMUser.html">RTMUser</a> which will contain the
+<code>authToken</code> and additional user information.</p>
 </div>
 
 
@@ -850,7 +785,7 @@ information.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line26">line 26</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -1031,7 +966,7 @@ function will return the URL to be opened by the RTM User and the User's
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line45">line 45</a>
+        <a href="auth.js.html">auth.js</a>, <a href="auth.js.html#line206">line 206</a>
     </li></ul></dd>
     
 
@@ -1164,7 +1099,7 @@ The callback function will return the verification status.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 03 2017 22:29:24 GMT-0400 (EDT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 13:18:26 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
