@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
 </nav>
 
 <div id="main">
@@ -40,6 +40,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
+
+const RTMUser = require('./user.js');
+const sign = require('./utils/sign.js');
 
 // API Configuration Properties
 const config = require('../rtm.json');
@@ -65,11 +68,6 @@ const base = config.api.url.auth;
  * @module auth
  */
 module.exports = function(client) {
-
-  // Import project modules
-  const get = require('./get.js')(client);
-  const RTMUser = require('./user.js');
-  const sign = require('./utils/sign.js');
 
   /**
    * Get the Authentication URL.
@@ -113,7 +111,7 @@ module.exports = function(client) {
     };
 
     // Get Auth Token
-    get('rtm.auth.getToken', params, function(resp) {
+    client.get('rtm.auth.getToken', params, function(resp) {
       if ( !resp.isOk ) {
         return callback(resp);
       }
@@ -121,7 +119,8 @@ module.exports = function(client) {
         resp.auth.user.id,
         resp.auth.user.username,
         resp.auth.user.fullname,
-        resp.auth.token
+        resp.auth.token,
+        client
       );
       return callback(null, user);
     });
@@ -134,10 +133,15 @@ module.exports = function(client) {
    *
    * This will check if the RTM User's authentication token is still valid
    * to make API requests.
-   * @param {string} token RTM User Authentication Token
+   * @param {string|RTMUser} token RTM User Authentication Token or RTM User
    * @param {function} callback {@link module:auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
    */
    function verifyAuthToken(token, callback) {
+
+     // Get token from RTMUser
+     if ( typeof token === 'object' &amp;&amp; token instanceof RTMUser ) {
+       token = token.authToken;
+     }
 
     // Set request parameters
     let params = {
@@ -145,7 +149,7 @@ module.exports = function(client) {
     };
 
     // Verify Token
-    get('rtm.auth.checkToken', params, function(resp) {
+    client.get('rtm.auth.checkToken', params, function(resp) {
       return callback(resp.isOk);
     });
 
@@ -163,7 +167,7 @@ module.exports = function(client) {
    */
   function _getFrob(callback) {
 
-    get('rtm.auth.getFrob', function(resp) {
+    client.get('rtm.auth.getFrob', function(resp) {
       if ( !resp.isOk ) {
         return callback(resp);
       }
@@ -262,7 +266,7 @@ module.exports = function(client) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 13:18:26 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 15:02:13 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

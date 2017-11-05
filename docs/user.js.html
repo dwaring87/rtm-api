@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
 </nav>
 
 <div id="main">
@@ -70,13 +70,15 @@ class RTMUser {
    * @param {string} username The RTM User's username
    * @param {string} fullname The RTM User's full name
    * @param {string} authToken The RTM User's Auth Token
+   * @param {RTMClient} client The RTM Client that authorized this User
    * @constructor
    */
-  constructor(id, username, fullname, authToken) {
+  constructor(id, username, fullname, authToken, client) {
     this._id = id;
     this._username = username;
     this._fullname = fullname;
     this._authToken = authToken;
+    this._client = client;
   }
 
   /**
@@ -108,15 +110,63 @@ class RTMUser {
    * @returns {string}
    */
   get authToken() {
+    if ( !this._authToken ) {
+      throw "User does not have Auth Token specified";
+    }
     return this._authToken;
   }
 
   /**
    * Set the RTM User Auth Token
    * @param {string} token
+   * @private
    */
   set authToken(token) {
     this._authToken = token;
+  }
+
+  /**
+   * The {@link RTMClient} that authorized this User
+   * @returns {RTMClient}
+   */
+  get client() {
+    if ( !this._client ) {
+      throw "User does not have Client specified";
+    }
+    return this._client;
+  }
+
+  /**
+   * Set the Client that authorized this User
+   * @param {RTMClient} client
+   * @private
+   */
+  set client(client) {
+    this._client = client;
+  }
+
+  /**
+   * Make an API request using the credentials of this RTM User
+   * @param {string} method RTM API Method
+   * @param {object} [params={}] RTM API Method Parameters
+   * @param {function} callback {@link module:get~getCallback|getCallback} callback function
+   * @see {@link module:get~get|get}
+   */
+  get(method, params, callback) {
+    if ( callback === undefined &amp;&amp; typeof params === 'function' ) {
+      callback = params;
+      params = {};
+    }
+    this.client.get(method, params, this, callback);
+  }
+
+  /**
+   * Verify the Auth Token of this RTM User
+   * @param {function} callback {@link module:auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
+   * @see {@link module:auth~verifyAuthToken|verifyAuthToken}
+   */
+  verifyAuthToken(callback) {
+    this.client.auth.verifyAuthToken(this.authToken, callback);
   }
 
 }
@@ -135,7 +185,7 @@ module.exports = RTMUser;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 13:18:26 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 15:02:13 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

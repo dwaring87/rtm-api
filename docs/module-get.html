@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_parse.html">response/parse</a><ul class='methods'><li data-type='method'><a href="module-response_parse.html#~parse">parse</a></li></ul></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
 </nav>
 
 <div id="main">
@@ -82,7 +82,7 @@ const get = require('./get.js')(client);</code></pre></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="get.js.html">get.js</a>, <a href="get.js.html#line14">line 14</a>
+        <a href="get.js.html">get.js</a>, <a href="get.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -181,7 +181,7 @@ const get = require('./get.js')(client);</code></pre></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="get.js.html">get.js</a>, <a href="get.js.html#line62">line 62</a>
+        <a href="get.js.html">get.js</a>, <a href="get.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -221,7 +221,12 @@ const get = require('./get.js')(client);</code></pre></div>
 
 
 <div class="description">
-    <p>Make the specified RTM API call</p>
+    <p>Make the specified RTM API call.</p>
+<p>The <code>method</code> should be the name of the RTM API method.  Any necessary
+parameters should be provided with <code>params</code> as an object with the properties
+of the object as the parameters' key/value pairs.</p>
+<p>RTM API methods that require an AuthToken should set the <code>params</code> <code>auth_token</code>
+property or provide a valid <code>RTMUser</code> with an AuthToken.</p>
 </div>
 
 
@@ -447,7 +452,7 @@ const get = require('./get.js')(client);</code></pre></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="get.js.html">get.js</a>, <a href="get.js.html#line250">line 250</a>
+        <a href="get.js.html">get.js</a>, <a href="get.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -588,7 +593,7 @@ and will be an instance of either <a href="RTMResponse.html">RTMResponse</a>, <a
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 13:18:26 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 15:02:13 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

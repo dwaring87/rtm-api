@@ -50,7 +50,14 @@ const version = config.api.version;
 module.exports = function(client) {
 
   /**
-   * Make the specified RTM API call
+   * Make the specified RTM API call.
+   *
+   * The `method` should be the name of the RTM API method.  Any necessary
+   * parameters should be provided with `params` as an object with the properties
+   * of the object as the parameters' key/value pairs.
+   *
+   * RTM API methods that require an AuthToken should set the `params` `auth_token`
+   * property or provide a valid `RTMUser` with an AuthToken.
    * @param {string} method RTM API Method
    * @param {object} [params={}] RTM Method Parameters (as an object with key/value pairs)
    * @param {RTMUser} [user=undefined] The RTM User making the request
