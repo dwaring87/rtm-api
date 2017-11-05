@@ -28,9 +28,6 @@ const base = config.api.url.auth;
  */
 module.exports = function(client) {
 
-  // Import get with the client
-  const get = require('./get.js')(client);
-
   /**
    * Get the Authentication URL.
    *
@@ -73,7 +70,7 @@ module.exports = function(client) {
     };
 
     // Get Auth Token
-    get('rtm.auth.getToken', params, function(resp) {
+    client.get('rtm.auth.getToken', params, function(resp) {
       if ( !resp.isOk ) {
         return callback(resp);
       }
@@ -106,7 +103,7 @@ module.exports = function(client) {
     };
 
     // Verify Token
-    get('rtm.auth.checkToken', params, function(resp) {
+    client.get('rtm.auth.checkToken', params, function(resp) {
       return callback(resp.isOk);
     });
 
@@ -124,7 +121,7 @@ module.exports = function(client) {
    */
   function _getFrob(callback) {
 
-    get('rtm.auth.getFrob', function(resp) {
+    client.get('rtm.auth.getFrob', function(resp) {
       if ( !resp.isOk ) {
         return callback(resp);
       }

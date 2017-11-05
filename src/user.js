@@ -113,10 +113,9 @@ class RTMUser {
       callback = params;
       params = {};
     }
+    this.client.get(method, params, this, callback);
+  }
 
-    // Call the main get() function
-    let _get = require('./get.js')(this.client);
-    _get(method, params, this, callback);
   }
 
 }
