@@ -92,10 +92,15 @@ module.exports = function(client) {
    *
    * This will check if the RTM User's authentication token is still valid
    * to make API requests.
-   * @param {string} token RTM User Authentication Token
+   * @param {string|RTMUser} token RTM User Authentication Token or RTM User
    * @param {function} callback {@link module:auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
    */
    function verifyAuthToken(token, callback) {
+
+     // Get token from RTMUser
+     if ( typeof token === 'object' && token instanceof RTMUser ) {
+       token = token.authToken;
+     }
 
     // Set request parameters
     let params = {
