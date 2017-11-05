@@ -29,13 +29,15 @@ class RTMUser {
    * @param {string} username The RTM User's username
    * @param {string} fullname The RTM User's full name
    * @param {string} authToken The RTM User's Auth Token
+   * @param {RTMClient} client The RTM Client that authorized this User
    * @constructor
    */
-  constructor(id, username, fullname, authToken) {
+  constructor(id, username, fullname, authToken, client) {
     this._id = id;
     this._username = username;
     this._fullname = fullname;
     this._authToken = authToken;
+    this._client = client;
   }
 
   /**
@@ -76,6 +78,23 @@ class RTMUser {
    */
   set authToken(token) {
     this._authToken = token;
+  }
+
+
+  /**
+   * The Client that authorized this User
+   * @returns {RTMClient}
+   */
+  get client() {
+    return this._client;
+  }
+
+  /**
+   * Set the Client that authorized this User
+   * @param {RTMClient} client
+   */
+  set client(client) {
+    this._client = client;
   }
 
 }

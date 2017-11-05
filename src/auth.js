@@ -82,6 +82,7 @@ module.exports = function(client) {
         resp.auth.user.fullname,
         resp.auth.token
       );
+      user.client = client;
       return callback(null, user);
     });
 
