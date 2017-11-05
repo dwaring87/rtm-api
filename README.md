@@ -38,7 +38,7 @@ requested account permissions.
 
 ```javascript
 const RTM = require('rtm-api');
-let client = new RTM('API_KEY', 'API_SECRET', RTM.PERM_DELETE);
+let client = new RTM('API_KEY', 'API_SECRET', RTM.PERM_DELETE);   // An instance of RTMClient
 ```
 
 Account permissions can be granted in one of three categories:
@@ -97,6 +97,8 @@ client.auth.getAuthToken(frob, function(err, user) {
   // If successful, the returned user will include the property `authToken`
   console.log(user.authToken);
   
+  // Save the user for making authenticated API calls via user.get()
+  
 });
 ```
 
@@ -129,18 +131,30 @@ as:
 }
 ```
 
-Most API Methods will require a User's authToken.  This can be provided as an 
-`auth_token` parameter or an instance of the `RTMUser` class (which is returned 
-from the `getAuthToken` function) can be passed as an argument.
+If the API Method does not require a User's authToken, the request can be made 
+using the `get` function available from the `RTMClient`.
 
-Then, to make an API request, use the `get` function:
+```javascript
+client.get('rtm.auth.getFrob', function(resp) {
+  if ( !resp.isOk ) {
+    console.error(resp.toString());
+  }
+  
+  // Handle the Response
+  console.log(resp.frob);
+})
+```
+
+However, most API Methods will require a User's authToken.  This can be provided 
+directly as an `auth_token` parameter or by calling the `get` function available 
+from the `RTMUser` instance, which will automatically provide the authToken. 
 
 ```javascript
 let params = {
   list_id: "list id",
   filter: "tasks filter"
 };
-client.get('rtm.tasks.getList', params, user, function(resp) {
+user.get('rtm.tasks.getList', params, function(resp) {
   if ( !resp.isOk ) {
     console.error(resp.toString());
   }
