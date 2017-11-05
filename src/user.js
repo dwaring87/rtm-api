@@ -1,5 +1,7 @@
 'use strict';
 
+const _get = require('./get.js');
+
 /**
  * ### RTMUser
  * @see RTMUser
@@ -95,6 +97,27 @@ class RTMUser {
    */
   set client(client) {
     this._client = client;
+  }
+
+  /**
+   * Make an API request using the credentials of this RTM User
+   * @param {string} method RTM API Method
+   * @param {object} [params={}] RTM API Method Parameters
+   * @param {function} callback {@link module:get~getCallback|getCallback} callback function
+   */
+  get(method, params, callback) {
+    if ( !this.client ) {
+      throw "User does not have client specified";
+    }
+
+    // Check params
+    if ( callback === undefined && typeof params === 'function' ) {
+      callback = params;
+      params = {};
+    }
+
+    // Call the main get() function
+    _get(this.client)(method, params, this, callback);
   }
 
 }
