@@ -116,6 +116,13 @@ class RTMUser {
     this.client.get(method, params, this, callback);
   }
 
+  /**
+   * Verify the Auth Token of this RTM User
+   * @param {function} callback {@link module:auth~verifyAuthTokenCallback|verifyAuthTokenCallback} callback function
+   * @see {@link module:auth~verifyAuthToken|verifyAuthToken}
+   */
+  verifyAuthToken(callback) {
+    this.client.auth.verifyAuthToken(this.authToken, callback);
   }
 
 }
