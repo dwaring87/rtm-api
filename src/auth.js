@@ -80,9 +80,9 @@ module.exports = function(client) {
         resp.auth.user.id,
         resp.auth.user.username,
         resp.auth.user.fullname,
-        resp.auth.token
+        resp.auth.token,
+        client
       );
-      user.client = client;
       return callback(null, user);
     });
 
