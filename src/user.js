@@ -28,16 +28,16 @@ class RTMUser {
    * @param {string} id The RTM User's ID
    * @param {string} username The RTM User's username
    * @param {string} fullname The RTM User's full name
-   * @param {string} authToken The RTM User's Auth Token
-   * @param {RTMClient} client The RTM Client that authorized this User
+   * @param {string} [authToken] The RTM User's Auth Token
    * @constructor
    */
-  constructor(id, username, fullname, authToken, client) {
+  constructor(id, username, fullname, authToken) {
     this._id = id;
     this._username = username;
     this._fullname = fullname;
     this._authToken = authToken;
-    this._client = client;
+    this._client = undefined;
+    this._timeline = undefined;
   }
 
   /**
@@ -105,6 +105,24 @@ class RTMUser {
   }
 
   /**
+   * The RTM Timeline for this User
+   * @returns {string}
+   */
+  get timeline() {
+    if ( !this._timeline ) {
+      throw "User does not have a valid timeline set";
+    }
+    return this._timeline;
+  }
+
+  /**
+   * Set the RTM Timeline for this User
+   * @param {string} timeline
+   */
+  set timeline(timeline) {
+    this._timeline = timeline;
+  }
+
    * Make an API request using the credentials of this RTM User
    * @param {string} method RTM API Method
    * @param {object} [params={}] RTM API Method Parameters

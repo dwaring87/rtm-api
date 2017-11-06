@@ -74,14 +74,30 @@ module.exports = function(client) {
       if ( !resp.isOk ) {
         return callback(resp);
       }
+
+      // Create new RTMUser
       let user = new RTMUser(
         resp.auth.user.id,
         resp.auth.user.username,
         resp.auth.user.fullname,
         resp.auth.token,
-        client
       );
-      return callback(null, user);
+
+      // Set the User's Client
+      user.client = client;
+
+      // Get a new Timeline for the User
+      user.get('rtm.timelines.create', function(resp) {
+        if ( !resp.isOk ) {
+          return callback(resp);
+        }
+
+        // Set the User's Timeline
+        user.timeline = resp.timeline;
+
+        return callback(null, user);
+      });
+
     });
 
   }
