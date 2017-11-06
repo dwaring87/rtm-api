@@ -78,5 +78,14 @@ RTMError.responseError = function() {
   return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
 };
 
+/**
+ * Create a new `RTMError` that represents an index error.
+ *
+ * Error Code: `-3`
+ * @returns {RTMError}
+ */
+RTMError.indexError = function() {
+  return new RTMError(-3, "Index Error: Could not find item by reference index number");
+};
 
 module.exports = RTMError;

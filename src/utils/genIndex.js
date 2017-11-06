@@ -2,7 +2,7 @@
 
 /**
  * Generate an index number of each item
- * @param {[]} items List of Items
+ * @param {object[]} items List of Items
  * @param {string} [id='id'] Item property name to be used to generate the index
  * @param {string|boolean} [padding=' '] The character to use as the front
  * padding to make all indices the same length of characters.  If set to `false`
