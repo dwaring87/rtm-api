@@ -1,12 +1,6 @@
 'use strict';
 
 /**
- * ### RTMResponse
- * @see RTMResponse
- * @module response/response
- */
-
-/**
  * ### RTM Generic Response
  *
  * This Class represents a generic Response from the RTM API Server.
@@ -14,8 +8,6 @@
  * and successful responses from the RTM API Server.
  *
  * This Class is extended by the {@link RTMSuccess} and {@link RTMError} Classes.
- *
- * **Module:** response/response
  * @class
  * @alias RTMResponse
  */

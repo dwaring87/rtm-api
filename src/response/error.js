@@ -4,13 +4,6 @@ const RTMResponse = require('./response.js');
 
 
 /**
- * ### RTMError
- * @see RTMError
- * @module response/error
- */
-
-
-/**
  * ### RTM Error Response
  *
  * This Class represents a failed request to the RTM API Server: the
@@ -19,8 +12,6 @@ const RTMResponse = require('./response.js');
  * response.
  *
  * `RTMError` extends {@link RTMResponse}
- *
- * **Module:** response/error
  * @class
  * @alias RTMError
  */

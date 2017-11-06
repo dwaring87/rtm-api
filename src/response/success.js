@@ -4,13 +4,6 @@ const RTMResponse = require('./response.js');
 
 
 /**
- * ### RTMSuccess
- * @see RTMSuccess
- * @module response/success
- */
-
-
-/**
  * ### RTM Success Response
  *
  * This Class represents a successful response from the RTM API Server: the
@@ -18,8 +11,6 @@ const RTMResponse = require('./response.js');
  * include all of the properties of the RTM `rsp` property.
  *
  * `RTMSuccess` extends {@link RTMResponse}
- *
- * **Module:** response/success
  * @class
  * @alias RTMSuccess
  */
