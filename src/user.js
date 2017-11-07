@@ -1,5 +1,6 @@
 'use strict';
 
+const lists = require('./lists/');
 
 /**
  * ### RTM User
@@ -31,6 +32,7 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
+    this._lists = undefined;
   }
 
   /**
@@ -141,7 +143,16 @@ class RTMUser {
 
 
   /**
+   * RTM-List related functions
+   * @see {@link RTMUser~lists/get|lists/get}
+   * @see {@link RTMUser~lists/update|lists/update}
+   * @see {@link RTMUser~lists/add|lists/add}
+   * @see {@link RTMUser~lists/rename|lists/rename}
+   * @see {@link RTMUser~lists/remove|lists/remove}
+   * @returns {module}
    */
+  get lists() {
+    return lists(this);
   }
 
 }
