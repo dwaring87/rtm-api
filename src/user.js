@@ -26,7 +26,7 @@ class RTMUser {
    * @constructor
    */
   constructor(id, username, fullname, authToken) {
-    this._id = id;
+    this._id = parseFloat(id);
     this._username = username;
     this._fullname = fullname;
     this._authToken = authToken;
@@ -101,7 +101,7 @@ class RTMUser {
 
   /**
    * The RTM Timeline for this User
-   * @returns {string}
+   * @returns {number}
    */
   get timeline() {
     if ( !this._timeline ) {
@@ -112,10 +112,11 @@ class RTMUser {
 
   /**
    * Set the RTM Timeline for this User
-   * @param {string} timeline
+   * @param {number} timeline
+   * @private
    */
   set timeline(timeline) {
-    this._timeline = timeline;
+    this._timeline = parseFloat(timeline);
   }
 
    * Make an API request using the credentials of this RTM User
