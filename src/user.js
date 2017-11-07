@@ -31,7 +31,6 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
-    this._transactions = [];
   }
 
   /**
@@ -140,29 +139,11 @@ class RTMUser {
     this.client.auth.verifyAuthToken(this.authToken, callback);
   }
 
-  // ==== USER TRANSACTIONS ==== //
 
   /**
-   * Get the most recent transaction id
-   * @returns {string}
-   * @private
    */
-  get transaction() {
-    return this._transactions[0];
   }
 
-  /**
-   * Add an undoable transaction id
-   * @param {string} id Transaction ID
-   */
-  set transaction(id) {
-    if ( id ) {
-      this._transactions.splice(0, 0, id);
-    }
-    else {
-      this._transactions.splice(0, 1);
-    }
-  }
 }
 
 

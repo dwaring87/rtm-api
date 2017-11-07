@@ -98,14 +98,7 @@ module.exports = function(client) {
       });
       response.on('end', function() {
         let parsed = parse(resp);
-
-        // Save the transaction ID
-        if ( args.user ) {
-          if ( parsed.transaction && parsed.transaction.undoable === '1' ) {
-            user.transaction = parsed.transaction.id;
-          }
-        }
-
+        // TODO: Save transaction id and information if undoable
         args.callback(parsed);
       });
     });
