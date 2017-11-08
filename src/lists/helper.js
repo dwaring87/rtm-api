@@ -4,9 +4,6 @@ const RTMList = require('./list.js');
 const genIndex = require('../utils/genIndex.js');
 
 
-// ==== LISTS API CALL HELPERS ==== //
-
-
 /**
  * API Call: rtm.lists.getList & update user lists
  * @param user RTMUser

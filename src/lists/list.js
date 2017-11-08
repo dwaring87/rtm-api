@@ -21,7 +21,6 @@ class RTMList {
    * @param {object} props The properties from the RTM API response `resp.lists.list`
    */
   constructor(props) {
-
     this._index = undefined;
     this.id = undefined;
     this.name = undefined;
@@ -33,16 +32,11 @@ class RTMList {
         if ( key === 'id' ) {
           value = parseFloat(value);
         }
-        if ( key === 'position' || key === 'sort_order' ) {
+        else if ( key === 'position' || key === 'sort_order' ) {
           value = parseInt(value);
         }
-        else {
-          if ( value === '0' ) {
-            value = false;
-          }
-          else if ( value === '1' ) {
-            value = true;
-          }
+        else if ( key === 'deleted' || key === 'locked' || key === 'archived' || key === 'smart' ) {
+          value = value === '1';
         }
         this[key] = value;
       }
