@@ -142,7 +142,7 @@ client.get('rtm.auth.getFrob', function(resp) {
   
   // Handle the Response
   console.log(resp.frob);
-})
+});
 ```
 
 However, most API Methods will require a User's authToken.  This can be provided 
@@ -161,7 +161,6 @@ user.get('rtm.tasks.getList', params, function(resp) {
   
   // Handle the Response
   console.log(resp);
-  
 });
 ```
 

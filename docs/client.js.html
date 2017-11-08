@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#user">user</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a><ul class='methods'><li data-type='method'><a href="RTMList.html#.sortById">sortById</a></li><li data-type='method'><a href="RTMList.html#.sortByIndex">sortByIndex</a></li><li data-type='method'><a href="RTMList.html#.sortByName">sortByName</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -41,34 +41,34 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-const user = require('./user.js');
+const RTMUser = require('./user.js');
+const _get = require('./utils/get.js');
+const _auth = require('./utils/auth.js');
 
 
 /**
- * ### RTM Client
- * @see RTMClient
- * @module /
- */
-
-/**
- * ### RTM Client
+ * ### RTM API Client
  *
  * This Class is used to represent an RTM API Client.  The Client contains
  * the API Key, API Secret and access permissions used to access the
- * RTM API.
+ * RTM API endpoints.
+ *
+ * It also includes API wrapper functions for making a general RTM API request
+ * as well as the auth-related functions.
+ *
+ * #### Usage
  *
  * The `RTMClient` Class is what is exported when the entire `rtm-api` module
  * is loaded via `require`.
  *
- * Example:
  * ```
  * const RTM = require('rtm-api');
  * let client = new RTM(API_KEY, API_SECRET, RTM.PERM_DELETE);
  * ```
  *
- * An `RTMClient` instance also provides access to the main API helper functions.
+ * #### Auth Example
  *
- * Auth Example:
+ * This example gets an Auth URL to be opened by the RTM User
  *
  * ```
  * client.auth.getAuthUrl(function(err, authUrl, frob) {
@@ -77,14 +77,13 @@ const user = require('./user.js');
  * )};
  * ```
  *
- * To access any RTM API endpoint:
+ * #### RTM API Example
+ *
+ * This example makes an RTM API request using the method `rtm.method` and the
+ * parameter foo=bar.
  *
  * ```
- * let user = ...   // from getAuthToken function
- * let params = {
- *    foo: 'bar'
- * }
- * client.get('rtm.method', params, user, function(resp) {
+ * client.get('rtm.method', {foo: "bar"}, function(resp) {
  *    if ( !resp.isOk ) {
  *      // handle error
  *    }
@@ -92,30 +91,30 @@ const user = require('./user.js');
  * });
  * ```
  *
- * **Module:** /
+ * See {@link RTMUser#get|RTMUser.get} for making User-authenticated API requests.
+ *
  * @class
- * @alias RTMClient
  */
 class RTMClient {
 
   /**
    * Create a new RTM Client with the specified API access information
-   * @param {string} apiKey RTM API Key
-   * @param {string} apiSecret RTM API Secret
-   * @param {string} [perms=RTMClient.PERM_READ] RTM API Access Permissions. This
+   * @param {string} key RTM API Client Key
+   * @param {string} secret RTM API Client Secret
+   * @param {string} [perms=RTMClient.PERM_READ] RTM API Client Access Permissions. This
    * should be one of {@link RTMClient.PERM_READ}, {@link RTMClient.PERM_WRITE} or
    * {@link RTMClient.PERM_DELETE}.
    * @constructor
    */
-  constructor(apiKey, apiSecret, perms=RTMClient.PERM_READ) {
-    this._apiKey = apiKey;
-    this._apiSecret = apiSecret;
+  constructor(key, secret, perms=RTMClient.PERM_READ) {
+    this._apiKey = key;
+    this._apiSecret = secret;
     this._perms = perms;
   }
 
 
   /**
-   * RTM API Key
+   * RTM API Client Key
    * @returns {string}
    */
   get key() {
@@ -123,7 +122,7 @@ class RTMClient {
   }
 
   /**
-   * RTM API Secret
+   * RTM API Client Secret
    * @returns {string}
    */
   get secret() {
@@ -131,7 +130,7 @@ class RTMClient {
   }
 
   /**
-   * RTM API Access Permissions
+   * RTM API Client Access Permissions
    * @returns {string}
    */
   get perms() {
@@ -140,31 +139,108 @@ class RTMClient {
 
 
   /**
-   * Make a RTM-API request
-   * @see {@link module:get|get}
-   * @returns {function}
+   * Create a new `RTMUser` manually.
+   *
+   * This will also set the User's RTM API Client to this `RTMClient`.
+   * @param {number} id The RTM User's ID
+   * @param {string} username The RTM User's username
+   * @param {string} fullname The RTM User's full name
+   * @param {string} authToken The RTM User's Auth Token
+   * @returns {RTMUser}
    */
-  get get() {
-    return require('./get.js')(this);
+  user(id, username, fullname, authToken) {
+    let user = new RTMUser(id, username, fullname, authToken);
+    user.client = this;
+    return user;
   }
 
+
+
+  // ===== API HELPER FUNCTIONS ===== //
+
+
   /**
-   * Auth-related functions: `getAuthUrl`, `getAuthToken` and `verifyAuthToken`
-   * @see {@link module:auth|auth}
-   * @returns {{getAuthUrl, getAuthToken, verifyAuthToken}}
+   * Make the specified RTM API call.
+   *
+   * The `method` should be the name of the RTM API method.  Any necessary
+   * parameters should be provided with `params` as an object with the properties
+   * of the object as the parameters' key/value pairs.
+   *
+   * RTM API methods that require an AuthToken should set the `params` `auth_token`
+   * property or provide a valid `RTMUser` with an AuthToken.
+   * @param {string} method RTM API Method
+   * @param {object} [params={}] RTM Method Parameters (as an object with key/value pairs)
+   * @param {RTMUser} [user=undefined] The RTM User making the request
+   * @param {function} callback Callback function(resp)
+   * @param {RTMError|RTMSuccess} callback.resp The parsed RTM API Response
+   */
+  get(method, params, user, callback) {
+    _get(method, params, user, this, callback);
+  }
+
+
+  /**
+   * Auth-related functions:
+   * - {@link RTMClient~auth/getAuthUrl|getAuthUrl}
+   * - {@link RTMClient~auth/getAuthToken|getAuthToken}
+   * - {@link RTMClient~auth/verifyAuthToken|verifyAuthToken}
+   * @returns {{}}
    */
   get auth() {
-    return require('./auth.js')(this);
+    let rtn = {};
+    let _client = this;
+
+    /**
+     * Get an Auth URL.
+     *
+     * This function will generate an Auth URL that will be given to the RTM User
+     * to authorize the RTM Client to access their account.  It will also request
+     * a frob that will be used to gain an auth token in `getAuthToken()`.
+     * @param {function} callback Callback function(err, authUrl, frob)
+     * @param {RTMError} callback.err RTM Error Response, if encountered
+     * @param {string} callback.authUrl Auth URL to be given to User
+     * @param {string} callback.frob Auth Frob to be used in `getAuthToken()`
+     * @function RTMClient~auth/getAuthUrl
+     */
+    rtn.getAuthUrl = function(callback) {
+      _auth.getAuthUrl(_client, callback);
+    };
+
+    /**
+     * Get an Auth Token.
+     *
+     * This function takes the frob that was generated by `getAuthUrl()` and
+     * requests an Auth Token.  The callback function will return an `RTMUser`
+     * which will include the RTM User's information and an Auth Token to be
+     * used in future API calls.
+     * @param {string} frob Auth Frob from `getAuthUrl()`
+     * @param {function} callback Callback function(err, user)
+     * @param {RTMError} callback.err RTM Error Response, if encountered
+     * @param {RTMUser} callback.user RTM User, with user information and auth token
+     * @function RTMClient~auth/getAuthToken
+     */
+    rtn.getAuthToken = function(frob, callback) {
+      _auth.getAuthToken(frob, _client, callback);
+    };
+
+    /**
+     * Verify Auth Token.
+     *
+     * This function will check if the User's Auth Token is still valid and
+     * can be used to make authenticated RTM API requests.
+     * @param {string|RTMUser} token Auth Token or RTMUser containing an auth token
+     * @param {function} callback Callback function(verified)
+     * @param {boolean} callback.verified True if the User's auth token was successfully verified
+     * @function RTMClient~auth/verifyAuthToken
+     */
+    rtn.verifyAuthToken = function(token, callback) {
+      _auth.verifyAuthToken(token, _client, callback);
+    };
+
+    return rtn;
   }
 
 }
-
-
-/**
- * Create a new `RTMUser` manually
- * @type {RTMUser}
- */
-RTMClient.user = user;
 
 
 
@@ -211,7 +287,7 @@ module.exports = RTMClient;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 15:29:01 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Nov 07 2017 19:13:19 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

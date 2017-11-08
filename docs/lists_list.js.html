@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/response.js - Documentation</title>
+    <title>lists/list.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/response.js</h1>
+    <h1 class="page-title">lists/list.js</h1>
     
 
     
@@ -41,106 +41,145 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
+
 /**
- * ### RTM Generic Response
+ * ### RTM List
  *
- * This Class represents a generic Response from the RTM API Server.
- * The `RTMError` and `RTMSuccess` Classes represent the actual failed
- * and successful responses from the RTM API Server.
+ * This Class is used to represent the properties of an RTM List.
  *
- * This Class is extended by the {@link RTMSuccess} and {@link RTMError} Classes.
+ * All of the list properties from RTM are directly accessible from this Class.
+ *
+ * ```
+ * let list = new RTMList(...);
+ * let name = list.name;
+ * ```
  * @class
- * @alias RTMResponse
  */
-class RTMResponse {
+class RTMList {
 
   /**
-   * Create a new Generic RTM Response with a status of either
-   * {@link RTMResponse.STATUS_OK} or {@link RTMResponse.STATUS_FAIL}.
-   * @param {string} status RTM API Status
-   * @constructor
+   * Create a new RTM List
+   * @param {object} props The properties from the RTM API response `resp.lists.list`
    */
-  constructor(status) {
-    this._status = status;
+  constructor(props) {
+
+    this._index = undefined;
+    this.id = undefined;
+    this.name = undefined;
+
+    // Parse the list properties
+    for ( let key in props ) {
+      if ( props.hasOwnProperty(key) ) {
+        let value = props[key];
+        if ( key === 'id' ) {
+          value = parseFloat(value);
+        }
+        if ( key === 'position' || key === 'sort_order' ) {
+          value = parseInt(value);
+        }
+        else {
+          if ( value === '0' ) {
+            value = false;
+          }
+          else if ( value === '1' ) {
+            value = true;
+          }
+        }
+        this[key] = value;
+      }
+    }
+
   }
 
   /**
-   * Get the RTM Response Status
-   * @returns {string}
+   * An index added to each RTM List based on its `id`
+   * @returns {int}
    */
-  get status() {
-    return this._status;
+  get index() {
+    return this._index;
   }
 
   /**
-   * Check if the RTM Response is 'ok', ie was successful
-   * @returns {boolean}
-   */
-  get isOk() {
-    return this._status === RTMResponse.STATUS_OK;
-  }
-
-  /**
-   * Get the properties of the Response
-   * @returns {{}}
+   * All of the RTM List properties
+   * @returns {object}
    */
   get props() {
     let rtn = {};
     for ( let key in this ) {
-      if ( this.hasOwnProperty(key) &amp;&amp; key !== '_status' ) {
+      if ( this.hasOwnProperty(key) &amp;&amp; key !== '_index' ) {
         rtn[key] = this[key];
       }
     }
     return rtn;
   }
 
-  /**
-   * Check if the Response has the specified property
-   * @param {string} property Property Name
-   * @returns {boolean}
-   */
-  has(property) {
-    let parts = property.split('.');
-    let object = this;
-
-    for ( let i = 0; i &lt; parts.length; i++ ) {
-      object = object[parts[i]];
-      if ( object === undefined ) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Get a String representation of the Response
-   * @returns {string}
-   */
-  toString() {
-    return "[" + this._status + "]";
-  }
-
 }
 
 
+
+
+
+// ==== SORT FUNCTIONS ==== //
+
+
 /**
- * RTM Status of 'ok' = successful
- * @type {string}
- * @default
+ * Sort the RTM Lists by the rtm-api added index field
+ * @param {RTMList} a RTM List a
+ * @param {RTMList} b RTM List b
+ * @returns {number}
  */
-RTMResponse.STATUS_OK = "ok";
+RTMList.sortByIndex = function(a, b) {
+  if ( parseInt(a.index) &lt; parseInt(b.index) ) {
+    return -1;
+  }
+  else if ( parseInt(a.index) > parseInt(b.index) ) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+};
+
 
 /**
- * RTM Status of 'fail' = error
- * @type {string}
- * @default
+ * Sort the RTM Lists by the RTM List id
+ * @param {RTMList} a RTM List a
+ * @param {RTMList} b RTM List b
+ * @returns {number}
  */
-RTMResponse.STATUS_FAIL = "fail";
+RTMList.sortById = function(a, b) {
+  if ( a.id &lt; b.id ) {
+    return -1;
+  }
+  else if ( a.id > b.id ) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+};
 
 
+/**
+ * Sort the RTM Lists by the RTM List name
+ * @param {RTMList} a RTM List a
+ * @param {RTMList} b RTM List b
+ * @returns {number}
+ */
+RTMList.sortByName = function(a, b) {
+  if ( a.name.toLowerCase() &lt; b.name.toLowerCase() ) {
+    return -1;
+  }
+  else if ( a.name.toLowerCase() > b.name.toLowerCase() ) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+};
 
-module.exports = RTMResponse;</code></pre>
+
+module.exports = RTMList;</code></pre>
         </article>
     </section>
 

@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-_.html">/</a></li><li><a href="module-auth.html">auth</a><ul class='methods'><li data-type='method'><a href="module-auth.html#~getAuthToken">getAuthToken</a></li><li data-type='method'><a href="module-auth.html#~getAuthUrl">getAuthUrl</a></li><li data-type='method'><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li></ul></li><li><a href="module-get.html">get</a><ul class='methods'><li data-type='method'><a href="module-get.html#~get">get</a></li></ul></li><li><a href="module-response_error.html">response/error</a></li><li><a href="module-response_response.html">response/response</a></li><li><a href="module-response_success.html">response/success</a></li><li><a href="module-user.html">user</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#user">user</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a><ul class='methods'><li data-type='method'><a href="RTMList.html#.sortById">sortById</a></li><li data-type='method'><a href="RTMList.html#.sortByIndex">sortByIndex</a></li><li data-type='method'><a href="RTMList.html#.sortByName">sortByName</a></li></ul></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -44,10 +44,35 @@
         RTMUser
         </h2>
         
-            <div class="class-description"><h3>RTM User</h3><p>This Class is used to represent an authorized RTM User.  The User contains
-the user's ID, username and fullname as well as an auth token that can
-be used in RTM API calls.</p>
-<p><strong>Module:</strong> user</p></div>
+            <div class="class-description"><h3>RTM User</h3><p>This Class is used to represent an authorized RTM User.  An <code>RTMUser</code> instance
+contains the user's ID, username and fullname as well as an auth token that can
+be used to make user-authenticated API requests.</p>
+<h4>Usage</h4><p>An <code>RTMUser</code> instance can created manually with an <a href="RTMClient.html">RTMClient</a>:</p>
+<pre class="prettyprint source"><code>let user = client.user(1234, 'username', 'full name', 'auth_token');</code></pre><p>or can be returned through the RTM API auth process (specifically the callback
+function from <a href="RTMClient.html#~auth/getAuthToken">RTMClient.auth.getAuthToken()</a>).</p>
+<pre class="prettyprint source"><code>// Get an Auth URL
+client.auth.getAuthUrl(function(err, authUrl, frob) {
+
+   // Have the User open this URL in their browser
+   console.log(authUrl);
+
+   // Get an authenticated RTMUser
+   client.auth.getAuthToken(frob, function(err, user) {
+
+     // user is an instance of RTMUser
+
+   });
+
+});</code></pre><h4>API Wrappers</h4><p>The <code>RTMUser</code> also includes a number of wrapper functions for commonly
+used RTM API methods.</p>
+<p><strong>Lists:</strong></p>
+<p>For example, to get the User's RTM Lists:</p>
+<pre class="prettyprint source"><code>user.lists.update(function(err, lists) {
+   console.log(lists);
+   // or
+   console.log(user.lists.get());
+});</code></pre><p>The <code>lists.update()</code> function will save the RTM Lists to the RTMUser and
+will be available via <code>lists.get()</code> without having to make another API request.</p></div>
         
     
 </header>
@@ -61,7 +86,7 @@ be used in RTM API calls.</p>
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="RTMUser"><span class="type-signature"></span>new RTMUser<span class="signature">(id, username, fullname, authToken, client)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="RTMUser"><span class="type-signature"></span>new RTMUser<span class="signature">(id, username, fullname, authToken)</span><span class="type-signature"></span></h4>
 
     
 
@@ -73,7 +98,7 @@ be used in RTM API calls.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line20">line 20</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -114,9 +139,8 @@ be used in RTM API calls.</p>
 
 <div class="description">
     <p>Create a new RTM User.</p>
-<p>A fully instantiated <code>RTMUser</code> is returned from a successful call to
-<code>auth.getAuthToken()</code> after a user has authorized a <code>frob</code> via the
-RTM website.</p>
+<p>An <code>RTMUser</code> can be used to make user-authenticated RTM API calls and also
+includes wrapper methods around some common RTM API methods.</p>
 </div>
 
 
@@ -160,7 +184,7 @@ RTM website.</p>
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
             
@@ -243,29 +267,6 @@ RTM website.</p>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>client</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="RTMClient.html">RTMClient</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The RTM Client that authorized this User</p></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -313,7 +314,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line71">line 71</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -376,7 +377,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line91">line 91</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -439,7 +440,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line63">line 63</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line111">line 111</a>
     </li></ul></dd>
     
 
@@ -502,7 +503,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line47">line 47</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -554,6 +555,139 @@ RTM website.</p>
 
         
             
+<h4 class="name" id="lists"><span class="type-signature"></span>lists<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>RTM-List related functions:</p>
+<ul>
+<li><a href="RTMUser.html#~lists/get">get</a></li>
+<li><a href="RTMUser.html#~lists/update">update</a></li>
+<li><a href="RTMUser.html#~lists/add">add</a></li>
+<li><a href="RTMUser.html#~lists/rename">rename</a></li>
+<li><a href="RTMUser.html#~lists/remove">remove</a></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="timeline"><span class="type-signature"></span>timeline<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line156">line 156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>The RTM Timeline for this User</p>
+</div>
+
+
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="username"><span class="type-signature"></span>username<span class="type-signature"></span></h4>
 
 
@@ -565,7 +699,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line55">line 55</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -638,7 +772,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line114">line 114</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -669,13 +803,6 @@ RTM website.</p>
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="module-get.html#~get">get</a></li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -685,7 +812,11 @@ RTM website.</p>
 
 
 <div class="description">
-    <p>Make an API request using the credentials of this RTM User</p>
+    <p>Make the specified RTM API call.</p>
+<p>The <code>method</code> should be the name of the RTM API method.  Any necessary
+parameters should be provided with <code>params</code> as an object with the properties
+of the object as the parameters' key/value pairs.</p>
+<p>This function will automatically add the User's auth token to the request.</p>
 </div>
 
 
@@ -829,7 +960,59 @@ RTM website.</p>
                 </td>
             
 
-            <td class="description last"><p><a href="module-get.html#~getCallback">getCallback</a> callback function</p></td>
+            <td class="description last"><p>Callback function(resp)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>resp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMError.html">RTMError</a></span>
+|
+
+<span class="param-type"><a href="RTMSuccess.html">RTMSuccess</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The parsed RTM API Response</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -868,7 +1051,7 @@ RTM website.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user.js.html">user.js</a>, <a href="user.js.html#line127">line 127</a>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -898,13 +1081,6 @@ RTM website.</p>
 
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="module-auth.html#~verifyAuthToken">verifyAuthToken</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -969,7 +1145,1071 @@ RTM website.</p>
 
             
 
-            <td class="description last"><p><a href="module-auth.html#~verifyAuthTokenCallback">verifyAuthTokenCallback</a> callback function</p></td>
+            <td class="description last"><p>Callback function(verified)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>verified</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>True if the auth token is successfully verified</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~lists/add"><span class="type-signature">(inner) </span>lists/add<span class="signature">(name, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line237">line 237</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Add a new RTM List for this User</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Name of the new RTM List</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback function(err, lists)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMError.html">RTMError</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM API Error Response</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lists</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>List of User's RTM Lists</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~lists/get"><span class="type-signature">(inner) </span>lists/get<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="RTMList.html">RTMList</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line215">line 215</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get the stored list of RTM Lists for this User.</p>
+<p>Note: <a href="RTMUser.html#~lists/update">lists/update()</a> needs to be called first.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~lists/remove"><span class="type-signature">(inner) </span>lists/remove<span class="signature">(index, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line249">line 249</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Remove the specified RTM List for this User</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM List index</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback function(err, lists)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMError.html">RTMError</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM API Error Response</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lists</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>List of User's RTM Lists</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~lists/rename"><span class="type-signature">(inner) </span>lists/rename<span class="signature">(index, name, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line268">line 268</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Rename the specified RTM List for this User</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM List index</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>New RTM List name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback function(err, lists)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMError.html">RTMError</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM API Error Response</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lists</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>List of User's RTM Lists</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~lists/update"><span class="type-signature">(inner) </span>lists/update<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="user.js.html">user.js</a>, <a href="user.js.html#line226">line 226</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Update the list of RTM Lists for this User</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Callback function(err, lists)</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>err</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="RTMError.html">RTMError</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM API Error Response</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lists</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>List of User's RTM Lists</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1009,7 +2249,7 @@ RTM website.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 05 2017 15:29:01 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Nov 07 2017 19:13:19 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
