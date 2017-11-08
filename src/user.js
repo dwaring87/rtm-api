@@ -3,6 +3,7 @@
 const _get = require('./utils/get.js');
 const _auth = require('./utils/auth.js');
 const _lists = require('./lists/helper.js');
+const _tasks = require('./tasks/helper.js');
 const errors = require('./response/error.js');
 
 /**
@@ -83,6 +84,7 @@ class RTMUser {
     this._client = undefined;
     this._timeline = undefined;
     this._lists = undefined;
+    this._tasks = undefined;
   }
 
 
@@ -250,13 +252,16 @@ class RTMUser {
      * @function RTMUser~lists/get
      */
     rtn.get = function() {
+      if ( _user._lists === undefined ) {
+        throw "User's RTM Lists need to be updated first"
+      }
       return _user._lists;
     };
 
     /**
      * Update the list of RTM Lists for this User
      * @param {function} callback Callback function(err, lists)
-     * @param {RTMError} callback.err RTM API Error Response
+     * @param {RTMError} callback.err RTM API Error Response, if encountered
      * @param {RTMList[]} callback.lists List of User's RTM Lists
      * @function RTMUser~lists/update
      */
@@ -268,7 +273,7 @@ class RTMUser {
      * Add a new RTM List for this User
      * @param {string} name Name of the new RTM List
      * @param {function} callback Callback function(err, lists)
-     * @param {RTMError} callback.err RTM API Error Response
+     * @param {RTMError} callback.err RTM API Error Response, if encountered
      * @param {RTMList[]} callback.lists List of User's RTM Lists
      * @function RTMUser~lists/add
      */
@@ -280,7 +285,7 @@ class RTMUser {
      * Remove the specified RTM List for this User
      * @param {int} index RTM List index
      * @param {function} callback Callback function(err, lists)
-     * @param {RTMError} callback.err RTM API Error Response
+     * @param {RTMError} callback.err RTM API Error Response, if encountered
      * @param {RTMList[]} callback.lists List of User's RTM Lists
      * @function RTMUser~lists/remove
      */
@@ -300,7 +305,7 @@ class RTMUser {
      * @param {int} index RTM List index
      * @param {string} name New RTM List name
      * @param {function} callback Callback function(err, lists)
-     * @param {RTMError} callback.err RTM API Error Response
+     * @param {RTMError} callback.err RTM API Error Response, if encountered
      * @param {RTMList[]} callback.lists List of User's RTM Lists
      * @function RTMUser~lists/rename
      */
@@ -313,6 +318,74 @@ class RTMUser {
         }
       }
       return callback(errors.indexError());
+    };
+
+    return rtn;
+  }
+
+
+  /**
+   * RTM Task related functions:
+   * - {@link RTMUser~tasks/get|get}
+   * - {@link RTMUser~tasks/update|update}
+   * - {@link RTMUser~tasks/add|add}
+   * @returns {object}
+   */
+  get tasks() {
+    let rtn = {};
+    let _user = this;
+
+    /**
+     * Get the stored list of RTM Tasks for this User.
+     *
+     * Note: {@link RTMUser~tasks/update|tasks/update()} needs to be called first.
+     * @returns {RTMTask[]}
+     * @function RTMUser~tasks/get
+     */
+    rtn.get = function() {
+      if ( _user._tasks === undefined ) {
+        throw "User's RTM Tasks need to be updated first"
+      }
+      return _user._tasks;
+    };
+
+    /**
+     * Update the list RTM Tasks for this User
+     * @param {function} callback Callback function(err, tasks)
+     * @param {RTMError} callback.err RTM API Response, if encountered
+     * @param {RTMTask[]} callback.tasks List of User's RTM Tasks
+     * @function RTMUser~tasks/update
+     */
+    rtn.update = function(callback) {
+      _tasks.get(_user, callback);
+    };
+
+    /**
+     * Add a new RTM Task for this User
+     * @param {string} name Task Name (can include 'Smart Add' syntax)
+     * @param {object} [props] Task Properties
+     * @param {string} props.due Task Due Date (RTM supported date format)
+     * @param {int} props.priority Task Priority (1, 2, 3)
+     * @param {string} props.list Task List Name
+     * @param {string[]} props.tags Task Tags
+     * @param {string} props.location Task Location Name
+     * @param {string} props.start Task Start Date (RTM supported date format)
+     * @param {string} props.repeat Task Repeat Format (RTM supported repeat format)
+     * @param {string} props.estimate Task Time Estimate (RTM supported time estimate format)
+     * @param {string} props.to Contact Name to give Task to (existing contact or email address)
+     * @param {string} props.url Task Reference URL
+     * @param {string} props.note Task Note
+     * @param {function} callback Callback function(err, tasks)
+     * @param {RTMError} callback.err RTM API Response, if encountered
+     * @param {RTMTask[]} callback.tasks List of User's RTM Tasks
+     * @function RTMUser~tasks/add
+     */
+    rtn.add = function(name, props, callback) {
+      if ( callback === undefined && typeof props === 'function' ) {
+        callback = props;
+        props = {};
+      }
+      _tasks.add(name, props, _user, callback);
     };
 
     return rtn;
