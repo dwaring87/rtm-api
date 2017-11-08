@@ -291,4 +291,52 @@ class RTMUser {
 }
 
 
+
+
+
+// ==== IMPORT / EXPORT FUNCTIONS ===== //
+
+/**
+ * Export the required User information to a JSON string
+ * @param {RTMUser} user RTM User to export
+ */
+RTMUser.toString = function(user) {
+  let rtn = {
+    id: user.id,
+    username: user.username,
+    fullname: user.fullname,
+    authToken: user.authToken,
+    timeline: user._timeline
+  };
+  if ( user.client ) {
+    rtn.client = {
+      apiKey: user.client.key,
+      apiSecret: user.client.secret,
+      perms: user.client.perms
+    }
+  }
+  return JSON.stringify(rtn);
+};
+
+/**
+ * Create a new RTMUser from a JSON-string
+ * @param {string} string JSON string of required user information
+ * @returns {RTMUser}
+ */
+RTMUser.fromString = function(string) {
+  let RTMClient = require('./client.js');
+  let json = JSON.parse(string);
+  if ( json.id && json.username && json.fullname && json.authToken ) {
+    let user = new RTMUser(json.id, json.username, json.fullname, json.authToken);
+    if ( json.client ) {
+      user.client = new RTMClient(json.client.apiKey, json.client.apiSecret, json.client.perms);
+    }
+    return user;
+  }
+  else {
+    throw "User string missing required information";
+  }
+};
+
+
 module.exports = RTMUser;
