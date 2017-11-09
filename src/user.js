@@ -200,36 +200,6 @@ class RTMUser {
     _auth.verifyAuthToken(this.authToken, this.client, callback);
   }
 
-  /**
-   * Refresh RTM data.
-   *
-   * This will refresh the User's RTM Lists and Tasks
-   * @param {function} callback Callback function() called when all data is updated
-   */
-  refresh(callback) {
-    let calls = 2;
-    let count = 0;
-    this.lists.update(function(err) {
-      if ( err ) {
-        return callback(err);
-      }
-      count++;
-      _callback();
-    });
-    this.tasks.update(function(err) {
-      if ( err ) {
-        return callback(err);
-      }
-      count++;
-      _callback();
-    });
-    function _callback() {
-      if ( count === calls ) {
-        return callback();
-      }
-    }
-  }
-
 
   /**
    * RTM List related functions:
