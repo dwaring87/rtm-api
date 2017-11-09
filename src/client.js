@@ -202,6 +202,26 @@ class RTMClient {
 }
 
 
+// ==== RTM USER IMPORT / EXPORT ==== //
+
+/**
+ * Convert a User's required information to a JSON string
+ * @param {RTMUser} user The RTMUser to convert
+ */
+RTMClient.userToString = function(user) {
+  return RTMUser.toString(user);
+};
+
+/**
+ * Create a RTM User from a JSON string
+ * @param {string} string JSON string of User's required information
+ * @returns {RTMUser}
+ */
+RTMClient.userFromString = function(string) {
+  return RTMUser.fromString(string);
+};
+
+
 
 // ==== RTM API PERMISSION LEVELS ==== //
 
