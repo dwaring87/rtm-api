@@ -4,7 +4,7 @@ const RTMTask = require('./task.js');
 const genIndex = require('../utils/genIndex.js');
 
 /**
- * API Call: rtm.tasks.getList & update user tasks
+ * API Call: rtm.tasks.getList
  * @param user RTMUser
  * @param callback Callback function(err, tasks)
  * @private
@@ -46,9 +46,6 @@ function get(user, callback) {
     // Set Task Indices
     rtn = genIndex(rtn, 'task_id');
 
-    // Set user tasks
-    user._tasks = rtn;
-
     // Return with the callback
     return callback(null, rtn);
 
@@ -56,7 +53,8 @@ function get(user, callback) {
 }
 
 /**
- * API Call rtm.tasks.add & update user tasks.  Note: this uses RTM's 'smart add'
+ * API Call rtm.tasks.add
+ * Note: this uses RTM's 'smart add'
  * @param {string} name Task Name (or smart add sytanx)
  * @param {{due: *, priority: *, list: *, tags: *, location: *, start: *, repeat: *, estimate: *, to: *, url: *, note: *}} props Additional task properties
  * @param user RTM User
@@ -109,20 +107,15 @@ function add(name, props, user, callback) {
   let params = {
     timeline: user.timeline,
     name: name,
-    parse: 1
+    parse: true
   };
 
   // Make the API Request
   user.get('rtm.tasks.add', params, function(resp) {
-    console.log(resp);
-
     if ( !resp.isOk ) {
       return callback(resp);
     }
-
-    // Update the User's tasks
-    get(user, callback);
-
+    return callback();
   });
 
 }

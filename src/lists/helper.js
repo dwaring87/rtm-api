@@ -5,7 +5,7 @@ const genIndex = require('../utils/genIndex.js');
 
 
 /**
- * API Call: rtm.lists.getList & update user lists
+ * API Call: rtm.lists.getList
  * @param user RTMUser
  * @param callback Callback function(err, lists)
  * @private
@@ -30,9 +30,6 @@ function get(user, callback) {
     // Add indices to lists
     rtn = genIndex(rtn);
 
-    // Set user lists
-    user._lists = rtn;
-
     // Call the callback
     return callback(null, rtn);
   });
@@ -40,10 +37,10 @@ function get(user, callback) {
 
 
 /**
- * API Call: rtm.lists.add & update user lists
+ * API Call: rtm.lists.add
  * @param name RTM List Name
  * @param user RTMUser
- * @param callback Callback function(err, lists)
+ * @param callback Callback function(err)
  * @private
  */
 function add(name, user, callback) {
@@ -58,15 +55,15 @@ function add(name, user, callback) {
     if ( !resp.isOk ) {
       return callback(resp);
     }
-    return get(user, callback);
+    return callback();
   });
 }
 
 /**
- * API Call: rtm.lists.delete & update user lists
+ * API Call: rtm.lists.delete
  * @param id RTM List ID
  * @param user RTMUser
- * @param callback Callback function(err, lists)
+ * @param callback Callback function(err)
  * @private
  */
 function remove(id, user, callback) {
@@ -78,12 +75,12 @@ function remove(id, user, callback) {
     if ( !resp.isOk ) {
       return callback(resp);
     }
-    return get(user, callback);
+    return callback();
   });
 }
 
 /**
- * API Call: rtm.lists.setName & update user lists
+ * API Call: rtm.lists.setName
  * @param id RTM List ID
  * @param name New RTM List Name
  * @param user RTMUser
@@ -100,7 +97,7 @@ function rename(id, name, user, callback) {
     if ( !resp.isOk ) {
       return callback(resp);
     }
-    return get(user, callback);
+    return callback();
   });
 }
 
