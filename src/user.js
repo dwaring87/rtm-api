@@ -236,7 +236,10 @@ class RTMUser {
      * @function RTMUser~lists/update
      */
     rtn.update = function(callback) {
-      _lists.get(_user, callback);
+      _lists.get(_user, function(err, lists) {
+        _user._lists = lists;
+        return callback(err, lists);
+      });
     };
 
     /**
@@ -248,7 +251,12 @@ class RTMUser {
      * @function RTMUser~lists/add
      */
     rtn.add = function(name, callback) {
-      _lists.add(name, _user, callback);
+      _lists.add(name, _user, function(err) {
+        if ( err ) {
+          return callback(err);
+        }
+        return rtn.update(callback);
+      });
     };
 
     /**
@@ -260,14 +268,23 @@ class RTMUser {
      * @function RTMUser~lists/remove
      */
     rtn.remove = function(index, callback) {
+      let found = false;
       if ( _user._lists ) {
         for ( let i = 0; i < _user._lists.length; i++ ) {
           if ( _user._lists[i].index === index ) {
-            return _lists.remove(_user._lists[i].id, _user, callback);
+            found = true;
+            _lists.remove(_user._lists[i].id, _user, function(err) {
+              if ( err ) {
+                return callback(err);
+              }
+              return rtn.update(callback);
+            });
           }
         }
       }
-      return callback(errors.indexError());
+      if ( !found ) {
+        return callback(errors.indexError());
+      }
     };
 
     /**
@@ -280,14 +297,23 @@ class RTMUser {
      * @function RTMUser~lists/rename
      */
     rtn.rename = function(index, name, callback) {
+      let found = false;
       if ( _user._lists ) {
         for ( let i = 0; i < _user._lists.length; i++ ) {
           if ( _user._lists[i].index === index ) {
-            return _lists.rename(_user._lists[i].id, name, _user, callback);
+            found = true;
+            _lists.rename(_user._lists[i].id, name, _user, function(err) {
+              if ( err ) {
+                return callback(err);
+              }
+              return rtn.update(callback);
+            });
           }
         }
       }
-      return callback(errors.indexError());
+      if ( !found ) {
+        return callback(errors.indexError());
+      }
     };
 
     return rtn;
@@ -327,7 +353,41 @@ class RTMUser {
      * @function RTMUser~tasks/update
      */
     rtn.update = function(callback) {
-      _tasks.get(_user, callback);
+      let count = 0;
+      let calls = 2;
+      let returned = false;
+
+      // Update the User's Lists and Tasks
+      _lists.get(_user, function(err, lists) {
+        _user._lists = lists;
+        _tasksUpdateCallback(err);
+      });
+      _tasks.get(_user, function(err, tasks) {
+        _user._tasks = tasks;
+        _tasksUpdateCallback(err);
+      });
+
+      function _tasksUpdateCallback(err) {
+        count++;
+        if ( err ) {
+          returned = true;
+          return callback(err);
+        }
+        if ( !returned && count === calls ) {
+          _parseTasks();
+          return callback(null, _user._tasks);
+        }
+      }
+
+      function _parseTasks() {
+        for ( let i = 0; i < _user._tasks.length; i++ ) {
+          for ( let j = 0; j < _user._lists.length; j++ ) {
+            if ( _user._tasks[i].list_id === _user._lists[j].id ) {
+              _user._tasks[i]._list = _user._lists[j];
+            }
+          }
+        }
+      }
     };
 
     /**
@@ -355,7 +415,12 @@ class RTMUser {
         callback = props;
         props = {};
       }
-      _tasks.add(name, props, _user, callback);
+      _tasks.add(name, props, _user, function(err) {
+        if ( err ) {
+          return callback(err);
+        }
+        return rtn.update(callback);
+      });
     };
 
     return rtn;
