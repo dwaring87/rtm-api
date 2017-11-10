@@ -1,6 +1,6 @@
 'use strict';
 
-const RTMList = require('./list.js');
+const RTMList = require('./index.js');
 const genIndex = require('../utils/genIndex.js');
 
 
@@ -84,7 +84,7 @@ function remove(id, user, callback) {
  * @param id RTM List ID
  * @param name New RTM List Name
  * @param user RTMUser
- * @param callback Callback function(err, lists)
+ * @param callback Callback function(err)
  * @private
  */
 function rename(id, name, user, callback) {
