@@ -15,9 +15,9 @@ module.exports = function(user) {
   /**
    * Get the stored list of RTM Tasks for this User.
    *
-   * Note: {@link RTMUser~task/update|task/update()} needs to be called first.
+   * Note: {@link RTMUser~tasks/update|tasks/update()} needs to be called first.
    * @returns {RTMTask[]}
-   * @function RTMUser~task/get
+   * @function RTMUser~tasks/get
    */
   rtn.get = function() {
     if ( user._tasks === undefined ) {
@@ -34,7 +34,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, task)
    * @param {RTMError} callback.err RTM API Response, if encountered
    * @param {RTMTask[]} callback.task List of User's RTM Tasks
-   * @function RTMUser~task/update
+   * @function RTMUser~tasks/update
    */
   rtn.update = function(callback) {
     let count = 0;
@@ -97,7 +97,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, task)
    * @param {RTMError} callback.err RTM API Response, if encountered
    * @param {RTMTask[]} callback.task List of User's RTM Tasks
-   * @function RTMUser~task/add
+   * @function RTMUser~tasks/add
    */
   rtn.add = function(name, props, callback) {
     if ( callback === undefined && typeof props === 'function' ) {

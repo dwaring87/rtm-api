@@ -16,9 +16,9 @@ module.exports = function(user) {
   /**
    * Get the stored list of RTM Lists for this User.
    *
-   * Note: {@link RTMUser~list/update|list/update()} needs to be called first.
+   * Note: {@link RTMUser~lists/update|lists/update()} needs to be called first.
    * @returns {RTMList[]}
-   * @function RTMUser~list/get
+   * @function RTMUser~lists/get
    */
   rtn.get = function() {
     if ( user._lists === undefined ) {
@@ -32,7 +32,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, list)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~list/update
+   * @function RTMUser~lists/update
    */
   rtn.update = function(callback) {
     _lists.get(user, function(err, lists) {
@@ -47,7 +47,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, list)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~list/add
+   * @function RTMUser~lists/add
    */
   rtn.add = function(name, callback) {
     _lists.add(name, user, function(err) {
@@ -64,7 +64,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, list)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~list/remove
+   * @function RTMUser~lists/remove
    */
   rtn.remove = function(index, callback) {
     let found = false;
@@ -93,7 +93,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, list)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~list/rename
+   * @function RTMUser~lists/rename
    */
   rtn.rename = function(index, name, callback) {
     let found = false;
