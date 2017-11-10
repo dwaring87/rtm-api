@@ -1,6 +1,6 @@
 'use strict';
 
-const RTMUser = require('../user.js');
+const RTMUser = require('../user/index.js');
 const sign = require('./sign.js');
 
 // API Configuration Properties

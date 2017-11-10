@@ -4,7 +4,7 @@
   "description": "Remember the Milk API Interface",
   "author": "David Waring <dev@davidwaring.net> (https://davidwaring.net)",
   "license": "MIT",
-  "main": "src/client.js",
+  "main": "src/client/index.js",
   "scripts": {
     "docs": "jsdoc -c jsdoc.json --readme README.md --template $NODE_PATH/docdash"
   },

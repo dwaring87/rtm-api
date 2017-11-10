@@ -4,8 +4,8 @@ const URL = require('url');
 
 const parse = require('../response/parse.js');
 const error = require('../response/error.js');
-const RTMClient = require('../client.js');
-const RTMUser = require('../user.js');
+const RTMClient = require('../client/index.js');
+const RTMUser = require('../user/index.js');
 const sign = require('./sign.js');
 
 // API Configuration Properties
