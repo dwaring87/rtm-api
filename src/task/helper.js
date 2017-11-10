@@ -1,6 +1,6 @@
 'use strict';
 
-const RTMTask = require('./task.js');
+const RTMTask = require('./index.js');
 const genIndex = require('../utils/genIndex.js');
 
 /**
@@ -15,7 +15,7 @@ function get(user, callback) {
       return callback(resp);
     }
 
-    // List of tasks to return
+    // List of task to return
     let rtn = [];
 
     // Parse each List
@@ -55,10 +55,10 @@ function get(user, callback) {
 /**
  * API Call rtm.tasks.add
  * Note: this uses RTM's 'smart add'
- * @param {string} name Task Name (or smart add sytanx)
+ * @param {string} name Task Name (or smart add syntax)
  * @param {{due: *, priority: *, list: *, tags: *, location: *, start: *, repeat: *, estimate: *, to: *, url: *, note: *}} props Additional task properties
  * @param user RTM User
- * @param callback Callback function(err, tasks)
+ * @param callback Callback function(err)
  * @private
  */
 function add(name, props, user, callback) {
