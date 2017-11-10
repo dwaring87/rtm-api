@@ -55,7 +55,7 @@ function getAuthToken(frob, client, callback) {
     }
 
     // Create new RTMUser
-    let user = client.user(
+    let user = client.user.create(
       resp.auth.user.id,
       resp.auth.user.username,
       resp.auth.user.fullname,
