@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>user/lists.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">user/lists.js</h1>
     
 
     
@@ -41,96 +41,123 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-const RTMResponse = require('./response.js');
+const errors = require('../response/error.js');
+const _lists = require('../list/helper.js');
 
 
 /**
- * ### RTM Error Response
- *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
- *
- * `RTMError` extends {@link RTMResponse}
- * @class
- * @alias RTMError
+ * This module returns the RTM list-related functions for the RTMUser
+ * @param {RTMUser} user RTM User instance
+ * @returns {{get: function, update: function, add: function, remove: function, rename: function}}
+ * @private
  */
-class RTMError extends RTMResponse{
+module.exports = function(user) {
+  let rtn = {};
 
   /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
-   * @constructor
+   * Get the stored list of RTM Lists for this User.
+   *
+   * Note: {@link RTMUser~list/update|list/update()} needs to be called first.
+   * @returns {RTMList[]}
+   * @function RTMUser~list/get
    */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
-  }
+  rtn.get = function() {
+    if ( user._lists === undefined ) {
+      throw "User's RTM Lists need to be updated first"
+    }
+    return user._lists;
+  };
 
   /**
-   * The RTM Error Code
-   * @returns {number}
+   * Update the list of RTM Lists for this User
+   * @param {function} callback Callback function(err, list)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMList[]} callback.list List of User's RTM Lists
+   * @function RTMUser~list/update
    */
-  get code() {
-    return this._code;
-  }
+  rtn.update = function(callback) {
+    _lists.get(user, function(err, lists) {
+      user._lists = lists;
+      return callback(err, lists);
+    });
+  };
 
   /**
-   * The RTM Error Message
-   * @returns {string}
+   * Add a new RTM List for this User
+   * @param {string} name Name of the new RTM List
+   * @param {function} callback Callback function(err, list)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMList[]} callback.list List of User's RTM Lists
+   * @function RTMUser~list/add
    */
-  get msg() {
-    return this._msg;
-  }
+  rtn.add = function(name, callback) {
+    _lists.add(name, user, function(err) {
+      if ( err ) {
+        return callback(err);
+      }
+      return rtn.update(callback);
+    });
+  };
 
   /**
-   * Get a String representation of the Error
-   * @returns {string}
+   * Remove the specified RTM List for this User
+   * @param {int} index RTM List index
+   * @param {function} callback Callback function(err, list)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMList[]} callback.list List of User's RTM Lists
+   * @function RTMUser~list/remove
    */
-  toString() {
-    return super.toString() + " ERROR " + this._code + ": " + this._msg;
-  }
+  rtn.remove = function(index, callback) {
+    let found = false;
+    if ( user._lists ) {
+      for ( let i = 0; i &lt; user._lists.length; i++ ) {
+        if ( user._lists[i].index === index ) {
+          found = true;
+          _lists.remove(user._lists[i].id, user, function(err) {
+            if ( err ) {
+              return callback(err);
+            }
+            return rtn.update(callback);
+          });
+        }
+      }
+    }
+    if ( !found ) {
+      return callback(errors.indexError());
+    }
+  };
 
-}
+  /**
+   * Rename the specified RTM List for this User
+   * @param {int} index RTM List index
+   * @param {string} name New RTM List name
+   * @param {function} callback Callback function(err, list)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMList[]} callback.list List of User's RTM Lists
+   * @function RTMUser~list/rename
+   */
+  rtn.rename = function(index, name, callback) {
+    let found = false;
+    if ( user._lists ) {
+      for ( let i = 0; i &lt; user._lists.length; i++ ) {
+        if ( user._lists[i].index === index ) {
+          found = true;
+          _lists.rename(user._lists[i].id, name, user, function(err) {
+            if ( err ) {
+              return callback(err);
+            }
+            return rtn.update(callback);
+          });
+        }
+      }
+    }
+    if ( !found ) {
+      return callback(errors.indexError());
+    }
+  };
 
-
-// === CUSTOM ERRORS ==== //
-
-/**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
- */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an index error (ie, task index is out
- * of range).
- *
- * Error Code: `-3`
- * @returns {RTMError}
- */
-RTMError.indexError = function() {
-  return new RTMError(-3, "Index Error: Could not find item by reference index number");
-};
-
-module.exports = RTMError;</code></pre>
+  return rtn;
+};</code></pre>
         </article>
     </section>
 

@@ -1,0 +1,241 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>client/index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~list/add">list/add</a></li><li data-type='method'><a href="RTMUser.html#~list/get">list/get</a></li><li data-type='method'><a href="RTMUser.html#~list/remove">list/remove</a></li><li data-type='method'><a href="RTMUser.html#~list/rename">list/rename</a></li><li data-type='method'><a href="RTMUser.html#~list/update">list/update</a></li><li data-type='method'><a href="RTMUser.html#~task/add">task/add</a></li><li data-type='method'><a href="RTMUser.html#~task/get">task/get</a></li><li data-type='method'><a href="RTMUser.html#~task/update">task/update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">client/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+
+/**
+ * ### RTM API Client
+ *
+ * This Class is used to represent an RTM API Client.  The Client contains
+ * the API Key, API Secret and access permissions used to access the
+ * RTM API endpoints.
+ *
+ * It also includes API wrapper functions for making a general RTM API request
+ * as well as the auth-related functions.
+ *
+ * #### Usage
+ *
+ * The `RTMClient` Class is what is exported when the entire `rtm-api` module
+ * is loaded via `require`.
+ *
+ * ```
+ * const RTM = require('rtm-api');
+ * let client = new RTM(API_KEY, API_SECRET, RTM.PERM_DELETE);
+ * ```
+ *
+ * #### Auth Example
+ *
+ * This example gets an Auth URL to be opened by the RTM User
+ *
+ * ```
+ * client.auth.getAuthUrl(function(err, authUrl, frob) {
+ *    // Have user authenticate and authorize the program with the authUrl
+ *    // Once authorized by the user, use the frob to get an authToken
+ * )};
+ * ```
+ *
+ * #### RTM API Example
+ *
+ * This example makes an RTM API request using the method `rtm.method` and the
+ * parameter foo=bar.
+ *
+ * ```
+ * client.get('rtm.method', {foo: "bar"}, function(resp) {
+ *    if ( !resp.isOk ) {
+ *      // handle error
+ *    }
+ *    // use the response
+ * });
+ * ```
+ *
+ * See {@link RTMUser#get|RTMUser.get} for making User-authenticated API requests.
+ *
+ * @class
+ */
+class RTMClient {
+
+  /**
+   * Create a new RTM Client with the specified API access information
+   * @param {string} key RTM API Client Key
+   * @param {string} secret RTM API Client Secret
+   * @param {string} [perms=RTMClient.PERM_READ] RTM API Client Access Permissions. This
+   * should be one of {@link RTMClient.PERM_READ}, {@link RTMClient.PERM_WRITE} or
+   * {@link RTMClient.PERM_DELETE}.
+   * @constructor
+   */
+  constructor(key, secret, perms=RTMClient.PERM_READ) {
+    this._apiKey = key;
+    this._apiSecret = secret;
+    this._perms = perms;
+  }
+
+
+  /**
+   * RTM API Client Key
+   * @type {string}
+   */
+  get key() {
+    return this._apiKey;
+  }
+
+  /**
+   * RTM API Client Secret
+   * @type {string}
+   */
+  get secret() {
+    return this._apiSecret;
+  }
+
+  /**
+   * RTM API Client Access Permissions
+   * @type {string}
+   */
+  get perms() {
+    return this._perms;
+  }
+
+
+
+  // ===== USER FUNCTIONS ===== //
+
+  /**
+   * User export/import-related functions:
+   * - {@link RTMClient~user/create|create}
+   * - {@link RTMClient~user/export|export}
+   * - {@link RTMClient~user/exportToString|exportToString}
+   * - {@link RTMClient~user/import|import}
+   * - {@link RTMClient~user/importFromString|importFromString}
+   * @returns {{create: function, export: function, exportToString: function, import: function, importFromString: function}}
+   */
+  get user() {
+    return require('./user.js')(this);
+  }
+
+
+
+  // ===== API HELPER FUNCTIONS ===== //
+
+
+  /**
+   * Make the specified RTM API call.
+   *
+   * The `method` should be the name of the RTM API method.  Any necessary
+   * parameters should be provided with `params` as an object with the properties
+   * of the object as the parameters' key/value pairs.
+   *
+   * RTM API methods that require an AuthToken should set the `params` `auth_token`
+   * property or provide a valid `RTMUser` with an AuthToken.
+   * @param {string} method RTM API Method
+   * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
+   * @param {RTMUser} [user=undefined] The RTM User making the request
+   * @param {function} callback Callback function(resp)
+   * @param {RTMError|RTMSuccess} callback.resp The parsed RTM API Response
+   */
+  get(method, params, user, callback) {
+    require('../utils/get.js')(method, params, user, this, callback);
+  }
+
+  /**
+   * Auth-related functions:
+   * - {@link RTMClient~auth/getAuthUrl|getAuthUrl}
+   * - {@link RTMClient~auth/getAuthToken|getAuthToken}
+   * - {@link RTMClient~auth/verifyAuthToken|verifyAuthToken}
+   * @returns {{getAuthUrl: function, getAuthToken: function, verifyAuthToken: function}}
+   */
+  get auth() {
+    return require('./auth.js')(this);
+  }
+
+}
+
+
+
+// ==== RTM API PERMISSION LEVELS ==== //
+
+/**
+ * RTM API Access: `read` -
+ * gives the ability to read task, contact, group and list details and contents.
+ * @type {string}
+ * @default
+ */
+RTMClient.PERM_READ = 'read';
+
+/**
+ * RTM API Access: `write` -
+ * gives the ability to add and modify task, contact, group and list details and
+ * contents (also allows you to `read`).
+ * @type {string}
+ * @default
+ */
+RTMClient.PERM_WRITE = 'write';
+
+/**
+ * RTM API Access: `delete` -
+ * gives the ability to delete task, contacts, groups and list (also allows
+ * you to `read` and `write`).
+ * @type {string}
+ * @default
+ */
+RTMClient.PERM_DELETE = 'delete';
+
+
+
+module.exports = RTMClient;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 10 2017 16:27:50 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

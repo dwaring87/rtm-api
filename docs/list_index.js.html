@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>list/index.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">list/index.js</h1>
     
 
     
@@ -41,96 +41,107 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-const RTMResponse = require('./response.js');
-
 
 /**
- * ### RTM Error Response
+ * ### RTM List
  *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
+ * This Class is used to represent the properties of an RTM List.
  *
- * `RTMError` extends {@link RTMResponse}
+ * All of the list properties from RTM are directly accessible from this Class.
+ *
+ * ```
+ * let list = new RTMList(...);
+ * let name = list.name;
+ * ```
  * @class
- * @alias RTMError
  */
-class RTMError extends RTMResponse{
+class RTMList {
 
   /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
-   * @constructor
+   * Create a new RTM List
+   * @param {object} props The properties from the RTM API response `resp.lists.list`
    */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
+  constructor(props) {
+
+    // List indices are set after construction
+    this._index = undefined;
+
+    /**
+     * List ID
+     * @type {Number}
+     */
+    this.id = parseFloat(props.id);
+
+    /**
+     * List Name
+     * @type {string}
+     */
+    this.name = props.name;
+
+    /**
+     * List Deleted Flag
+     * @type {boolean}
+     */
+    this.deleted = props.deleted.toString() === '1';
+
+    /**
+     * List Locked Flag
+     * @type {boolean}
+     */
+    this.locked = props.locked.toString() === '1';
+
+    /**
+     * List Archived Flag
+     * @type {boolean}
+     */
+    this.archived = props.archived.toString() === '1';
+
+    /**
+     * List Position
+     * @type {Number}
+     */
+    this.position = parseInt(props.position);
+
+    /**
+     * Smart List Flag
+     * @type {boolean}
+     */
+    this.smart = props.smart.toString() === '1';
+
+    /**
+     * List Sort Order
+     * @type {Number}
+     */
+    this.sort_order = parseInt(props.sort_order);
+
   }
 
   /**
-   * The RTM Error Code
-   * @returns {number}
+   * An index added to each RTM List based on its `id`
+   * @type {int}
    */
-  get code() {
-    return this._code;
+  get index() {
+    return this._index;
   }
 
   /**
-   * The RTM Error Message
-   * @returns {string}
+   * All of the RTM List properties
+   * @type {object}
    */
-  get msg() {
-    return this._msg;
-  }
-
-  /**
-   * Get a String representation of the Error
-   * @returns {string}
-   */
-  toString() {
-    return super.toString() + " ERROR " + this._code + ": " + this._msg;
+  get props() {
+    let rtn = {};
+    for ( let key in this ) {
+      if ( this.hasOwnProperty(key) &amp;&amp; key !== '_index' ) {
+        rtn[key] = this[key];
+      }
+    }
+    return rtn;
   }
 
 }
 
 
-// === CUSTOM ERRORS ==== //
-
-/**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
- */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
-
-/**
- * Create a new `RTMError` that represents an index error (ie, task index is out
- * of range).
- *
- * Error Code: `-3`
- * @returns {RTMError}
- */
-RTMError.indexError = function() {
-  return new RTMError(-3, "Index Error: Could not find item by reference index number");
-};
-
-module.exports = RTMError;</code></pre>
+module.exports = RTMList;</code></pre>
         </article>
     </section>
 

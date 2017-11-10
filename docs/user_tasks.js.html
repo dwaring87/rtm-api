@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>response/error.js - Documentation</title>
+    <title>user/tasks.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">response/error.js</h1>
+    <h1 class="page-title">user/tasks.js</h1>
     
 
     
@@ -41,96 +41,120 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-const RTMResponse = require('./response.js');
-
-
-/**
- * ### RTM Error Response
- *
- * This Class represents a failed request to the RTM API Server: the
- * RTM API Server returned a response with a status of 'fail'.  This
- * Class will include the error code and error message from the
- * response.
- *
- * `RTMError` extends {@link RTMResponse}
- * @class
- * @alias RTMError
- */
-class RTMError extends RTMResponse{
-
-  /**
-   * Create a new RTM Error Response
-   * @param {number} code Error Code
-   * @param {string} msg Error Message
-   * @constructor
-   */
-  constructor(code, msg) {
-    super(RTMResponse.STATUS_FAIL);
-    this._code = code;
-    this._msg = msg;
-  }
-
-  /**
-   * The RTM Error Code
-   * @returns {number}
-   */
-  get code() {
-    return this._code;
-  }
-
-  /**
-   * The RTM Error Message
-   * @returns {string}
-   */
-  get msg() {
-    return this._msg;
-  }
-
-  /**
-   * Get a String representation of the Error
-   * @returns {string}
-   */
-  toString() {
-    return super.toString() + " ERROR " + this._code + ": " + this._msg;
-  }
-
-}
-
-
-// === CUSTOM ERRORS ==== //
+const _tasks = require('../task/helper.js');
+const _lists = require('../list/helper.js');
 
 /**
- * Create a new `RTMError` that represents a network error.
- *
- * Error Code: `-1`
- * @returns {RTMError}
+ * This module returns the RTM Tasks-related functions for the RTMUser
+ * @param {RTMUser} user The RTM User instance
+ * @returns {{get: function, update: function, add: function}}
+ * @private
  */
-RTMError.networkError = function() {
-  return new RTMError(-1, "Network Error: Could not make request to RTM API Server");
-};
+module.exports = function(user) {
+  let rtn = {};
 
-/**
- * Create a new `RTMError` that represents an API response error.
- *
- * Error Code: `-2`
- * @returns {RTMError}
- */
-RTMError.responseError = function() {
-  return new RTMError(-2, "Response Error: Could not parse the response from the RTM API Server");
-};
+  /**
+   * Get the stored list of RTM Tasks for this User.
+   *
+   * Note: {@link RTMUser~task/update|task/update()} needs to be called first.
+   * @returns {RTMTask[]}
+   * @function RTMUser~task/get
+   */
+  rtn.get = function() {
+    if ( user._tasks === undefined ) {
+      throw "User's RTM Tasks need to be updated first"
+    }
+    return user._tasks;
+  };
 
-/**
- * Create a new `RTMError` that represents an index error (ie, task index is out
- * of range).
- *
- * Error Code: `-3`
- * @returns {RTMError}
- */
-RTMError.indexError = function() {
-  return new RTMError(-3, "Index Error: Could not find item by reference index number");
-};
+  /**
+   * Update the list of RTM Tasks for this User.
+   *
+   * This will also update the User's RTM Lists and add the list to
+   * each Task item.
+   * @param {function} callback Callback function(err, task)
+   * @param {RTMError} callback.err RTM API Response, if encountered
+   * @param {RTMTask[]} callback.task List of User's RTM Tasks
+   * @function RTMUser~task/update
+   */
+  rtn.update = function(callback) {
+    let count = 0;
+    let calls = 2;
+    let returned = false;
 
-module.exports = RTMError;</code></pre>
+    // Update the User's Lists and Tasks
+    _lists.get(user, function(err, lists) {
+      user._lists = lists;
+      _tasksUpdateCallback(err);
+    });
+    _tasks.get(user, function(err, tasks) {
+      user._tasks = tasks;
+      _tasksUpdateCallback(err);
+    });
+
+    // Callback for each of list and task updates
+    function _tasksUpdateCallback(err) {
+      count++;
+      if ( !returned ) {
+        if ( err ) {
+          returned = true;
+          return callback(err);
+        }
+        else if ( count === calls ) {
+          returned = true;
+          _parseTasks();
+          return callback(null, user._tasks);
+        }
+      }
+    }
+
+    // Add the List to each Task
+    function _parseTasks() {
+      for ( let i = 0; i &lt; user._tasks.length; i++ ) {
+        for ( let j = 0; j &lt; user._lists.length; j++ ) {
+          if ( user._tasks[i].list_id === user._lists[j].id ) {
+            user._tasks[i]._list = user._lists[j];
+          }
+        }
+      }
+    }
+  };
+
+  /**
+   * Add a new RTM Task for this User
+   * @param {string} name Task Name (can include 'Smart Add' syntax)
+   * @param {object} [props] Task Properties
+   * @param {string} props.due Task Due Date (RTM supported date format)
+   * @param {int} props.priority Task Priority (1, 2, 3)
+   * @param {string} props.list Task List Name
+   * @param {string[]} props.tags Task Tags
+   * @param {string} props.location Task Location Name
+   * @param {string} props.start Task Start Date (RTM supported date format)
+   * @param {string} props.repeat Task Repeat Format (RTM supported repeat format)
+   * @param {string} props.estimate Task Time Estimate (RTM supported time estimate format)
+   * @param {string} props.to Contact Name to give Task to (existing contact or email address)
+   * @param {string} props.url Task Reference URL
+   * @param {string} props.note Task Note
+   * @param {function} callback Callback function(err, task)
+   * @param {RTMError} callback.err RTM API Response, if encountered
+   * @param {RTMTask[]} callback.task List of User's RTM Tasks
+   * @function RTMUser~task/add
+   */
+  rtn.add = function(name, props, callback) {
+    if ( callback === undefined &amp;&amp; typeof props === 'function' ) {
+      callback = props;
+      props = {};
+    }
+    _tasks.add(name, props, user, function(err) {
+      if ( err ) {
+        return callback(err);
+      }
+      return rtn.update(callback);
+    });
+  };
+
+  return rtn;
+};</code></pre>
         </article>
     </section>
 

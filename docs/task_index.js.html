@@ -1,0 +1,287 @@
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>task/index.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~list/add">list/add</a></li><li data-type='method'><a href="RTMUser.html#~list/get">list/get</a></li><li data-type='method'><a href="RTMUser.html#~list/remove">list/remove</a></li><li data-type='method'><a href="RTMUser.html#~list/rename">list/rename</a></li><li data-type='method'><a href="RTMUser.html#~list/update">list/update</a></li><li data-type='method'><a href="RTMUser.html#~task/add">task/add</a></li><li data-type='method'><a href="RTMUser.html#~task/get">task/get</a></li><li data-type='method'><a href="RTMUser.html#~task/update">task/update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">task/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+
+/**
+ * ### RTM List
+ *
+ * This Class is used to represent the combined properties of an RTM TaskSeries
+ * combined with an RTM Task.  If an RTM TaskSeries has more than one task
+ * property then there will be multiple `RTMTask` instances representing the
+ * data (which will duplicate the TaskSeries properties).
+ *
+ * Each instance of an `RTMTask` contains a `list_id`, `taskseries_id` and
+ * `task_id` property.
+ *
+ * All of the taskseries and task properties from the RTM API are directly
+ * accessible as `RTMTask` properties.
+ *
+ * ```
+ * let task = new RTMTask(..., ..., ...);
+ * let name = task.name;
+ * let priority = task.priority;
+ * ```
+ * @class
+ */
+class RTMTask {
+
+  /**
+   * Create a new RTM Task
+   * @param {number} list_id RTM List ID
+   * @param {object} series taskseries properties (resp.task.list[].taskseries[])
+   * @param {object} task task properties (resp.task.list[].taskseries[].task)
+   */
+  constructor(list_id, series, task) {
+
+    // Task Indices and Lists added after construction
+    this._index = undefined;
+    this._list = undefined;
+
+    /**
+     * List ID
+     * @type {Number}
+     */
+    this.list_id = parseFloat(list_id);
+
+    /**
+     * TaskSeries ID
+     * @type {Number}
+     */
+    this.taskseries_id = parseFloat(series.id);
+
+    /**
+     * Task Creation Date
+     * @type {Date|undefined}
+     */
+    this.created = series.created.toString() === '' ? undefined : new Date(series.created);
+
+    /**
+     * Task Modification Date
+     * @type {Date|undefined}
+     */
+    this.modified = series.modified.toString() === '' ? undefined : new Date(series.modified);
+
+    /**
+     * Task Name
+     * @type {string}
+     */
+    this.name = series.name;
+
+    /**
+     * Task Creation Source
+     * @type {string}
+     */
+    this.source = series.source;
+
+    /**
+     * Task Reference URL
+     * @type {string|undefined}
+     */
+    this.url = series.url === '' ? undefined : series.url;
+
+    /**
+     * Task Location ID
+     * @type {number|undefined}
+     */
+    this.location_id = series.location_id.toString() === '' ? undefined : parseFloat(series.location_id);
+
+    /**
+     * Task Tags
+     * @type {string[]}
+     */
+    this.tags = series.tags.tag !== undefined ? series.tags.tag : [];
+    if ( !Array.isArray(this.tags) ) {
+      this.tags = [this.tags];
+    }
+
+    /**
+     * Task Participants
+     * @type {Array}
+     */
+    this.participants = series.participants;
+
+
+    /**
+     * Task Note
+     * @typedef {Object} RTMTask~Note
+     * @property {number} id Note ID
+     * @property {Date} created Note Creation Date
+     * @property {Date} modified Note Modified Date
+     * @property {string} title Note Title
+     * @property {string} body Note Body
+     */
+
+    /**
+     * Task Notes
+     * @type {RTMTask~Note[]}
+     */
+    this.notes = series.notes.note !== undefined ? series.notes.note : [];
+    if ( !Array.isArray(this.notes) ) {
+      this.notes = [this.notes];
+    }
+    for ( let i = 0; i &lt; this.notes.length; i++ ) {
+      this.notes[i].id = parseFloat(this.notes[i].id);
+      this.notes[i].created = new Date(this.notes[i].created);
+      this.notes[i].modified = new Date(this.notes[i].modified);
+      this.notes[i].title = this.notes[i].title === '' ? undefined : this.notes[i].title;
+      this.notes[i].body = this.notes[i]['$t'];
+      delete this.notes[i]['$t'];
+    }
+
+    /**
+     * Task ID
+     * @type {Number}
+     */
+    this.task_id = parseFloat(task.id);
+
+    /**
+     * Task Due Date
+     * @type {Date|undefined}
+     */
+    this.due = task.due.toString() === '' ? undefined : new Date(task.due);
+
+    /**
+     * Task Due Time Flag (true when `due` includes a Due Time)
+     * @type {boolean}
+     */
+    this.has_due_time = task.has_due_time.toString() === '1';
+
+    /**
+     * Task Added Date
+     * @type {Date|undefined}
+     */
+    this.added = task.added.toString() === '' ? undefined : new Date(task.added);
+
+    /**
+     * Task Completed Date
+     * @type {Date|undefined}
+     */
+    this.completed = task.completed.toString() === '' ? undefined : new Date(task.completed);
+
+    /**
+     * Task Completed Flag (true when task is marked as completed)
+     * @type {boolean}
+     */
+    this.isCompleted = this.completed !== undefined;
+
+    /**
+     * Task Deleted Flag
+     * @type {Date|undefined}
+     */
+    this.deleted = task.deleted.toString() === '' ? undefined : new Date(task.deleted);
+
+    /**
+     * Task Priority (0, 1, 2, or 3)
+     * @type {int}
+     */
+    this.priority = task.priority.toString() === 'N' ? 0 : parseInt(task.priority);
+
+    /**
+     * Task Postponed Flag
+     * @type {boolean}
+     */
+    this.postponed = task.postponed.toString() === '1';
+
+    /**
+     * Task Time Estimate
+     * @type {string|undefined}
+     */
+    this.estimate = task.estimate.toString() === '' ? undefined : task.estimate;
+
+  }
+
+
+  /**
+   * An index added to each RTMTask based on the `task_id`
+   * @returns {int}
+   */
+  get index() {
+    return this._index;
+  }
+
+  /**
+   * The `RTMList` this Task is in
+   * @returns {RTMList}
+   */
+  get list() {
+    if ( this._list === undefined ) {
+      throw "Tasks not loaded with associated Lists"
+    }
+    return this._list;
+  }
+
+  /**
+   * All of the RTM TaskSeries properties
+   * @returns {object}
+   */
+  get props() {
+    let rtn = {};
+    for ( let key in this ) {
+      if ( this.hasOwnProperty(key) &amp;&amp; key !== '_index' ) {
+        rtn[key] = this[key];
+      }
+    }
+    return rtn;
+  }
+
+}
+
+module.exports = RTMTask;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 10 2017 16:27:50 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

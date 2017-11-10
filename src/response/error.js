@@ -30,7 +30,7 @@ class RTMError extends RTMResponse{
   }
 
   /**
-   * Get the Error Code
+   * The RTM Error Code
    * @returns {number}
    */
   get code() {
@@ -38,7 +38,7 @@ class RTMError extends RTMResponse{
   }
 
   /**
-   * Get the Error Message
+   * The RTM Error Message
    * @returns {string}
    */
   get msg() {
@@ -79,7 +79,8 @@ RTMError.responseError = function() {
 };
 
 /**
- * Create a new `RTMError` that represents an index error.
+ * Create a new `RTMError` that represents an index error (ie, task index is out
+ * of range).
  *
  * Error Code: `-3`
  * @returns {RTMError}

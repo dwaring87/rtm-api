@@ -24,7 +24,7 @@ class RTMResponse {
   }
 
   /**
-   * Get the RTM Response Status
+   * The RTM Response Status
    * @returns {string}
    */
   get status() {
@@ -32,7 +32,7 @@ class RTMResponse {
   }
 
   /**
-   * Check if the RTM Response is 'ok', ie was successful
+   * The success of the RTM Response (ie, is `true` when status is 'ok')
    * @returns {boolean}
    */
   get isOk() {
@@ -40,7 +40,7 @@ class RTMResponse {
   }
 
   /**
-   * Get the properties of the Response
+   * The RTM API properties of the Response
    * @returns {{}}
    */
   get props() {
