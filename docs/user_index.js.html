@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~list/add">list/add</a></li><li data-type='method'><a href="RTMUser.html#~list/get">list/get</a></li><li data-type='method'><a href="RTMUser.html#~list/remove">list/remove</a></li><li data-type='method'><a href="RTMUser.html#~list/rename">list/rename</a></li><li data-type='method'><a href="RTMUser.html#~list/update">list/update</a></li><li data-type='method'><a href="RTMUser.html#~task/add">task/add</a></li><li data-type='method'><a href="RTMUser.html#~task/get">task/get</a></li><li data-type='method'><a href="RTMUser.html#~task/update">task/update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li><li data-type='method'><a href="RTMUser.html#~tasks/update">tasks/update</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -87,20 +87,20 @@
  * For example, to get the User's RTM Tasks:
  *
  * ```
- * user.task.update(function(err, task) {
- *    console.log(task);
+ * user.tasks.update(function(err, tasks) {
+ *    console.log(tasks);
  *    // or
- *    console.log(user.task.get());
+ *    console.log(user.tasks.get());
  * });
  * ```
  *
- * The `task.update()` function will also fetch the User's RTM Lists.  All of the
- * User's Lists will be available via `list.get()`.  In addition, each task
+ * The `tasks.update()` function will also fetch the User's RTM Lists.  All of the
+ * User's Lists will be available via `lists.get()`.  In addition, each task
  * will have a `list` property added to it containing the `RTMList` which
  * contains the task.
  *
- * After `task.update()` is called, all of the stored Users task will be
- * available via `task.get()` and returned as an array of `RTMTask`s.
+ * After `tasks.update()` is called, all of the stored Users task will be
+ * available via `tasks.get()` and returned as an array of `RTMTask`s.
  *
  * @class
  */
@@ -234,8 +234,10 @@ class RTMUser {
 
   /**
    * Verify the Auth Token of this RTM User
-   * @param {function} callback Callback function(verified)
-   * @param {boolean} callback.verified True if the auth token is successfully verified
+   * @param {function} callback Callback function(err, verified)
+   * @param {RTMError} callback.err RTM Error, if encountered (excluding a `Login failed / Invalid auth token` error)
+   * @param {boolean} callback.verified `true` if the User's auth token was successfully verified or `false` if
+   * a `Login failed / Invalid auth token` error was encountered
    */
   verifyAuthToken(callback) {
     require('../utils/auth.js').verifyAuthToken(this.authToken, this.client, callback);
@@ -283,7 +285,7 @@ module.exports = RTMUser;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Nov 10 2017 16:27:50 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 11 2017 12:47:43 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
