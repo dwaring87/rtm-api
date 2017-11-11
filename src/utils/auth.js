@@ -83,7 +83,7 @@ function getAuthToken(frob, client, callback) {
  * Verify Auth Token
  * @param {string|RTMUser} token RTM User Authentication Token or RTM User
  * @param {RTMClient} client RTM Client making the request
- * @param {function} callback Callback function(verified)
+ * @param {function} callback Callback function(err, verified)
  * @private
  */
  function verifyAuthToken(token, client, callback) {
@@ -102,7 +102,17 @@ function getAuthToken(frob, client, callback) {
 
   // Verify Token
   client.get('rtm.auth.checkToken', params, function(resp) {
-    return callback(resp.isOk);
+    if ( !resp.isOk ) {
+      if ( resp.code === 98 ) {
+        return callback(null, false);
+      }
+      else {
+        return callback(resp);
+      }
+    }
+    else {
+      return callback(null, true);
+    }
   });
 
 }

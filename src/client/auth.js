@@ -51,8 +51,10 @@ module.exports = function(client) {
    * This function will check if the User's Auth Token is still valid and
    * can be used to make authenticated RTM API requests.
    * @param {string|RTMUser} token Auth Token or RTMUser containing an auth token
-   * @param {function} callback Callback function(verified)
-   * @param {boolean} callback.verified True if the User's auth token was successfully verified
+   * @param {function} callback Callback function(err, verified)
+   * @param {RTMError} callback.err RTM Error, if encountered (excluding a `Login failed / Invalid auth token` error)
+   * @param {boolean} callback.verified `true` if the User's auth token was successfully verified or `false` if
+   * a `Login failed / Invalid auth token` error was encountered
    * @function RTMClient~auth/verifyAuthToken
    */
   rtn.verifyAuthToken = function(token, callback) {

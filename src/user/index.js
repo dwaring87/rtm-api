@@ -193,8 +193,10 @@ class RTMUser {
 
   /**
    * Verify the Auth Token of this RTM User
-   * @param {function} callback Callback function(verified)
-   * @param {boolean} callback.verified True if the auth token is successfully verified
+   * @param {function} callback Callback function(err, verified)
+   * @param {RTMError} callback.err RTM Error, if encountered (excluding a `Login failed / Invalid auth token` error)
+   * @param {boolean} callback.verified `true` if the User's auth token was successfully verified or `false` if
+   * a `Login failed / Invalid auth token` error was encountered
    */
   verifyAuthToken(callback) {
     require('../utils/auth.js').verifyAuthToken(this.authToken, this.client, callback);
