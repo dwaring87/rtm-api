@@ -25,7 +25,7 @@ class RTMError extends RTMResponse{
    */
   constructor(code, msg) {
     super(RTMResponse.STATUS_FAIL);
-    this._code = code;
+    this._code = parseInt(code);
     this._msg = msg;
   }
 
