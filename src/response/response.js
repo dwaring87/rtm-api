@@ -25,7 +25,7 @@ class RTMResponse {
 
   /**
    * The RTM Response Status
-   * @returns {string}
+   * @type {string}
    */
   get status() {
     return this._status;
@@ -33,7 +33,7 @@ class RTMResponse {
 
   /**
    * The success of the RTM Response (ie, is `true` when status is 'ok')
-   * @returns {boolean}
+   * @type {boolean}
    */
   get isOk() {
     return this._status === RTMResponse.STATUS_OK;
@@ -41,7 +41,7 @@ class RTMResponse {
 
   /**
    * The RTM API properties of the Response
-   * @returns {{}}
+   * @type {object}
    */
   get props() {
     let rtn = {};

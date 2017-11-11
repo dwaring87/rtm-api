@@ -31,7 +31,7 @@ class RTMError extends RTMResponse{
 
   /**
    * The RTM Error Code
-   * @returns {number}
+   * @type {number}
    */
   get code() {
     return this._code;
@@ -39,7 +39,7 @@ class RTMError extends RTMResponse{
 
   /**
    * The RTM Error Message
-   * @returns {string}
+   * @type {string}
    */
   get msg() {
     return this._msg;

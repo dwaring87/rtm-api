@@ -27,8 +27,8 @@ class RTMTask {
   /**
    * Create a new RTM Task
    * @param {number} list_id RTM List ID
-   * @param {object} series taskseries properties (resp.task.list[].taskseries[])
-   * @param {object} task task properties (resp.task.list[].taskseries[].task)
+   * @param {object} series Taskseries properties (resp.task.list[].taskseries[])
+   * @param {object} task Task properties (resp.task.list[].taskseries[].task)
    */
   constructor(list_id, series, task) {
 
@@ -192,7 +192,7 @@ class RTMTask {
 
   /**
    * An index added to each RTMTask based on the `task_id`
-   * @returns {int}
+   * @type {int}
    */
   get index() {
     return this._index;
@@ -200,7 +200,7 @@ class RTMTask {
 
   /**
    * The `RTMList` this Task is in
-   * @returns {RTMList}
+   * @type {RTMList}
    */
   get list() {
     if ( this._list === undefined ) {
@@ -211,7 +211,7 @@ class RTMTask {
 
   /**
    * All of the RTM TaskSeries properties
-   * @returns {object}
+   * @type {object}
    */
   get props() {
     let rtn = {};

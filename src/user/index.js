@@ -46,20 +46,20 @@
  * For example, to get the User's RTM Tasks:
  *
  * ```
- * user.task.update(function(err, task) {
- *    console.log(task);
+ * user.tasks.update(function(err, tasks) {
+ *    console.log(tasks);
  *    // or
- *    console.log(user.task.get());
+ *    console.log(user.tasks.get());
  * });
  * ```
  *
- * The `task.update()` function will also fetch the User's RTM Lists.  All of the
- * User's Lists will be available via `list.get()`.  In addition, each task
+ * The `tasks.update()` function will also fetch the User's RTM Lists.  All of the
+ * User's Lists will be available via `lists.get()`.  In addition, each task
  * will have a `list` property added to it containing the `RTMList` which
  * contains the task.
  *
- * After `task.update()` is called, all of the stored Users task will be
- * available via `task.get()` and returned as an array of `RTMTask`s.
+ * After `tasks.update()` is called, all of the stored Users task will be
+ * available via `tasks.get()` and returned as an array of `RTMTask`s.
  *
  * @class
  */
