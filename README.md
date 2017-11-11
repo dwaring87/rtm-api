@@ -50,15 +50,15 @@ Account permissions can be granted in one of three categories:
 
 ### User Authentication
 
-Almost all RTM API methods require an authorized user's `authToken`.  This is 
+Almost all RTM API methods require an authorized user's Auth Token.  This is 
 kept in the `RTMUser` class which can be instantiated manually if you already 
-have a valid `authToken`:
+have the User's information with a valid Auth Token:
 
 ```javascript
-let user = new RTM.user('id', 'username', 'fullname', 'authToken');
+let user = client.user.create(id, 'username', 'fullname', 'authToken');
 ``` 
 
-Otherwise, an `authToken` can be obtained via the API using the steps outlined 
+Otherwise, an Auth Token can be obtained via the API using the steps outlined 
 in the following sections.
 
 
@@ -86,9 +86,9 @@ client.auth.getAuthUrl(function(err, authUrl, frob) {
 
 #### Generate an Auth Token
 
-Once the RTM User has opened the `authUrl` and given access to the program, 
+Once the RTM User has opened the `authUrl` and granted access to the program, 
 pass the `frob` from the first step to the `getAuthToken` function to 
-get an Auth Token to be used in future API calls.
+get an `RTMUser` with an Auth Token to be used in future API calls.
 
 ```javascript
 // Get an Auth Token for the User once they've authorized the frob
@@ -107,7 +107,7 @@ client.auth.getAuthToken(frob, function(err, user) {
 The Auth Token can be verified at any point using the `verifyAuthToken` function.
 
 ```javascript
-client.auth.verifyAuthToken(user.authToken, function(verified) {
+client.auth.verifyAuthToken(user.authToken, function(err, verified) {
   
   // verified will be true if auth token can be used for API calls
   
@@ -131,7 +131,7 @@ as:
 }
 ```
 
-If the API Method does not require a User's authToken, the request can be made 
+If the API Method does not require a User's Auth Token, the request can be made 
 using the `get` function available from the `RTMClient`.
 
 ```javascript
@@ -145,9 +145,9 @@ client.get('rtm.auth.getFrob', function(resp) {
 });
 ```
 
-However, most API Methods will require a User's authToken.  This can be provided 
+However, most API Methods will require a User's Auth Token.  This can be provided 
 directly as an `auth_token` parameter or by calling the `get` function available 
-from the `RTMUser` instance, which will automatically provide the authToken. 
+from the `RTMUser` instance, which will automatically provide the Auth Token. 
 
 ```javascript
 let params = {
@@ -168,8 +168,48 @@ user.get('rtm.tasks.getList', params, function(resp) {
 ### API Responses
 
 The response returned in the callback of the `get` function will be one of either 
-the `RTMError` (if the RTM API returned a status of 'fail') or `RTMSuccess` classes. 
+the `RTMError` (if the RTM API returned a status of 'fail') or `RTMSuccess` classes.
+
+#### Error Responses
+
+An `RTMError` response will have `code` and `msg` properties set based on the 
+RTM API response.  
+
+Additional error codes are added by `rtm-api`:
+
+|error code | error description|
+|:---------:|------------------|
+|    -1     | **Network Error**: `rtm-api` could not connect to the RTM API Server.|
+|    -2     | **Response Error**: `rtm-api` could not parse the response from the RTM API Server.|
+|    -3     | **Index Error**: An `RTMTask` or `RTMList` index is out of range|
+
+
+#### Successful Responses
 
 For a successful response, the API response properties can be accessed directly 
 from the `RTMSuccess` properties (`resp.tasks`, `resp.tasks.list`, etc).  All 
 response properties are available via `resp.props`
+
+
+### Helper Functions
+
+`rtm-api` includes a number of helper classes & functions for commonly used API 
+methods used to obtain and modify RTM Lists and Tasks.  These functions are 
+available via an `RTMUser` instance's `lists` and `tasks` properties.
+
+The following **list** functions are available:
+
+  - `get()`: returns an array of `RTMList`s
+  - `update()`: update the stored array of `RTMList`s
+  - `add()`: add a new List
+  - `rename()`: rename a List
+  - `remove()`: remove a List
+  
+The following **task** functions are available:
+
+  - `get()`: returns an array of `RTMTasks`s
+  - `update()`: update the stored array of `RTMTask`s **and** `RTMList`s
+  - `add()`: add a new Task
+  
+Examples using the helper functions can be found in the repository's 
+[wiki pages](https://github.com/dwaring87/rtm-api/wiki).
