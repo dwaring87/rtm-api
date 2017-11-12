@@ -181,7 +181,7 @@ Additional error codes are added by `rtm-api`:
 |:---------:|------------------|
 |    -1     | **Network Error**: `rtm-api` could not connect to the RTM API Server.|
 |    -2     | **Response Error**: `rtm-api` could not parse the response from the RTM API Server.|
-|    -3     | **Index Error**: An `RTMTask` or `RTMList` index is out of range|
+|    -3     | **Reference Error**: An `RTMTask` index is out of range or RTM item could not be found with the given reference.|
 
 
 #### Successful Responses
@@ -199,16 +199,14 @@ available via an `RTMUser` instance's `lists` and `tasks` properties.
 
 The following **list** functions are available:
 
-  - `get()`: returns an array of `RTMList`s
-  - `update()`: update the stored array of `RTMList`s
+  - `get()`: get an array of `RTMList`s
   - `add()`: add a new List
   - `rename()`: rename a List
   - `remove()`: remove a List
   
 The following **task** functions are available:
 
-  - `get()`: returns an array of `RTMTasks`s
-  - `update()`: update the stored array of `RTMTask`s **and** `RTMList`s
+  - `get()`: returns an array of `RTMTasks`s (with the Tasks's `RTMList` added to the `list` property)
   - `add()`: add a new Task
   
 Examples using the helper functions can be found in the repository's 
