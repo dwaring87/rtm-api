@@ -107,7 +107,7 @@ function add(name, props, user, callback) {
   let params = {
     timeline: user.timeline,
     name: name,
-    parse: true
+    parse: '1'
   };
 
   // Make the API Request
