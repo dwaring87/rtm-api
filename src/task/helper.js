@@ -29,24 +29,26 @@ function get(user, filter, callback) {
 
     // Parse each List
     let lists = resp.tasks.list;
-    for ( let i = 0; i < lists.length; i++ ) {
-      let list = lists[i];
+    if ( lists !== undefined ) {
+      for ( let i = 0; i < lists.length; i++ ) {
+        let list = lists[i];
 
-      // Parse the List's TaskSeries
-      if ( list.taskseries ) {
-        if ( !Array.isArray(list.taskseries) ) {
-          list.taskseries = [list.taskseries];
-        }
-        for ( let j = 0; j < list.taskseries.length; j++ ) {
-          let series = list.taskseries[j];
-
-          // Parse the TaskSeries' Tasks
-          if ( !Array.isArray(series.task) ) {
-            series.task = [series.task];
+        // Parse the List's TaskSeries
+        if ( list.taskseries ) {
+          if ( !Array.isArray(list.taskseries) ) {
+            list.taskseries = [list.taskseries];
           }
-          for ( let k = 0; k < series.task.length; k++ ) {
-            let task = series.task[k];
-            rtn.push(new RTMTask(user.id, list.id, series, task));
+          for ( let j = 0; j < list.taskseries.length; j++ ) {
+            let series = list.taskseries[j];
+
+            // Parse the TaskSeries' Tasks
+            if ( !Array.isArray(series.task) ) {
+              series.task = [series.task];
+            }
+            for ( let k = 0; k < series.task.length; k++ ) {
+              let task = series.task[k];
+              rtn.push(new RTMTask(user.id, list.id, series, task));
+            }
           }
         }
       }
