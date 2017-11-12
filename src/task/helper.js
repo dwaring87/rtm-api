@@ -5,12 +5,21 @@ const taskIds = require('../utils/taskIds.js');
 
 /**
  * API Call: rtm.tasks.getList
+ * @param [filter] Task Filter
  * @param user RTMUser
  * @param callback Callback function(err, tasks)
  * @private
  */
-function get(user, callback) {
-  user.get('rtm.tasks.getList', function(resp) {
+function get(user, filter, callback) {
+  let params = {};
+  if ( callback === undefined && typeof filter === 'function' ) {
+    callback = filter;
+  }
+  else if ( filter !== '' ) {
+    params.filter = filter;
+  }
+
+  user.get('rtm.tasks.getList', params, function(resp) {
     if ( !resp.isOk ) {
       return callback(resp);
     }
