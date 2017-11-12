@@ -14,31 +14,14 @@ module.exports = function(user) {
   let rtn = {};
 
   /**
-   * Get the stored list of RTM Lists for this User.
-   *
-   * Note: {@link RTMUser~lists/update|lists/update()} needs to be called first.
-   * @returns {RTMList[]}
-   * @function RTMUser~lists/get
-   */
-  rtn.get = function() {
-    if ( user._lists === undefined ) {
-      throw "User's RTM Lists need to be updated first"
-    }
-    return user._lists;
-  };
-
-  /**
-   * Update the list of RTM Lists for this User
-   * @param {function} callback Callback function(err, list)
+   * Get the list of RTM Lists for this User from the API Server
+   * @param {function} callback Callback function(err, lists)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~lists/update
+   * @function RTMUser~lists/get
    */
-  rtn.update = function(callback) {
-    _lists.get(user, function(err, lists) {
-      user._lists = lists;
-      return callback(err, lists);
-    });
+  rtn.get = function(callback) {
+    _lists.get(user, callback);
   };
 
   /**
@@ -50,12 +33,7 @@ module.exports = function(user) {
    * @function RTMUser~lists/add
    */
   rtn.add = function(name, callback) {
-    _lists.add(name, user, function(err) {
-      if ( err ) {
-        return callback(err);
-      }
-      return rtn.update(callback);
-    });
+    _lists.add(name, user, callback);
   };
 
   /**

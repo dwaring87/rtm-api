@@ -46,20 +46,14 @@
  * For example, to get the User's RTM Tasks:
  *
  * ```
- * user.tasks.update(function(err, tasks) {
+ * user.tasks.get(function(err, tasks) {
  *    console.log(tasks);
- *    // or
- *    console.log(user.tasks.get());
  * });
  * ```
  *
- * The `tasks.update()` function will also fetch the User's RTM Lists.  All of the
- * User's Lists will be available via `lists.get()`.  In addition, each task
- * will have a `list` property added to it containing the `RTMList` which
- * contains the task.
- *
- * After `tasks.update()` is called, all of the stored Users task will be
- * available via `tasks.get()` and returned as an array of `RTMTask`s.
+ * The `tasks.get()` function will also fetch the User's RTM Lists and add
+ * the List (as an `RTMList` instance) that contains the Task to the `list`
+ * property of the `RTMTask`.
  *
  * @class
  */
@@ -83,8 +77,6 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
-    this._lists = undefined;
-    this._tasks = undefined;
   }
 
 
@@ -206,11 +198,10 @@ class RTMUser {
   /**
    * RTM List related functions:
    * - {@link RTMUser~lists/get|get}
-   * - {@link RTMUser~lists/update|update}
    * - {@link RTMUser~lists/add|add}
    * - {@link RTMUser~lists/rename|rename}
    * - {@link RTMUser~lists/remove|remove}
-   * @returns {{get: function, update: function, add: function, remove: function, rename: function}}
+   * @returns {{get: function, add: function, remove: function, rename: function}}
    */
   get lists() {
     return require('./lists.js')(this);
@@ -220,9 +211,8 @@ class RTMUser {
   /**
    * RTM Task related functions:
    * - {@link RTMUser~tasks/get|get}
-   * - {@link RTMUser~tasks/update|update}
    * - {@link RTMUser~tasks/add|add}
-   * @returns {object}
+   * @returns {{get: function, add:function}}
    */
   get tasks() {
     return require('./tasks.js')(this);
