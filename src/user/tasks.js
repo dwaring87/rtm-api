@@ -89,12 +89,7 @@ module.exports = function(user) {
       callback = props;
       props = {};
     }
-    _tasks.add(name, props, user, function(err) {
-      if ( err ) {
-        return callback(err);
-      }
-      return rtn.update(callback);
-    });
+    _tasks.add(name, props, user, callback);
   };
 
   return rtn;
