@@ -85,8 +85,8 @@ RTMError.responseError = function() {
  * Error Code: `-3`
  * @returns {RTMError}
  */
-RTMError.indexError = function() {
-  return new RTMError(-3, "Index Error: Could not find item by reference index number");
+RTMError.referenceError = function() {
+  return new RTMError(-3, "Reference Error: Could not find item by reference index number or name");
 };
 
 module.exports = RTMError;
