@@ -1,5 +1,7 @@
 'use strict';
 
+const taskIds = require('../utils/taskIds.js');
+
 
 /**
  * ### RTM List
@@ -26,21 +28,24 @@ class RTMTask {
 
   /**
    * Create a new RTM Task
-   * @param {number} list_id RTM List ID
+   * @param {number} userId RTM User ID
+   * @param {number} listId RTM List ID
    * @param {object} series Taskseries properties (resp.task.list[].taskseries[])
    * @param {object} task Task properties (resp.task.list[].taskseries[].task)
    */
-  constructor(list_id, series, task) {
+  constructor(userId, listId, series, task) {
 
-    // Task Indices and Lists added after construction
-    this._index = undefined;
+    // Assign Task Index
+    this._index = taskIds.getIndex(userId, task.id);
+
+    // List added after construction
     this._list = undefined;
 
     /**
      * List ID
      * @type {Number}
      */
-    this.list_id = parseFloat(list_id);
+    this.list_id = parseFloat(listId);
 
     /**
      * TaskSeries ID

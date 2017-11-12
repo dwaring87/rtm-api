@@ -1,7 +1,7 @@
 'use strict';
 
 const RTMTask = require('./index.js');
-const genIndex = require('../utils/genIndex.js');
+const taskIds = require('../utils/taskIds.js');
 
 /**
  * API Call: rtm.tasks.getList
@@ -37,14 +37,14 @@ function get(user, callback) {
           }
           for ( let k = 0; k < series.task.length; k++ ) {
             let task = series.task[k];
-            rtn.push(new RTMTask(list.id, series, task));
+            rtn.push(new RTMTask(user.id, list.id, series, task));
           }
         }
       }
     }
 
-    // Set Task Indices
-    rtn = genIndex(rtn, 'task_id');
+    // Save the task indices
+    taskIds.save();
 
     // Return with the callback
     return callback(null, rtn);
