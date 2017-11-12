@@ -22,9 +22,6 @@ class RTMList {
    */
   constructor(props) {
 
-    // List indices are set after construction
-    this._index = undefined;
-
     /**
      * List ID
      * @type {Number}
@@ -73,14 +70,6 @@ class RTMList {
      */
     this.sort_order = parseInt(props.sort_order);
 
-  }
-
-  /**
-   * An index added to each RTM List based on its `id`
-   * @type {int}
-   */
-  get index() {
-    return this._index;
   }
 
   /**

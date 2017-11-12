@@ -1,7 +1,6 @@
 'use strict';
 
 const RTMList = require('./index.js');
-const genIndex = require('../utils/genIndex.js');
 
 
 /**
@@ -26,9 +25,6 @@ function get(user, callback) {
         new RTMList(lists[i])
       );
     }
-
-    // Add indices to lists
-    rtn = genIndex(rtn);
 
     // Call the callback
     return callback(null, rtn);
