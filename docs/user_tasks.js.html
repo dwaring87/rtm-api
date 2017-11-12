@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li><li data-type='method'><a href="RTMUser.html#~tasks/update">tasks/update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.referenceError">referenceError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -54,41 +54,30 @@ module.exports = function(user) {
   let rtn = {};
 
   /**
-   * Get the stored list of RTM Tasks for this User.
-   *
-   * Note: {@link RTMUser~tasks/update|tasks/update()} needs to be called first.
-   * @returns {RTMTask[]}
-   * @function RTMUser~tasks/get
-   */
-  rtn.get = function() {
-    if ( user._tasks === undefined ) {
-      throw "User's RTM Tasks need to be updated first"
-    }
-    return user._tasks;
-  };
-
-  /**
-   * Update the list of RTM Tasks for this User.
-   *
-   * This will also update the User's RTM Lists and add the list to
-   * each Task item.
+   * Get the list of RTM Tasks for this User.
    * @param {function} callback Callback function(err, task)
    * @param {RTMError} callback.err RTM API Response, if encountered
    * @param {RTMTask[]} callback.task List of User's RTM Tasks
-   * @function RTMUser~tasks/update
+   * @function RTMUser~tasks/get
    */
-  rtn.update = function(callback) {
+  rtn.get = function(callback) {
     let count = 0;
     let calls = 2;
     let returned = false;
 
+    // Lists and Tasks
+    let LISTS = {};
+    let TASKS = [];
+
     // Update the User's Lists and Tasks
     _lists.get(user, function(err, lists) {
-      user._lists = lists;
+      for ( let i = 0; i &lt; lists.length; i++ ) {
+        LISTS[lists[i].id] = lists[i];
+      }
       _tasksUpdateCallback(err);
     });
     _tasks.get(user, function(err, tasks) {
-      user._tasks = tasks;
+      TASKS = tasks;
       _tasksUpdateCallback(err);
     });
 
@@ -103,19 +92,15 @@ module.exports = function(user) {
         else if ( count === calls ) {
           returned = true;
           _parseTasks();
-          return callback(null, user._tasks);
+          return callback(null, TASKS);
         }
       }
     }
 
     // Add the List to each Task
     function _parseTasks() {
-      for ( let i = 0; i &lt; user._tasks.length; i++ ) {
-        for ( let j = 0; j &lt; user._lists.length; j++ ) {
-          if ( user._tasks[i].list_id === user._lists[j].id ) {
-            user._tasks[i]._list = user._lists[j];
-          }
-        }
+      for ( let i = 0; i &lt; TASKS.length; i++ ) {
+        TASKS[i]._list = LISTS[TASKS[i].list_id];
       }
     }
   };
@@ -166,7 +151,7 @@ module.exports = function(user) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 11 2017 12:47:43 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 12 2017 15:53:40 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

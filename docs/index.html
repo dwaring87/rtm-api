@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li><li data-type='method'><a href="RTMUser.html#~tasks/update">tasks/update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.referenceError">referenceError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -157,7 +157,7 @@ RTM API response.  </p>
 </tr>
 <tr>
 <td style="text-align:center">-3</td>
-<td><strong>Index Error</strong>: An <code>RTMTask</code> or <code>RTMList</code> index is out of range</td>
+<td><strong>Reference Error</strong>: An <code>RTMTask</code> index is out of range or RTM item could not be found with the given reference.</td>
 </tr>
 </tbody>
 </table>
@@ -169,16 +169,14 @@ methods used to obtain and modify RTM Lists and Tasks.  These functions are
 available via an <code>RTMUser</code> instance's <code>lists</code> and <code>tasks</code> properties.</p>
 <p>The following <strong>list</strong> functions are available:</p>
 <ul>
-<li><code>get()</code>: returns an array of <code>RTMList</code>s</li>
-<li><code>update()</code>: update the stored array of <code>RTMList</code>s</li>
+<li><code>get()</code>: get an array of <code>RTMList</code>s</li>
 <li><code>add()</code>: add a new List</li>
 <li><code>rename()</code>: rename a List</li>
 <li><code>remove()</code>: remove a List</li>
 </ul>
 <p>The following <strong>task</strong> functions are available:</p>
 <ul>
-<li><code>get()</code>: returns an array of <code>RTMTasks</code>s</li>
-<li><code>update()</code>: update the stored array of <code>RTMTask</code>s <strong>and</strong> <code>RTMList</code>s</li>
+<li><code>get()</code>: returns an array of <code>RTMTasks</code>s (with the Tasks's <code>RTMList</code> added to the <code>list</code> property)</li>
 <li><code>add()</code>: add a new Task</li>
 </ul>
 <p>Examples using the helper functions can be found in the repository's 
@@ -195,7 +193,7 @@ available via an <code>RTMUser</code> instance's <code>lists</code> and <code>ta
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 11 2017 12:47:43 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 12 2017 15:53:40 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

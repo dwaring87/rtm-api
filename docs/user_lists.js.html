@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.indexError">indexError</a></li><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~lists/update">lists/update</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li><li data-type='method'><a href="RTMUser.html#~tasks/update">tasks/update</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.referenceError">referenceError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -55,105 +55,97 @@ module.exports = function(user) {
   let rtn = {};
 
   /**
-   * Get the stored list of RTM Lists for this User.
-   *
-   * Note: {@link RTMUser~lists/update|lists/update()} needs to be called first.
-   * @returns {RTMList[]}
+   * Get the list of RTM Lists for this User from the API Server
+   * @param {function} callback Callback function(err, lists)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMList[]} callback.lists List of User's RTM Lists
    * @function RTMUser~lists/get
    */
-  rtn.get = function() {
-    if ( user._lists === undefined ) {
-      throw "User's RTM Lists need to be updated first"
-    }
-    return user._lists;
-  };
-
-  /**
-   * Update the list of RTM Lists for this User
-   * @param {function} callback Callback function(err, list)
-   * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @param {RTMList[]} callback.list List of User's RTM Lists
-   * @function RTMUser~lists/update
-   */
-  rtn.update = function(callback) {
-    _lists.get(user, function(err, lists) {
-      user._lists = lists;
-      return callback(err, lists);
-    });
+  rtn.get = function(callback) {
+    _lists.get(user, callback);
   };
 
   /**
    * Add a new RTM List for this User
    * @param {string} name Name of the new RTM List
-   * @param {function} callback Callback function(err, list)
+   * @param {function} callback Callback function(err, lists)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @param {RTMList[]} callback.list List of User's RTM Lists
    * @function RTMUser~lists/add
    */
   rtn.add = function(name, callback) {
-    _lists.add(name, user, function(err) {
-      if ( err ) {
-        return callback(err);
-      }
-      return rtn.update(callback);
-    });
+    _lists.add(name, user, callback);
   };
 
   /**
    * Remove the specified RTM List for this User
-   * @param {int} index RTM List index
-   * @param {function} callback Callback function(err, list)
+   * @param {string} name RTM List Name
+   * @param {function} callback Callback function(err)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @param {RTMList[]} callback.list List of User's RTM Lists
    * @function RTMUser~lists/remove
    */
-  rtn.remove = function(index, callback) {
-    let found = false;
-    if ( user._lists ) {
-      for ( let i = 0; i &lt; user._lists.length; i++ ) {
-        if ( user._lists[i].index === index ) {
-          found = true;
-          _lists.remove(user._lists[i].id, user, function(err) {
-            if ( err ) {
-              return callback(err);
-            }
-            return rtn.update(callback);
-          });
+  rtn.remove = function(name, callback) {
+
+    // Get the User's Lists
+    _lists.get(user, function(err, lists) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Find the matching list IDs
+      let ids = [];
+      for ( let i = 0; i &lt; lists.length; i++ ) {
+        if ( lists[i].name.toLowerCase() === name.toLowerCase() ) {
+          ids.push(lists[i].id);
         }
       }
-    }
-    if ( !found ) {
-      return callback(errors.indexError());
-    }
+
+      // Remove the matching List
+      if ( ids.length === 1 ) {
+        return _lists.remove(ids[0], user, callback);
+      }
+      else {
+        return callback(errors.referenceError());
+      }
+
+    });
+
   };
 
   /**
    * Rename the specified RTM List for this User
-   * @param {int} index RTM List index
-   * @param {string} name New RTM List name
+   * @param {string} oldName Old RTM List Name
+   * @param {string} newName New RTM List name
    * @param {function} callback Callback function(err, list)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMList[]} callback.list List of User's RTM Lists
    * @function RTMUser~lists/rename
    */
-  rtn.rename = function(index, name, callback) {
-    let found = false;
-    if ( user._lists ) {
-      for ( let i = 0; i &lt; user._lists.length; i++ ) {
-        if ( user._lists[i].index === index ) {
-          found = true;
-          _lists.rename(user._lists[i].id, name, user, function(err) {
-            if ( err ) {
-              return callback(err);
-            }
-            return rtn.update(callback);
-          });
+  rtn.rename = function(oldName, newName, callback) {
+
+    // Get the User's Lists
+    _lists.get(user, function(err, lists) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Find the matching list IDs
+      let ids = [];
+      for ( let i = 0; i &lt; lists.length; i++ ) {
+        if ( lists[i].name.toLowerCase() === oldName.toLowerCase() ) {
+          ids.push(lists[i].id);
         }
       }
-    }
-    if ( !found ) {
-      return callback(errors.indexError());
-    }
+
+      // Rename the matching List
+      if ( ids.length === 1 ) {
+        return _lists.rename(ids[0], newName, user, callback);
+      }
+      else {
+        return callback(errors.referenceError());
+      }
+
+    });
+
   };
 
   return rtn;
@@ -169,7 +161,7 @@ module.exports = function(user) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Nov 11 2017 12:47:43 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 12 2017 15:53:40 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
