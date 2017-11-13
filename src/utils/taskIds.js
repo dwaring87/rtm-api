@@ -45,6 +45,9 @@ function getIndex(userId, taskId) {
     while ( indices.indexOf(index.toString()) > -1 ) {
       index++;
     }
+    if ( CACHE.USERS[userId] === undefined ) {
+      CACHE.USERS[userId] = {};
+    }
     CACHE.USERS[userId][index] = taskId;
     return parseInt(index);
   }
@@ -87,12 +90,24 @@ function getUser(userId) {
 
 
 /**
- * Save the Current Task Index Cache to Disk
+ * Save the current Task Index Cache to Disk
  * @private
  */
 function save() {
-  // TODO: Remove unused Task Indices when the tasks were not filtered
   fs.writeFileSync(FILE, JSON.stringify(CACHE));
+}
+
+
+/**
+ * Clear the current Task Index Cache for the specified User
+ * @param {number} userId RTM User ID
+ * @private
+ */
+function clear(userId) {
+  userId = parseFloat(userId);
+  _readCache();
+  CACHE.USERS[userId] = {};
+  save();
 }
 
 
@@ -112,5 +127,6 @@ module.exports = {
   getIndex: getIndex,
   getId: getId,
   getUser: getUser,
-  save: save
+  save: save,
+  clear: clear
 };
