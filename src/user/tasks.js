@@ -15,9 +15,9 @@ module.exports = function(user) {
   /**
    * Get the list of RTM Tasks for this User.
    * @param {string} [filter] Tasks Filter (RTM Advanced Search Syntax)
-   * @param {function} callback Callback function(err, task)
-   * @param {RTMError} callback.err RTM API Response, if encountered
-   * @param {RTMTask[]} callback.task List of User's RTM Tasks
+   * @param {function} callback Callback function(err, tasks)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMTask[]} callback.tasks List of User's RTM Tasks
    * @function RTMUser~tasks/get
    */
   rtn.get = function(filter, callback) {
@@ -85,9 +85,8 @@ module.exports = function(user) {
    * @param {string} props.to Contact Name to give Task to (existing contact or email address)
    * @param {string} props.url Task Reference URL
    * @param {string} props.note Task Note
-   * @param {function} callback Callback function(err, task)
-   * @param {RTMError} callback.err RTM API Response, if encountered
-   * @param {RTMTask[]} callback.task List of User's RTM Tasks
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @function RTMUser~tasks/add
    */
   rtn.add = function(name, props, callback) {

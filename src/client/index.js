@@ -38,8 +38,8 @@
  * parameter foo=bar.
  *
  * ```
- * client.get('rtm.method', {foo: "bar"}, function(resp) {
- *    if ( !resp.isOk ) {
+ * client.get('rtm.method', {foo: "bar"}, function(err, resp) {
+ *    if ( err ) {
  *      // handle error
  *    }
  *    // use the response
@@ -127,8 +127,8 @@ class RTMClient {
    * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
    * @param {RTMUser} [user=undefined] The RTM User making the request
    * @param {function} callback Callback function(err, resp)
-   * @param {RTMError} callback.err RTMError, if encountered
-   * @param {RTMSuccess} callback.resp The parsed RTM API Response
+   * @param {RTMError} callback.err RTM Error Response, if encountered
+   * @param {RTMSuccess} callback.resp The parsed RTM API Response, if successful
    */
   get(method, params, user, callback) {
     require('../utils/get.js')(method, params, user, this, callback);
