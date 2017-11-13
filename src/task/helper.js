@@ -19,9 +19,9 @@ function get(user, filter, callback) {
     params.filter = filter;
   }
 
-  user.get('rtm.tasks.getList', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
+  user.get('rtm.tasks.getList', params, function(err, resp) {
+    if ( err ) {
+      return callback(err);
     }
 
     // List of task to return
@@ -122,11 +122,8 @@ function add(name, props, user, callback) {
   };
 
   // Make the API Request
-  user.get('rtm.tasks.add', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
-    }
-    return callback();
+  user.get('rtm.tasks.add', params, function(err) {
+    return callback(err);
   });
 
 }

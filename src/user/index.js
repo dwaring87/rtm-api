@@ -176,8 +176,9 @@ class RTMUser {
    * This function will automatically add the User's auth token to the request.
    * @param {string} method RTM API Method
    * @param {object} [params={}] RTM API Method Parameters
-   * @param {function} callback Callback function(resp)
-   * @param {RTMError|RTMSuccess} callback.resp The parsed RTM API Response
+   * @param {function} callback Callback function(err, resp)
+   * @param {RTMError} callback.err RTMError, if encountered
+   * @param {RTMSuccess} callback.resp The parsed RTM API Response
    */
   get(method, params, callback) {
     require('../utils/get.js')(method, params, this, this.client, callback);

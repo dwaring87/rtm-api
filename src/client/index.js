@@ -126,8 +126,9 @@ class RTMClient {
    * @param {string} method RTM API Method
    * @param {object} [params] RTM Method Parameters (as an object with key/value pairs)
    * @param {RTMUser} [user=undefined] The RTM User making the request
-   * @param {function} callback Callback function(resp)
-   * @param {RTMError|RTMSuccess} callback.resp The parsed RTM API Response
+   * @param {function} callback Callback function(err, resp)
+   * @param {RTMError} callback.err RTMError, if encountered
+   * @param {RTMSuccess} callback.resp The parsed RTM API Response
    */
   get(method, params, user, callback) {
     require('../utils/get.js')(method, params, user, this, callback);

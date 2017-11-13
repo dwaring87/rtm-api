@@ -10,9 +10,9 @@ const RTMList = require('./index.js');
  * @private
  */
 function get(user, callback) {
-  user.get('rtm.lists.getList', function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
+  user.get('rtm.lists.getList', function(err, resp) {
+    if ( err ) {
+      return callback(err);
     }
 
     // List of lists to return
@@ -47,11 +47,8 @@ function add(name, user, callback) {
     name: name,
     timeline: user.timeline
   };
-  user.get('rtm.lists.add', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
-    }
-    return callback();
+  user.get('rtm.lists.add', params, function(err) {
+    return callback(err);
   });
 }
 
@@ -67,11 +64,8 @@ function remove(id, user, callback) {
     timeline: user.timeline,
     list_id: id
   };
-  user.get('rtm.lists.delete', params,  function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
-    }
-    return callback();
+  user.get('rtm.lists.delete', params,  function(err) {
+    return callback(err);
   });
 }
 
@@ -89,11 +83,8 @@ function rename(id, name, user, callback) {
     list_id: id,
     name: name
   };
-  user.get('rtm.lists.setName', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
-    }
-    return callback();
+  user.get('rtm.lists.setName', params, function(err) {
+    return callback(err);
   });
 }
 

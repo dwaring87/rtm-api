@@ -22,7 +22,7 @@ const version = config.api.version;
  * @param {object} [params={}] RTM Method Parameters (as an object with key/value pairs)
  * @param {RTMUser} [user=undefined] The RTM User making the request
  * @param {RTMClient} [client=undefined] The RTM Client making the request
- * @param {function} callback Callback function(resp)
+ * @param {function} callback Callback function(err, resp)
  * @private
  */
 function get(method, params, user, client, callback) {
@@ -61,7 +61,14 @@ function get(method, params, user, client, callback) {
     response.on('end', function() {
       let parsed = parse(resp);
       // TODO: Save transaction id and information if undoable
-      args.callback(parsed);
+
+      // Return parsed result as error or success
+      if ( !parsed.isOk ) {
+        args.callback(parsed)
+      }
+      else {
+        args.callback(null, parsed);
+      }
     });
   });
   req.on('error', function() {
