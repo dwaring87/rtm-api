@@ -101,13 +101,13 @@ function getAuthToken(frob, client, callback) {
   };
 
   // Verify Token
-  client.get('rtm.auth.checkToken', params, function(resp) {
-    if ( !resp.isOk ) {
-      if ( resp.code === 98 ) {
+  client.get('rtm.auth.checkToken', params, function(err) {
+    if ( err) {
+      if ( err.code === 98 ) {
         return callback(null, false);
       }
       else {
-        return callback(resp);
+        return callback(err);
       }
     }
     else {
@@ -130,9 +130,9 @@ function getAuthToken(frob, client, callback) {
  */
 function _getFrob(client, callback) {
 
-  client.get('rtm.auth.getFrob', function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
+  client.get('rtm.auth.getFrob', function(err, resp) {
+    if ( err ) {
+      return callback(err);
     }
     return callback(null, resp.frob);
   });

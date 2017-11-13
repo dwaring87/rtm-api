@@ -135,9 +135,9 @@ If the API Method does not require a User's Auth Token, the request can be made
 using the `get` function available from the `RTMClient`.
 
 ```javascript
-client.get('rtm.auth.getFrob', function(resp) {
-  if ( !resp.isOk ) {
-    console.error(resp.toString());
+client.get('rtm.auth.getFrob', function(err, resp) {
+  if ( err ) {
+    console.error(err.toString());
   }
   
   // Handle the Response
@@ -154,9 +154,9 @@ let params = {
   list_id: "list id",
   filter: "tasks filter"
 };
-user.get('rtm.tasks.getList', params, function(resp) {
-  if ( !resp.isOk ) {
-    console.error(resp.toString());
+user.get('rtm.tasks.getList', params, function(err, resp) {
+  if ( err ) {
+    console.error(err.toString());
   }
   
   // Handle the Response
@@ -167,8 +167,9 @@ user.get('rtm.tasks.getList', params, function(resp) {
 
 ### API Responses
 
-The response returned in the callback of the `get` function will be one of either 
-the `RTMError` (if the RTM API returned a status of 'fail') or `RTMSuccess` classes.
+The arguments returned in the callback of the `get` function will include an 
+`RTMError` instance (if the RTM API returned a status of 'fail') or an 
+`RTMSuccess` instance for successful requests.
 
 #### Error Responses
 

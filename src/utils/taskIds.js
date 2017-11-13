@@ -91,6 +91,7 @@ function getUser(userId) {
  * @private
  */
 function save() {
+  // TODO: Remove unused Task Indices when the tasks were not filtered
   fs.writeFileSync(FILE, JSON.stringify(CACHE));
 }
 

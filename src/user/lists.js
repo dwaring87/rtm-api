@@ -74,9 +74,8 @@ module.exports = function(user) {
    * Rename the specified RTM List for this User
    * @param {string} oldName Old RTM List Name
    * @param {string} newName New RTM List name
-   * @param {function} callback Callback function(err, list)
+   * @param {function} callback Callback function(err)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @param {RTMList[]} callback.list List of User's RTM Lists
    * @function RTMUser~lists/rename
    */
   rtn.rename = function(oldName, newName, callback) {

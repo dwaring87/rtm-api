@@ -5,14 +5,23 @@ const taskIds = require('../utils/taskIds.js');
 
 /**
  * API Call: rtm.tasks.getList
+ * @param [filter] Task Filter
  * @param user RTMUser
  * @param callback Callback function(err, tasks)
  * @private
  */
-function get(user, callback) {
-  user.get('rtm.tasks.getList', function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
+function get(user, filter, callback) {
+  let params = {};
+  if ( callback === undefined && typeof filter === 'function' ) {
+    callback = filter;
+  }
+  else if ( filter !== '' ) {
+    params.filter = filter;
+  }
+
+  user.get('rtm.tasks.getList', params, function(err, resp) {
+    if ( err ) {
+      return callback(err);
     }
 
     // List of task to return
@@ -20,24 +29,26 @@ function get(user, callback) {
 
     // Parse each List
     let lists = resp.tasks.list;
-    for ( let i = 0; i < lists.length; i++ ) {
-      let list = lists[i];
+    if ( lists !== undefined ) {
+      for ( let i = 0; i < lists.length; i++ ) {
+        let list = lists[i];
 
-      // Parse the List's TaskSeries
-      if ( list.taskseries ) {
-        if ( !Array.isArray(list.taskseries) ) {
-          list.taskseries = [list.taskseries];
-        }
-        for ( let j = 0; j < list.taskseries.length; j++ ) {
-          let series = list.taskseries[j];
-
-          // Parse the TaskSeries' Tasks
-          if ( !Array.isArray(series.task) ) {
-            series.task = [series.task];
+        // Parse the List's TaskSeries
+        if ( list.taskseries ) {
+          if ( !Array.isArray(list.taskseries) ) {
+            list.taskseries = [list.taskseries];
           }
-          for ( let k = 0; k < series.task.length; k++ ) {
-            let task = series.task[k];
-            rtn.push(new RTMTask(user.id, list.id, series, task));
+          for ( let j = 0; j < list.taskseries.length; j++ ) {
+            let series = list.taskseries[j];
+
+            // Parse the TaskSeries' Tasks
+            if ( !Array.isArray(series.task) ) {
+              series.task = [series.task];
+            }
+            for ( let k = 0; k < series.task.length; k++ ) {
+              let task = series.task[k];
+              rtn.push(new RTMTask(user.id, list.id, series, task));
+            }
           }
         }
       }
@@ -111,11 +122,8 @@ function add(name, props, user, callback) {
   };
 
   // Make the API Request
-  user.get('rtm.tasks.add', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
-    }
-    return callback();
+  user.get('rtm.tasks.add', params, function(err) {
+    return callback(err);
   });
 
 }
