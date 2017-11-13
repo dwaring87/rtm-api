@@ -605,7 +605,7 @@ includes wrapper methods around some common RTM API methods.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line206">line 206</a>
+        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line207">line 207</a>
     </li></ul></dd>
     
 
@@ -674,7 +674,7 @@ includes wrapper methods around some common RTM API methods.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line217">line 217</a>
+        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line218">line 218</a>
     </li></ul></dd>
     
 
@@ -897,7 +897,7 @@ includes wrapper methods around some common RTM API methods.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line182">line 182</a>
+        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line183">line 183</a>
     </li></ul></dd>
     
 
@@ -971,8 +971,6 @@ of the object as the parameters' key/value pairs.</p>
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -1005,10 +1003,6 @@ of the object as the parameters' key/value pairs.</p>
                 </td>
             
 
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last"><p>RTM API Method</p></td>
@@ -1043,12 +1037,6 @@ of the object as the parameters' key/value pairs.</p>
             
 
             
-                <td class="default">
-                
-                    <code>{}</code>
-                
-                </td>
-            
 
             <td class="description last"><p>RTM API Method Parameters</p></td>
         </tr>
@@ -1080,12 +1068,8 @@ of the object as the parameters' key/value pairs.</p>
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last"><p>Callback function(resp)</p>
+            <td class="description last"><p>Callback function(err, resp)</p>
                 <h6>Properties</h6>
                 
 
@@ -1111,15 +1095,35 @@ of the object as the parameters' key/value pairs.</p>
 
         <tr>
             
-                <td class="name"><code>resp</code></td>
+                <td class="name"><code>err</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type"><a href="RTMError.html">RTMError</a></span>
-|
 
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>RTM Error Response, if encountered</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>resp</code></td>
+            
+
+            <td class="type">
+            
+                
 <span class="param-type"><a href="RTMSuccess.html">RTMSuccess</a></span>
 
 
@@ -1130,7 +1134,7 @@ of the object as the parameters' key/value pairs.</p>
 
             
 
-            <td class="description last"><p>The parsed RTM API Response</p></td>
+            <td class="description last"><p>The parsed RTM API Response, if successful</p></td>
         </tr>
 
     
@@ -1176,7 +1180,7 @@ of the object as the parameters' key/value pairs.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line193">line 193</a>
+        <a href="user_index.js.html">user/index.js</a>, <a href="user_index.js.html#line194">line 194</a>
     </li></ul></dd>
     
 
@@ -2137,7 +2141,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 
             
 
-            <td class="description last"><p>Callback function(err, list)</p>
+            <td class="description last"><p>Callback function(err)</p>
                 <h6>Properties</h6>
                 
 
@@ -2183,29 +2187,6 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>list</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="RTMList.html">RTMList</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of User's RTM Lists</p></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -2248,7 +2229,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="user_tasks.js.html">user/tasks.js</a>, <a href="user_tasks.js.html#line67">line 67</a>
+        <a href="user_tasks.js.html">user/tasks.js</a>, <a href="user_tasks.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -2695,7 +2676,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 
             
 
-            <td class="description last"><p>Callback function(err, task)</p>
+            <td class="description last"><p>Callback function(err)</p>
                 <h6>Properties</h6>
                 
 
@@ -2737,30 +2718,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 
             
 
-            <td class="description last"><p>RTM API Response, if encountered</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>task</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="RTMTask.html">RTMTask</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>List of User's RTM Tasks</p></td>
+            <td class="description last"><p>RTM API Error Response, if encountered</p></td>
         </tr>
 
     
@@ -2794,7 +2752,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 
     
 
-    <h4 class="name" id="~tasks/get"><span class="type-signature">(inner) </span>tasks/get<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~tasks/get"><span class="type-signature">(inner) </span>tasks/get<span class="signature">(filter<span class="signature-attributes">opt</span>, callback)</span><span class="type-signature"></span></h4>
 
     
 
@@ -2872,6 +2830,8 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -2880,6 +2840,39 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Tasks Filter (RTM Advanced Search Syntax)</p></td>
+        </tr>
+
     
 
         <tr>
@@ -2897,10 +2890,18 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p>Callback function(err, task)</p>
+            <td class="description last"><p>Callback function(err, tasks)</p>
                 <h6>Properties</h6>
                 
 
@@ -2942,14 +2943,14 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 
             
 
-            <td class="description last"><p>RTM API Response, if encountered</p></td>
+            <td class="description last"><p>RTM API Error Response, if encountered</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>task</code></td>
+                <td class="name"><code>tasks</code></td>
             
 
             <td class="type">
@@ -3012,7 +3013,7 @@ a <code>Login failed / Invalid auth token</code> error was encountered</p></td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 12 2017 15:53:40 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Nov 13 2017 12:39:39 GMT-0500 (EST) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
