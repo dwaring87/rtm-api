@@ -195,6 +195,13 @@ class RTMUser {
     require('../utils/auth.js').verifyAuthToken(this.authToken, this.client, callback);
   }
 
+  /**
+   * Clear the Task Index Cache for this RTM User
+   */
+  clearTaskIndexCache() {
+    require('../utils/taskIds.js').clear(this.id);
+  }
+
 
   /**
    * RTM List related functions:

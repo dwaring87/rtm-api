@@ -59,15 +59,23 @@ function get(method, params, user, client, callback) {
       resp += chunk;
     });
     response.on('end', function() {
+      // Server Errors
+      if ( response.statusCode === 503 ) {
+        return args.callback(error.rateLimitError());
+      }
+      else if ( response.statusCode >= 500 && response.statusCode <= 599 ) {
+        return args.callback(error.serverError());
+      }
+
+      // Parse the API Response
       let parsed = parse(resp);
-      // TODO: Save transaction id and information if undoable
 
       // Return parsed result as error or success
       if ( !parsed.isOk ) {
-        args.callback(parsed)
+        return args.callback(parsed)
       }
       else {
-        args.callback(null, parsed);
+        return args.callback(null, parsed);
       }
     });
   });

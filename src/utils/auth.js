@@ -49,9 +49,9 @@ function getAuthToken(frob, client, callback) {
   };
 
   // Get Auth Token
-  client.get('rtm.auth.getToken', params, function(resp) {
-    if ( !resp.isOk ) {
-      return callback(resp);
+  client.get('rtm.auth.getToken', params, function(err, resp) {
+    if ( err ) {
+      return callback(err);
     }
 
     // Create new RTMUser
@@ -63,9 +63,9 @@ function getAuthToken(frob, client, callback) {
     );
 
     // Get a new Timeline for the User
-    user.get('rtm.timelines.create', function(resp) {
-      if ( !resp.isOk ) {
-        return callback(resp);
+    user.get('rtm.timelines.create', function(err, resp) {
+      if ( err ) {
+        return callback(err);
       }
 
       // Set the User's Timeline

@@ -89,4 +89,26 @@ RTMError.referenceError = function() {
   return new RTMError(-3, "Reference Error: Could not find item by reference index number or name");
 };
 
+/**
+ * Create a new `RTMError` that represents an RTM API Rate Limit (the RTM API
+ * returned a HTTP Status code of `503`).
+ *
+ * Error Code: `-4`
+ * @returns {RTMError}
+ */
+RTMError.rateLimitError = function() {
+  return new RTMError(-4, "Rate Limit Error: Your Account has temporarily reached the RTM API Rate Limit.  Please wait a minute and try the request again later.");
+};
+
+/**
+ * Create a new `RTMError` that represents an RTM API Server Error (the RTM API
+ * returned a HTTP Status code of `5xx` - excluding `503`).
+ *
+ * Error Code: `-5`
+ * @returns {RTMError}
+ */
+RTMError.serverError = function() {
+  return new RTMError(-5, "RTM API Server Error: The RTM API Server is not responding.  Please try the request again later.");
+};
+
 module.exports = RTMError;
