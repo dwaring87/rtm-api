@@ -63,6 +63,15 @@ class RTMList {
      * @type {boolean}
      */
     this.smart = props.smart.toString() === '1';
+    if ( this.smart ) {
+
+      /**
+       * Smart List Filter
+       * @type {string}
+       */
+      this.filter = props.filter;
+
+    }
 
     /**
      * List Sort Order
