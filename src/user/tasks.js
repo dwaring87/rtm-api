@@ -36,8 +36,10 @@ module.exports = function(user) {
 
     // Update the User's Lists and Tasks
     _lists.get(user, function(err, lists) {
-      for ( let i = 0; i < lists.length; i++ ) {
-        LISTS[lists[i].id] = lists[i];
+      if ( lists ) {
+        for ( let i = 0; i < lists.length; i++ ) {
+          LISTS[lists[i].id] = lists[i];
+        }
       }
       _tasksUpdateCallback(err);
     });
