@@ -2,6 +2,8 @@
 
 const _tasks = require('../task/helper.js');
 const _lists = require('../list/helper.js');
+const taskIds = require('../utils/taskIds.js');
+const errors = require('../response/error.js');
 
 /**
  * This module returns the RTM Tasks-related functions for the RTMUser
@@ -97,6 +99,46 @@ module.exports = function(user) {
       props = {};
     }
     _tasks.add(name, props, user, callback);
+  };
+
+  /**
+   * Mark the specified Task as complete
+   * @param {int} index Task Index
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @function RTMUser~tasks/complete
+   */
+  rtn.complete = function(index, callback) {
+
+    // Get Task ID
+    let taskId = taskIds.getId(user.id, index);
+    if ( taskId === undefined ) {
+      return callback(errors.referenceError());
+    }
+
+    // Get Task Details
+    else {
+      user.tasks.get(function (err, tasks) {
+        if ( err ) {
+          return callback(err);
+        }
+
+        // Find Matching Task
+        let found = false;
+        for ( let i = 0; i < tasks.length; i++ ) {
+          if ( tasks[i].task_id === taskId ) {
+            found = true;
+            return _tasks.complete(tasks[i].list_id, tasks[i].taskseries_id, tasks[i].task_id, user, callback);
+          }
+        }
+
+        // Task Not Found
+        if ( !found ) {
+          return callback(errors.referenceError());
+        }
+      });
+    }
+
   };
 
   return rtn;

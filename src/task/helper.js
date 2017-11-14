@@ -129,8 +129,30 @@ function add(name, props, user, callback) {
 }
 
 
+/**
+ * API Call: rtm.tasks.complete
+ * @param listId RTM List ID
+ * @param taskSeriesId RTM Task Series ID
+ * @param taskId RTM Task ID
+ * @param user RTM User
+ * @param callback function(err)
+ */
+function complete(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.complete', params, function(err) {
+    return callback(err);
+  });
+}
+
+
 
 module.exports = {
   get: get,
-  add: add
+  add: add,
+  complete: complete
 };
