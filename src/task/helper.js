@@ -136,6 +136,7 @@ function add(name, props, user, callback) {
  * @param taskId RTM Task ID
  * @param user RTM User
  * @param callback function(err)
+ * @private
  */
 function complete(listId, taskSeriesId, taskId, user, callback) {
   let params = {
@@ -149,10 +150,34 @@ function complete(listId, taskSeriesId, taskId, user, callback) {
   });
 }
 
+/**
+ * API Call: rtm.tasks.setPriority
+ * @param listId RTM List ID
+ * @param taskSeriesId RTM Task Series ID
+ * @param taskId RTM Task ID
+ * @param priority Task Priority
+ * @param user RTM User
+ * @param callback function(err)
+ * @private
+ */
+function priority(listId, taskSeriesId, taskId, priority, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    priority: priority
+  };
+  user.get('rtm.tasks.setPriority', params, function(err) {
+    return callback(err);
+  });
+}
+
 
 
 module.exports = {
   get: get,
   add: add,
-  complete: complete
+  complete: complete,
+  priority: priority
 };

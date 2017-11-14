@@ -141,5 +141,47 @@ module.exports = function(user) {
 
   };
 
+
+  /**
+   * Set the priority of the specified Task
+   * @param {int} index Task Index
+   * @param {int} priority Task Priority
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @function RTMUser~tasks/priority
+   */
+  rtn.priority = function(index, priority, callback) {
+
+    // Get Task ID
+    let taskId = taskIds.getId(user.id, index);
+    if ( taskId === undefined ) {
+      return callback(errors.referenceError());
+    }
+
+    // Get Task Details
+    else {
+      user.tasks.get(function (err, tasks) {
+        if ( err ) {
+          return callback(err);
+        }
+
+        // Find Matching Task
+        let found = false;
+        for ( let i = 0; i < tasks.length; i++ ) {
+          if ( tasks[i].task_id === taskId ) {
+            found = true;
+            return _tasks.priority(tasks[i].list_id, tasks[i].taskseries_id, tasks[i].task_id, priority, user, callback);
+          }
+        }
+
+        // Task Not Found
+        if ( !found ) {
+          return callback(errors.referenceError());
+        }
+      });
+    }
+
+  };
+
   return rtn;
 };
