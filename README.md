@@ -183,6 +183,8 @@ Additional error codes are added by `rtm-api`:
 |    -1     | **Network Error**: `rtm-api` could not connect to the RTM API Server.|
 |    -2     | **Response Error**: `rtm-api` could not parse the response from the RTM API Server.|
 |    -3     | **Reference Error**: An `RTMTask` index is out of range or RTM item could not be found with the given reference.|
+|    -4     | **Rate Limit Error**: The RTM User has reached the API request rate limit set by the RTM API Server.|
+|    -5     | **Server Error**: `rtm-api` encountered a problem with the RTM API Server.  Try the request again later.|
 
 
 #### Successful Responses
