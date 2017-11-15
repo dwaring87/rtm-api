@@ -6,6 +6,7 @@
       "base": "api.rememberthemilk.com/services/rest/"
     },
     "version": 2,
-    "format": "json"
+    "format": "json",
+    "timeout": 1000
   }
 }

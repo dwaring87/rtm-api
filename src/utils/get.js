@@ -36,6 +36,40 @@ function get(method, params, user, client, callback) {
   // Parse the URL
   let url = URL.parse(requestUrl);
 
+  // Build the request options
+  let options = {
+    host: url.host,
+    path: url.path,
+    method: 'GET'
+  };
+
+  // Determine timeout
+  let timeout = 0;
+  if ( args.user ) {
+    let now = new Date().getTime();
+    let next = args.user._nextRequest;
+    if ( next !== undefined ) {
+      timeout = now < next ? next - now : 0;
+    }
+    args.user._nextRequest = now + timeout + config.api.timeout;
+  }
+
+  // Make the Request
+  setTimeout(function() {
+    _makeRequest(scheme, options, args.callback);
+  }, timeout);
+
+}
+
+/**
+ * Perform the API Request
+ * @param {string} scheme HTTP(s) Scheme (http or https)
+ * @param {object} options Request Options (host, path, method)
+ * @param {function} callback Final callback function(err, resp)
+ * @private
+ */
+function _makeRequest(scheme, options, callback) {
+
   // Require the http(s) module
   let http = undefined;
   if ( scheme === "https" ) {
@@ -44,13 +78,6 @@ function get(method, params, user, client, callback) {
   else {
     http = require('http');
   }
-
-  // Build the request options
-  let options = {
-    host: url.host,
-    path: url.path,
-    method: 'GET'
-  };
 
   // Make the Request
   let req = http.request(options, function(response) {
@@ -61,10 +88,10 @@ function get(method, params, user, client, callback) {
     response.on('end', function() {
       // Server Errors
       if ( response.statusCode === 503 ) {
-        return args.callback(error.rateLimitError());
+        return callback(error.rateLimitError());
       }
       else if ( response.statusCode >= 500 && response.statusCode <= 599 ) {
-        return args.callback(error.serverError());
+        return callback(error.serverError());
       }
 
       // Parse the API Response
@@ -72,15 +99,15 @@ function get(method, params, user, client, callback) {
 
       // Return parsed result as error or success
       if ( !parsed.isOk ) {
-        return args.callback(parsed)
+        return callback(parsed)
       }
       else {
-        return args.callback(null, parsed);
+        return callback(null, parsed);
       }
     });
   });
   req.on('error', function() {
-    args.callback(error.networkError());
+    callback(error.networkError());
   });
   req.end();
 

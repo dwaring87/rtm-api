@@ -77,6 +77,7 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
+    this._nextRequest = new Date().getTime();
   }
 
 
