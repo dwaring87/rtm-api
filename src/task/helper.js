@@ -5,8 +5,8 @@ const taskIds = require('../utils/taskIds.js');
 
 /**
  * API Call: rtm.tasks.getList
- * @param [filter] Task Filter
  * @param user RTMUser
+ * @param [filter] Task Filter
  * @param callback Callback function(err, tasks)
  * @private
  */
@@ -128,14 +128,13 @@ function add(name, props, user, callback) {
 
 }
 
-
 /**
  * API Call: rtm.tasks.complete
- * @param listId RTM List ID
- * @param taskSeriesId RTM Task Series ID
- * @param taskId RTM Task ID
- * @param user RTM User
- * @param callback function(err)
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
  * @private
  */
 function complete(listId, taskSeriesId, taskId, user, callback) {
@@ -152,12 +151,12 @@ function complete(listId, taskSeriesId, taskId, user, callback) {
 
 /**
  * API Call: rtm.tasks.setPriority
- * @param listId RTM List ID
- * @param taskSeriesId RTM Task Series ID
- * @param taskId RTM Task ID
- * @param priority Task Priority
- * @param user RTM User
- * @param callback function(err)
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {int} priority Task Priority
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
  * @private
  */
 function priority(listId, taskSeriesId, taskId, priority, user, callback) {
@@ -173,11 +172,202 @@ function priority(listId, taskSeriesId, taskId, priority, user, callback) {
   });
 }
 
+/**
+ * API Call: rtm.tasks.addTags
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string[]} tags Tags to Add
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function addTags(listId, taskSeriesId, taskId, tags, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    tags: tags.join(',')
+  };
+  user.get('rtm.tasks.addTags', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.delete
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function remove(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+  };
+  user.get('rtm.tasks.delete', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.movePriority
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} direction Direction to move 'up' or 'down'
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function movePriority(listId, taskSeriesId, taskId, direction, user, callback) {
+  if ( direction.toLowerCase() !== 'up' && direction.toLowerCase() !== 'down' ) {
+    throw "Incorrect priority direction.  Must be either 'up' or 'down'";
+  }
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    direction: direction.toLowerCase()
+  };
+  user.get('rtm.tasks.movePriority', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.moveTo
+ * @param {number} listId RTM List ID (original)
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {number} toListId RTM List ID (new)
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function move(listId, taskSeriesId, taskId, toListId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    from_list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    to_list_id: toListId
+  };
+  user.get('rtm.tasks.moveTo', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.postpone
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function postpone(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.postpone', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.removeTags
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string[]} tags Tags to Remove
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function removeTags(listId, taskSeriesId, taskId, tags, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    tags: tags.join(',')
+  };
+  user.get('rtm.tasks.removeTags', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setDueDate
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} due Task Due Date
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setDueDate(listId, taskSeriesId, taskId, due, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    due: due,
+    parse: 1
+  };
+  user.get('rtm.tasks.setDueDate', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setName
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} name New Task Name
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setName(listId, taskSeriesId, taskId, name, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    name: name
+  };
+  user.get('rtm.tasks.setName', params, function(err) {
+    return callback(err);
+  });
+}
 
 
 module.exports = {
   get: get,
   add: add,
   complete: complete,
-  priority: priority
+  priority: priority,
+  addTags: addTags,
+  remove: remove,
+  movePriority: movePriority,
+  move: move,
+  postpone: postpone,
+  removeTags: removeTags,
+  setDueDate: setDueDate,
+  setName: setName
 };

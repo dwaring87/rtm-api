@@ -220,7 +220,18 @@ class RTMUser {
    * RTM Task related functions:
    * - {@link RTMUser~tasks/get|get}
    * - {@link RTMUser~tasks/add|add}
-   * @returns {{get: function, add:function}}
+   * - {@link RTMUser~tasks/remove|remove}
+   * - {@link RTMUser~tasks/complete|complete}
+   * - {@link RTMUser~tasks/addTags|addTags}
+   * - {@link RTMUser~tasks/removeTags|removeTags}
+   * - {@link RTMUser~tasks/priority|priority}
+   * - {@link RTMUser~tasks/decreasePriority|decreasePriority}
+   * - {@link RTMUser~tasks/increasePriority|increasePriority}
+   * - {@link RTMUser~tasks/move|move}
+   * - {@link RTMUser~tasks/setDueDate|setDueDate}
+   * - {@link RTMUser~tasks/postpone|postpone}
+   * - {@link RTMUser~tasks/setName|setName}
+   * @returns {{get: function, add:function, remove: function, complete: function, addTags: function, removeTags: function, priority: function, decreasePriority: function, increasePriority: function, move: function, setDueDate: function, postpone: function, setName: function}}
    */
   get tasks() {
     return require('./tasks.js')(this);
