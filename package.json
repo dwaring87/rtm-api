@@ -1,6 +1,6 @@
 {
   "name": "rtm-api",
-  "version": "0.10.1",
+  "version": "1.0.0",
   "description": "Remember the Milk API Interface",
   "author": "David Waring <dev@davidwaring.net> (https://davidwaring.net)",
   "license": "MIT",
