@@ -112,16 +112,16 @@ module.exports = function(user) {
   rtn.complete = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Complete the Task
       return _tasks.complete(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         user,
         callback
       );
@@ -140,16 +140,16 @@ module.exports = function(user) {
   rtn.uncomplete = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Complete the Task
       return _tasks.uncomplete(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         user,
         callback
       );
@@ -169,16 +169,16 @@ module.exports = function(user) {
   rtn.priority = function(index, priority, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Set the Priority
       return _tasks.priority(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         priority,
         user,
         callback
@@ -204,16 +204,16 @@ module.exports = function(user) {
     }
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Add the Tags
       return _tasks.addTags(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         tags,
         user,
         callback
@@ -233,16 +233,16 @@ module.exports = function(user) {
   rtn.remove = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Remove the Task
       return _tasks.remove(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         user,
         callback
       );
@@ -261,16 +261,16 @@ module.exports = function(user) {
   rtn.increasePriority = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Increase the Priority of the Task
       return _tasks.movePriority(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         'up',
         user,
         callback
@@ -290,16 +290,16 @@ module.exports = function(user) {
   rtn.decreasePriority = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Decrease the Priority of the Task
       return _tasks.movePriority(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         'down',
         user,
         callback
@@ -320,7 +320,7 @@ module.exports = function(user) {
   rtn.move = function(index, listName, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
@@ -347,9 +347,9 @@ module.exports = function(user) {
         // Move the Task
         else {
           return _tasks.move(
-            task.list_id,
-            task.taskseries_id,
-            task.task_id,
+            listId,
+            taskSeriesId,
+            taskId,
             id[0],
             user,
             callback
@@ -372,16 +372,16 @@ module.exports = function(user) {
   rtn.postpone = function(index, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Postpone the Task
       return _tasks.postpone(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         user,
         callback
       );
@@ -406,16 +406,16 @@ module.exports = function(user) {
     }
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Remove the Tags
       return _tasks.removeTags(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         tags,
         user,
         callback
@@ -436,16 +436,16 @@ module.exports = function(user) {
   rtn.setDueDate = function(index, due, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Decrease the Priority of the Task
       return _tasks.setDueDate(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         due,
         user,
         callback
@@ -466,16 +466,16 @@ module.exports = function(user) {
   rtn.setName = function(index, name, callback) {
 
     // Get the Task
-    _getTask(index, function(err, task) {
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
       if ( err ) {
         return callback(err);
       }
 
       // Decrease the Priority of the Task
       return _tasks.setName(
-        task.list_id,
-        task.taskseries_id,
-        task.task_id,
+        listId,
+        taskSeriesId,
+        taskId,
         name,
         user,
         callback
@@ -489,20 +489,24 @@ module.exports = function(user) {
 
 
   /**
-   * Get the Matching Task by Index
+   * Get the Matching Task IDs by Index
    * @param {int} index Task Index
-   * @param callback Callback function(err, task)
+   * @param callback Callback function(err, list_id, taskseries_id, task_id)
    * @private
    */
-  function _getTask(index, callback) {
+  function _getTaskInfo(index, callback) {
 
-    // Get Task ID
-    let taskId = taskIds.getId(user.id, index);
-    if ( taskId === undefined ) {
-      return callback(errors.referenceError());
+    // Get IDs
+    let listId = taskIds.getListId(user.id, index);
+    let taskSeriesId = taskIds.getTaskSeriesId(user.id, index);
+    let taskId = taskIds.getTaskId(user.id, index);
+
+    // All IDs found...
+    if ( listId !== undefined && taskSeriesId !== undefined && taskId !== undefined ) {
+      return callback(null, listId, taskSeriesId, taskId);
     }
 
-    // Get Task
+    // Get Task From API
     user.tasks.get(function(err, tasks) {
       if ( err ) {
         return callback(err);
@@ -513,7 +517,7 @@ module.exports = function(user) {
       for ( let i = 0; i < tasks.length; i++ ) {
         if ( !found && tasks[i].task_id === taskId ) {
           found = true;
-          return callback(null, tasks[i]);
+          return callback(null, tasks[i].list_id, tasks[i].taskseries_id, tasks[i].task_id);
         }
       }
 
