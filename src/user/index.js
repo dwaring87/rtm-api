@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('../../rtm.json');
 
 /**
  * ### RTM User
@@ -77,6 +78,8 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
+    this._burstsRemaining = config.api.rate.bursts;
+    this._lastBurst = undefined;
     this._nextRequest = new Date().getTime();
   }
 
@@ -162,6 +165,45 @@ class RTMUser {
    */
   set timeline(timeline) {
     this._timeline = parseFloat(timeline);
+  }
+
+
+  // ==== REQUEST RATE FUNCTIONS ==== //
+
+  /**
+   * Time (ms) to wait to make an API Request
+   * @returns {number}
+   */
+  get requestTimeout() {
+    let now = new Date().getTime();
+    let next = this._nextRequest;
+    let wait = next - now < 0 ? 0 : next - now;
+
+    // Default Timeout
+    let timeout = config.api.rate.timeout;
+
+    // Can we start bursting again?
+    if ( this._lastBurst !== undefined ) {
+      let burstDelta = now - this._lastBurst;
+      if ( burstDelta > config.api.rate.burstWait ) {
+        this._burstsRemaining = config.api.rate.bursts;
+      }
+    }
+
+    // Do we have bursts remaining?
+    if ( this._burstsRemaining > 0 ) {
+      this._burstsRemaining--;
+      timeout = config.api.rate.burstTimeout;
+      if ( this._burstsRemaining === 0 ) {
+        this._lastBurst = now;
+      }
+    }
+
+    // Set Next Request Time
+    this._nextRequest = now + wait + timeout;
+
+    // Return wait time
+    return wait;
   }
 
 

@@ -44,15 +44,7 @@ function get(method, params, user, client, callback) {
   };
 
   // Determine timeout
-  let timeout = 0;
-  if ( args.user ) {
-    let now = new Date().getTime();
-    let next = args.user._nextRequest;
-    if ( next !== undefined ) {
-      timeout = now < next ? next - now : 0;
-    }
-    args.user._nextRequest = now + timeout + config.api.timeout;
-  }
+  let timeout = args.user ? args.user.requestTimeout : 0;
 
   // Make the Request
   setTimeout(function() {
