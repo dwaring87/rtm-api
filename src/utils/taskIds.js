@@ -4,7 +4,7 @@ const os = require('os');
 const fs = require('fs');
 const path = require('path');
 
-const FILENAME = '.rtm.idstore.json';
+const FILENAME = '.rtm.indexcache.json';
 const FILE = path.normalize(os.homedir + '/' + FILENAME);
 
 // Cache of User's Task Indices --> Task IDs
@@ -23,34 +23,44 @@ _readCache();
  * Get a Task Index for the specified User's Task ID.
  *
  * This will return a previously assigned Task Index for a given Task ID
- * or return an unassigned number for a new Task ID
+ * or return an unassigned number for an unassigned task
  * @param {number} userId RTM User ID
- * @param {number} taskId RTM Task ID
+ * @param {RTMTask} task RTM Task
  * @returns {int} Task Index
  * @private
  */
-function getIndex(userId, taskId) {
+function getIndex(userId, task) {
   userId = parseFloat(userId);
-  taskId = parseFloat(taskId);
+  let taskId = parseFloat(task.task_id);
+  let taskSeriesId = parseFloat(task.taskseries_id);
+  let listId = parseFloat(task.list_id);
 
+  // Get User Cache
   let user = getUser(userId);
   let indices = Object.keys(user);
-  let taskIds = Object.values(user);
+  let ids = Object.values(user);
 
-  if ( taskIds.indexOf(taskId) > -1 ) {
-    return parseInt(indices[taskIds.indexOf(taskId)]);
-  }
-  else {
-    let index = 1;
-    while ( indices.indexOf(index.toString()) > -1 ) {
-      index++;
+  // Find matching cached index
+  for ( let i = 0; i < ids.length; i++ ) {
+    if ( ids[i]['task_id'] === taskId ) {
+      return parseInt(indices[i]);
     }
-    if ( CACHE.USERS[userId] === undefined ) {
-      CACHE.USERS[userId] = {};
-    }
-    CACHE.USERS[userId][index] = taskId;
-    return parseInt(index);
   }
+
+  // Create a new Index
+  let index = 1;
+  while ( indices.indexOf(index.toString()) > -1 ) {
+    index++;
+  }
+  if ( CACHE.USERS[userId] === undefined ) {
+    CACHE.USERS[userId] = {};
+  }
+  CACHE.USERS[userId][index] = {
+    task_id: taskId,
+    taskseries_id: taskSeriesId,
+    list_id: listId
+  };
+  return parseInt(index);
 
 }
 
@@ -58,19 +68,61 @@ function getIndex(userId, taskId) {
 /**
  * Get a Task ID by Task Index Number.
  *
- * This will return the cached task index number for the specified user
+ * This will return the cached task id number for the specified user
  * for the given task index number or undefined if not found in the cache.
  * @param {number} userId RTM User ID
  * @param {int} taskIndex Task Index
- * @returns {number} RTM Task ID
+ * @returns {number|undefined} RTM Task ID
  * @private
  */
-function getId(userId, taskIndex) {
+function getTaskId(userId, taskIndex) {
   userId = parseFloat(userId);
   taskIndex = parseInt(taskIndex);
 
   let user = getUser(userId);
-  return user[taskIndex.toString()];
+  let task = user[taskIndex.toString()];
+
+  return task === undefined ? undefined : task['task_id'];
+}
+
+/**
+ * Get a TaskSeries ID by Task Index Number.
+ *
+ * This will return the cached task series id number for the specified user
+ * for the given task index number or undefined if not found in the cache.
+ * @param {number} userId RTM User ID
+ * @param {int} taskIndex Task Index
+ * @returns {number|undefined} RTM Task Series ID
+ * @private
+ */
+function getTaskSeriesId(userId, taskIndex) {
+  userId = parseFloat(userId);
+  taskIndex = parseInt(taskIndex);
+
+  let user = getUser(userId);
+  let task = user[taskIndex.toString()];
+
+  return task === undefined ? undefined : task['taskseries_id'];
+}
+
+/**
+ * Get a List ID by Task Index Number.
+ *
+ * This will return the cached list id number for the specified user
+ * for the given task index number or undefined if not found in the cache.
+ * @param {number} userId RTM User ID
+ * @param {int} taskIndex Task Index
+ * @returns {number|undefined} RTM List ID
+ * @private
+ */
+function getListId(userId, taskIndex) {
+  userId = parseFloat(userId);
+  taskIndex = parseInt(taskIndex);
+
+  let user = getUser(userId);
+  let task = user[taskIndex.toString()];
+
+  return task === undefined ? undefined : task['list_id'];
 }
 
 
@@ -125,7 +177,9 @@ function _readCache() {
 
 module.exports = {
   getIndex: getIndex,
-  getId: getId,
+  getTaskId: getTaskId,
+  getTaskSeriesId: getTaskSeriesId,
+  getListId: getListId,
   getUser: getUser,
   save: save,
   clear: clear
