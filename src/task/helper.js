@@ -150,6 +150,27 @@ function complete(listId, taskSeriesId, taskId, user, callback) {
 }
 
 /**
+ * API Call: rtm.tasks.uncomplete
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function uncomplete(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.uncomplete', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
  * API Call: rtm.tasks.setPriority
  * @param {number} listId RTM List ID
  * @param {number} taskSeriesId RTM Task Series ID
@@ -361,6 +382,7 @@ module.exports = {
   get: get,
   add: add,
   complete: complete,
+  uncomplete: uncomplete,
   priority: priority,
   addTags: addTags,
   remove: remove,

@@ -8,7 +8,7 @@ const errors = require('../response/error.js');
 /**
  * This module returns the RTM Tasks-related functions for the RTMUser
  * @param {RTMUser} user The RTM User instance
- * @returns {{get: function, add:function, remove: function, complete: function, addTags: function, removeTags: function, priority: function, decreasePriority: function, increasePriority: function, move: function, setDueDate: function, postpone: function, setName: function}}
+ * @returns {{get: function, add:function, remove: function, complete: function, uncomplete: function, addTags: function, removeTags: function, priority: function, decreasePriority: function, increasePriority: function, move: function, setDueDate: function, postpone: function, setName: function}}
  * @private
  */
 module.exports = function(user) {
@@ -119,6 +119,34 @@ module.exports = function(user) {
 
       // Complete the Task
       return _tasks.complete(
+        task.list_id,
+        task.taskseries_id,
+        task.task_id,
+        user,
+        callback
+      );
+
+    });
+
+  };
+
+  /**
+   * Mark the specified Task as NOT complete
+   * @param {int} index Task Index
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @function RTMUser~tasks/uncomplete
+   */
+  rtn.uncomplete = function(index, callback) {
+
+    // Get the Task
+    _getTask(index, function(err, task) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Complete the Task
+      return _tasks.uncomplete(
         task.list_id,
         task.taskseries_id,
         task.task_id,
