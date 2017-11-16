@@ -35,9 +35,6 @@ class RTMTask {
    */
   constructor(userId, listId, series, task) {
 
-    // Assign Task Index
-    this._index = taskIds.getIndex(userId, task.id);
-
     // List added after construction
     this._list = undefined;
 
@@ -191,6 +188,10 @@ class RTMTask {
      * @type {string|undefined}
      */
     this.estimate = task.estimate.toString() === '' ? undefined : task.estimate;
+
+
+    // Assign Task Index
+    this._index = taskIds.getIndex(userId, this);
 
   }
 

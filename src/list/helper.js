@@ -35,18 +35,35 @@ function get(user, callback) {
 /**
  * API Call: rtm.lists.add
  * @param name RTM List Name
+ * @param [filter] RTM Smart List Filter
  * @param user RTMUser
  * @param callback Callback function(err)
  * @private
  */
-function add(name, user, callback) {
+function add(name, filter, user, callback) {
+
+  // Parse Parameters
+  if ( callback === undefined && typeof user === 'function' ) {
+    callback = user;
+    user = filter;
+    filter = undefined;
+  }
+
+  // Invalid List Names
   if ( name === 'Inbox' || name === 'Sent' ) {
     throw "Invalid List Name"
   }
+
+  // Set Parameters
   let params = {
     name: name,
     timeline: user.timeline
   };
+  if ( filter !== undefined ) {
+    params.filter = filter;
+  }
+
+  // Add List
   user.get('rtm.lists.add', params, function(err) {
     return callback(err);
   });

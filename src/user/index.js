@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('../../rtm.json');
 
 /**
  * ### RTM User
@@ -77,6 +78,9 @@ class RTMUser {
     this._authToken = authToken;
     this._client = undefined;
     this._timeline = undefined;
+    this._burstsRemaining = config.api.rate.bursts;
+    this._lastBurst = undefined;
+    this._nextRequest = new Date().getTime();
   }
 
 
@@ -164,6 +168,45 @@ class RTMUser {
   }
 
 
+  // ==== REQUEST RATE FUNCTIONS ==== //
+
+  /**
+   * Time (ms) to wait to make an API Request
+   * @returns {number}
+   */
+  get requestTimeout() {
+    let now = new Date().getTime();
+    let next = this._nextRequest;
+    let wait = next - now < 0 ? 0 : next - now;
+
+    // Default Timeout
+    let timeout = config.api.rate.timeout;
+
+    // Can we start bursting again?
+    if ( this._lastBurst !== undefined ) {
+      let burstDelta = now - this._lastBurst;
+      if ( burstDelta > config.api.rate.burstWait ) {
+        this._burstsRemaining = config.api.rate.bursts;
+      }
+    }
+
+    // Do we have bursts remaining?
+    if ( this._burstsRemaining > 0 ) {
+      this._burstsRemaining--;
+      timeout = config.api.rate.burstTimeout;
+      if ( this._burstsRemaining === 0 ) {
+        this._lastBurst = now;
+      }
+    }
+
+    // Set Next Request Time
+    this._nextRequest = now + wait + timeout;
+
+    // Return wait time
+    return wait;
+  }
+
+
   // ==== API HELPER FUNCTIONS ==== //
 
   /**
@@ -220,7 +263,19 @@ class RTMUser {
    * RTM Task related functions:
    * - {@link RTMUser~tasks/get|get}
    * - {@link RTMUser~tasks/add|add}
-   * @returns {{get: function, add:function}}
+   * - {@link RTMUser~tasks/remove|remove}
+   * - {@link RTMUser~tasks/complete|complete}
+   * - {@link RTMUser~tasks/uncomplete|uncomplete}
+   * - {@link RTMUser~tasks/addTags|addTags}
+   * - {@link RTMUser~tasks/removeTags|removeTags}
+   * - {@link RTMUser~tasks/priority|priority}
+   * - {@link RTMUser~tasks/decreasePriority|decreasePriority}
+   * - {@link RTMUser~tasks/increasePriority|increasePriority}
+   * - {@link RTMUser~tasks/move|move}
+   * - {@link RTMUser~tasks/setDueDate|setDueDate}
+   * - {@link RTMUser~tasks/postpone|postpone}
+   * - {@link RTMUser~tasks/setName|setName}
+   * @returns {{get: function, add:function, remove: function, complete: function, uncomplete: function, addTags: function, removeTags: function, priority: function, decreasePriority: function, increasePriority: function, move: function, setDueDate: function, postpone: function, setName: function}}
    */
   get tasks() {
     return require('./tasks.js')(this);

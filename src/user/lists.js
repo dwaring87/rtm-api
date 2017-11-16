@@ -27,12 +27,17 @@ module.exports = function(user) {
   /**
    * Add a new RTM List for this User
    * @param {string} name Name of the new RTM List
+   * @param {string} [filter] Smart List Filter
    * @param {function} callback Callback function(err, lists)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @function RTMUser~lists/add
    */
-  rtn.add = function(name, callback) {
-    _lists.add(name, user, callback);
+  rtn.add = function(name, filter, callback) {
+    if ( callback === undefined && typeof filter === 'function' ) {
+      callback = filter;
+      filter = undefined;
+    }
+    _lists.add(name, filter, user, callback);
   };
 
   /**

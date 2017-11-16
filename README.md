@@ -12,6 +12,43 @@ You will need your own RTM API Key and Secret, available from the Remember the
 Milk [website](https://www.rememberthemilk.com/services/api/keys.rtm).
 
 
+## Main Features
+
+- Two-step User Authorization procedure
+
+- Direct RTM API Requests
+
+```javascript
+// Requests are automatically signed and include the User's Auth Token
+user.get('rtm.method', {param: 'value'}, function(err, response) {
+  if ( err ) {
+    return console.error(err.toString());
+  }
+  console.log(response);
+});
+```
+
+- Basic Error Handling and Response Parsing
+
+- Per-User Rate Limiting (following RTM API guidelines)
+
+- Helper Classes and Functions for **Lists** and **Tasks**
+
+```javascript
+// Optional filter selecting tasks with a priority of 1
+user.tasks.get('priority:1', function(err, tasks) {
+  if ( err ) {
+    return console.error(err.toString());
+  }
+  tasks.forEach(function(task){
+    // task is an RTMTask instance
+    console.log(task.priority);
+    console.log(task.name);
+  });
+});
+```
+
+
 ## Installation
 
 This module can be installed via `npm`:
@@ -72,7 +109,7 @@ and authorize this program to access their account.
 // Get an RTM Auth URL that will ask the RTM User to grant access to your client
 client.auth.getAuthUrl(function(err, authUrl, frob) {
   if ( err ) {
-    console.error(err.toString());
+    return console.error(err.toString());
   }
   
   // Have the User open the authUrl
@@ -93,6 +130,9 @@ get an `RTMUser` with an Auth Token to be used in future API calls.
 ```javascript
 // Get an Auth Token for the User once they've authorized the frob
 client.auth.getAuthToken(frob, function(err, user) {
+  if ( err ) {
+    return console.error(err.toString());
+  }
   
   // If successful, the returned user will include the property `authToken`
   console.log(user.authToken);
@@ -137,7 +177,7 @@ using the `get` function available from the `RTMClient`.
 ```javascript
 client.get('rtm.auth.getFrob', function(err, resp) {
   if ( err ) {
-    console.error(err.toString());
+    return console.error(err.toString());
   }
   
   // Handle the Response
@@ -156,7 +196,7 @@ let params = {
 };
 user.get('rtm.tasks.getList', params, function(err, resp) {
   if ( err ) {
-    console.error(err.toString());
+    return console.error(err.toString());
   }
   
   // Handle the Response
@@ -209,8 +249,23 @@ The following **list** functions are available:
   
 The following **task** functions are available:
 
-  - `get()`: returns an array of `RTMTasks`s (with the Tasks's `RTMList` added to the `list` property)
+  - `get()`: get an array of `RTMTasks`s (with the Tasks's `RTMList` added to the `list` property)
   - `add()`: add a new Task
+  - `remove()`: remove a Task
+  - `complete()`: mark a Task as completed
+  - `uncomplete()`: mark a Task as NOT completed
+  - `addTags()`: add one or tags to a Task
+  - `removeTags()`: remove one or more tags from a Task
+  - `priority()`: set the Priority of a Task
+  - `decreasePriority()`: decrease the Priority of a Task
+  - `increasePriority()`: increase the Priority of a Task
+  - `move()`: move a Task to a different List
+  - `setDueDate()`: set the due date of a Task
+  - `postpone()`: postpone the due date of Task by one day
+  - `setName()`: set the name of a Task
+
+See the `RTMUser` entry in the **Documentation** for more information on the
+Helper Functions.
   
 Examples using the helper functions can be found in the repository's 
 [wiki pages](https://github.com/dwaring87/rtm-api/wiki).
