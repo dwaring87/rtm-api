@@ -43,7 +43,11 @@ function getIndex(userId, task) {
   // Find matching cached index
   for ( let i = 0; i < ids.length; i++ ) {
     if ( ids[i]['task_id'] === taskId ) {
-      return parseInt(indices[i]);
+      if ( ids[i]['taskseries_id'] === taskSeriesId ) {
+        if ( ids[i]['list_id'] === listId ) {
+          return parseInt(indices[i]);
+        }
+      }
     }
   }
 
