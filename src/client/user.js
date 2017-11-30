@@ -83,14 +83,19 @@ module.exports = function(client) {
    * @function RTMClient~user/import
    */
   rtn.import = function(properties) {
-    let user = new RTMUser(properties.id, properties.username, properties.fullname, properties.authToken);
-    if ( properties.timeline ) {
-      user.timeline = properties.timeline;
+    if ( properties.id && properties.username && properties.fullname && properties.authToken ) {
+      let user = new RTMUser(properties.id, properties.username, properties.fullname, properties.authToken);
+      if ( properties.timeline ) {
+        user.timeline = properties.timeline;
+      }
+      if ( properties.client ) {
+        user.client = new RTMClient(properties.client.apiKey, properties.client.apiSecret, properties.client.perms);
+      }
+      return user;
     }
-    if ( properties.client ) {
-      user.client = new RTMClient(properties.client.apiKey, properties.client.apiSecret, properties.client.perms);
+    else {
+      throw "Missing User Properties";
     }
-    return user;
   };
 
   /**
