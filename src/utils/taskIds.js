@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const FILENAME = '.rtm.indexcache.json';
-const FILE = path.normalize(os.homedir + '/' + FILENAME);
+const FILE = path.normalize(os.homedir() + '/' + FILENAME);
 
 // Cache of User's Task Indices --> Task IDs
 let CACHE = {
