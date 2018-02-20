@@ -14,11 +14,11 @@
   ],
   "main": "src/client/index.js",
   "scripts": {
-    "docs": "jsdoc -c jsdoc.json --readme README.md --template $NODE_PATH/docdash"
+    "docs": "jsdoc -c jsdoc.json --readme README.md --template $NODE_PATH/@dwaring87/docdash"
   },
   "devDependencies": {
     "jsdoc": "^3.5.5",
-    "docdash": "^0.4.0"
+    "@dwaring87/docdash": "^0.4.1"
   },
   "repository": {
     "type": "git",
