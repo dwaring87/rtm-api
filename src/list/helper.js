@@ -105,12 +105,27 @@ function rename(id, name, user, callback) {
   });
 }
 
-
-
+/**
+ * API Call: rtm.lists.archive
+ * @param id RTM List ID
+ * @param user RTMUser
+ * @param callback Callback function(err)
+ * @private
+ */
+function archive(id, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: id
+  };
+  user.get('rtm.lists.archive', params,  function(err) {
+    return callback(err);
+  });
+}
 
 module.exports = {
   get: get,
   add: add,
   remove: remove,
-  rename: rename
+  rename: rename,
+  archive: archive
 };
