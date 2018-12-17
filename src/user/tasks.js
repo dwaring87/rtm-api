@@ -70,7 +70,14 @@ module.exports = function(user) {
     // Add the List to each Task
     function _parseTasks() {
       for ( let i = 0; i < TASKS.length; i++ ) {
-        TASKS[i]._list = LISTS[TASKS[i].list_id];
+        let list = LISTS[TASKS[i].list_id];
+        if ( list === undefined ) {
+          list = {
+            id: TASKS[i].list_id,
+            name: "List #" + TASKS[i].list_id
+          }
+        }
+        TASKS[i]._list = list;
       }
     }
   };
