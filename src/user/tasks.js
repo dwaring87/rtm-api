@@ -83,6 +83,47 @@ module.exports = function(user) {
   };
 
   /**
+   * Get the RTMTask specified by its index
+   * @param {int} index Task Index
+   * @param {function} callback Callback function(err, task)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @param {RTMTask} callback.task Matching RTM Task
+   */
+  rtn.getTask = function(index, callback) {
+
+    // Get Task Info
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Get Task From API
+      user.tasks.get(function(err, tasks) {
+        if ( err ) {
+          return callback(err);
+        }
+
+        // Find Matching Task
+        let found = false;
+        for ( let i = 0; i < tasks.length; i++ ) {
+          if ( !found && tasks[i].task_id === taskId ) {
+            found = true;
+            return callback(null, tasks[i]);
+          }
+        }
+
+        // Task Not Found
+        if ( !found ) {
+          return callback(errors.referenceError());
+        }
+
+      });
+
+    });
+
+  };
+
+  /**
    * Add a new RTM Task for this User
    * @param {string} name Task Name (can include 'Smart Add' syntax)
    * @param {object} [props] Task Properties
