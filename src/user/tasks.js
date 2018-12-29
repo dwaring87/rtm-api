@@ -533,6 +533,35 @@ module.exports = function(user) {
 
   };
 
+  /**
+   * Set the URL of the specified Task
+   * @param {int} index Task Index
+   * @param {string} url New Task URL
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @function RTMUser~tasks/setName
+   */
+  rtn.setURL = function(index, url, callback) {
+
+    // Get the Task
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Decrease the Priority of the Task
+      return _tasks.setURL(
+        listId,
+        taskSeriesId,
+        taskId,
+        url,
+        user,
+        callback
+      );
+
+    });
+
+  };
 
 
 
