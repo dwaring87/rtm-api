@@ -88,6 +88,7 @@ module.exports = function(user) {
    * @param {function} callback Callback function(err, task)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMTask} callback.task Matching RTM Task
+   * @function RTMUser~tasks/getTask
    */
   rtn.getTask = function(index, callback) {
 
@@ -539,7 +540,7 @@ module.exports = function(user) {
    * @param {string} url New Task URL
    * @param {function} callback Callback function(err)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @function RTMUser~tasks/setName
+   * @function RTMUser~tasks/setURL
    */
   rtn.setURL = function(index, url, callback) {
 

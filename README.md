@@ -244,12 +244,14 @@ The following **list** functions are available:
 
   - `get()`: get an array of `RTMList`s
   - `add()`: add a new List
+  - `archive()`: archive a List
   - `rename()`: rename a List
   - `remove()`: remove a List
   
 The following **task** functions are available:
 
   - `get()`: get an array of `RTMTasks`s (with the Tasks's `RTMList` added to the `list` property)
+  - `getTask()`: get a specific Task (specified by a Task Index)
   - `add()`: add a new Task
   - `remove()`: remove a Task
   - `complete()`: mark a Task as completed
@@ -263,6 +265,7 @@ The following **task** functions are available:
   - `setDueDate()`: set the due date of a Task
   - `postpone()`: postpone the due date of Task by one day
   - `setName()`: set the name of a Task
+  - `setURL()`: set the URL of a Task
 
 See the `RTMUser` entry in the **Documentation** for more information on the
 Helper Functions.
