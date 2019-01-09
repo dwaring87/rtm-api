@@ -377,6 +377,29 @@ function setName(listId, taskSeriesId, taskId, name, user, callback) {
   });
 }
 
+/**
+ * API Call: rtm.tasks.setURL
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} url New Task URL
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setURL(listId, taskSeriesId, taskId, url, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    url: url
+  };
+  user.get('rtm.tasks.setURL', params, function(err) {
+    return callback(err);
+  });
+}
+
 
 module.exports = {
   get: get,
@@ -391,5 +414,6 @@ module.exports = {
   postpone: postpone,
   removeTags: removeTags,
   setDueDate: setDueDate,
-  setName: setName
+  setName: setName,
+  setURL: setURL
 };
