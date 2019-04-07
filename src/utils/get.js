@@ -174,7 +174,7 @@ function _buildRequestUrl(method, params, user, client) {
   // Add method, api key, version and format to params
   args.params.method = args.method;
   args.params.api_key = args.client.key;
-  args.params.version = version;
+  args.params.v = version;
   args.params.format = format;
   args.params.api_sig = sign(args.params, client);
 
