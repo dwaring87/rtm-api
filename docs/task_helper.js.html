@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>task/helper.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="RTMClient.html">RTMClient</a><ul class='methods'><li data-type='method'><a href="RTMClient.html#get">get</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthToken">auth/getAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~auth/getAuthUrl">auth/getAuthUrl</a></li><li data-type='method'><a href="RTMClient.html#~auth/verifyAuthToken">auth/verifyAuthToken</a></li><li data-type='method'><a href="RTMClient.html#~user/create">user/create</a></li><li data-type='method'><a href="RTMClient.html#~user/export">user/export</a></li><li data-type='method'><a href="RTMClient.html#~user/exportToString">user/exportToString</a></li><li data-type='method'><a href="RTMClient.html#~user/import">user/import</a></li><li data-type='method'><a href="RTMClient.html#~user/importFromString">user/importFromString</a></li></ul></li><li><a href="RTMError.html">RTMError</a><ul class='methods'><li data-type='method'><a href="RTMError.html#.networkError">networkError</a></li><li data-type='method'><a href="RTMError.html#.rateLimitError">rateLimitError</a></li><li data-type='method'><a href="RTMError.html#.referenceError">referenceError</a></li><li data-type='method'><a href="RTMError.html#.responseError">responseError</a></li><li data-type='method'><a href="RTMError.html#.serverError">serverError</a></li><li data-type='method'><a href="RTMError.html#toString">toString</a></li></ul></li><li><a href="RTMList.html">RTMList</a></li><li><a href="RTMResponse.html">RTMResponse</a><ul class='methods'><li data-type='method'><a href="RTMResponse.html#has">has</a></li><li data-type='method'><a href="RTMResponse.html#toString">toString</a></li></ul></li><li><a href="RTMSuccess.html">RTMSuccess</a><ul class='methods'><li data-type='method'><a href="RTMSuccess.html#toString">toString</a></li></ul></li><li><a href="RTMTask.html">RTMTask</a></li><li><a href="RTMUser.html">RTMUser</a><ul class='methods'><li data-type='method'><a href="RTMUser.html#clearTaskIndexCache">clearTaskIndexCache</a></li><li data-type='method'><a href="RTMUser.html#get">get</a></li><li data-type='method'><a href="RTMUser.html#verifyAuthToken">verifyAuthToken</a></li><li data-type='method'><a href="RTMUser.html#~lists/add">lists/add</a></li><li data-type='method'><a href="RTMUser.html#~lists/archive">lists/archive</a></li><li data-type='method'><a href="RTMUser.html#~lists/get">lists/get</a></li><li data-type='method'><a href="RTMUser.html#~lists/remove">lists/remove</a></li><li data-type='method'><a href="RTMUser.html#~lists/rename">lists/rename</a></li><li data-type='method'><a href="RTMUser.html#~tasks/add">tasks/add</a></li><li data-type='method'><a href="RTMUser.html#~tasks/addTags">tasks/addTags</a></li><li data-type='method'><a href="RTMUser.html#~tasks/complete">tasks/complete</a></li><li data-type='method'><a href="RTMUser.html#~tasks/decreasePriority">tasks/decreasePriority</a></li><li data-type='method'><a href="RTMUser.html#~tasks/get">tasks/get</a></li><li data-type='method'><a href="RTMUser.html#~tasks/getTask">tasks/getTask</a></li><li data-type='method'><a href="RTMUser.html#~tasks/increasePriority">tasks/increasePriority</a></li><li data-type='method'><a href="RTMUser.html#~tasks/move">tasks/move</a></li><li data-type='method'><a href="RTMUser.html#~tasks/postpone">tasks/postpone</a></li><li data-type='method'><a href="RTMUser.html#~tasks/priority">tasks/priority</a></li><li data-type='method'><a href="RTMUser.html#~tasks/remove">tasks/remove</a></li><li data-type='method'><a href="RTMUser.html#~tasks/removeTags">tasks/removeTags</a></li><li data-type='method'><a href="RTMUser.html#~tasks/setDueDate">tasks/setDueDate</a></li><li data-type='method'><a href="RTMUser.html#~tasks/setName">tasks/setName</a></li><li data-type='method'><a href="RTMUser.html#~tasks/setURL">tasks/setURL</a></li><li data-type='method'><a href="RTMUser.html#~tasks/uncomplete">tasks/uncomplete</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#setStartDate">setStartDate</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">task/helper.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const RTMTask = require('./index.js');
+const taskIds = require('../utils/taskIds.js');
+
+/**
+ * API Call: rtm.tasks.getList
+ * @param user RTMUser
+ * @param [filter] Task Filter
+ * @param callback Callback function(err, tasks)
+ * @private
+ */
+function get(user, filter, callback) {
+  let params = {};
+  if ( callback === undefined &amp;&amp; typeof filter === 'function' ) {
+    callback = filter;
+  }
+  else if ( filter !== '' ) {
+    params.filter = filter;
+  }
+
+  user.get('rtm.tasks.getList', params, function(err, resp) {
+    if ( err ) {
+      return callback(err);
+    }
+
+    // List of task to return
+    let rtn = [];
+
+    // Parse each List
+    let lists = resp.tasks.list;
+    if ( lists !== undefined ) {
+      for ( let i = 0; i &lt; lists.length; i++ ) {
+        let list = lists[i];
+
+        // Parse the List's TaskSeries
+        if ( list.taskseries ) {
+          if ( !Array.isArray(list.taskseries) ) {
+            list.taskseries = [list.taskseries];
+          }
+          for ( let j = 0; j &lt; list.taskseries.length; j++ ) {
+            let series = list.taskseries[j];
+            if ( series.name === "Add Support for Sub Tasks" ) {
+              console.log(series);
+            }
+
+            // Parse the TaskSeries' Tasks
+            if ( !Array.isArray(series.task) ) {
+              series.task = [series.task];
+            }
+            for ( let k = 0; k &lt; series.task.length; k++ ) {
+              let task = series.task[k];
+              rtn.push(new RTMTask(user.id, list.id, series, task));
+            }
+          }
+        }
+      }
+    }
+
+    // Save the task indices
+    taskIds.save();
+
+    // Return with the callback
+    return callback(null, rtn);
+
+  });
+}
+
+/**
+ * API Call rtm.tasks.add
+ * Note: this uses RTM's 'smart add'
+ * @param {string} name Task Name (or smart add syntax)
+ * @param {{due: *, priority: *, list: *, tags: *, location: *, start: *, repeat: *, estimate: *, to: *, url: *, note: *}} props Additional task properties
+ * @param user RTM User
+ * @param callback Callback function(err)
+ * @private
+ */
+function add(name, props, user, callback) {
+
+  // Parse the props keys
+  if ( props.due ) {
+    name = name + " ^" + props.due;
+  }
+  if ( props.priority ) {
+    name = name + " !" + props.priority
+  }
+  if ( props.list ) {
+    name = name + " #" + props.list;
+  }
+  if ( props.tags ) {
+    if ( !Array.isArray(props.tags) ) {
+      props.tags = [props.tags];
+    }
+    for ( let i = 0; i &lt; props.tags.length; i++ ) {
+      name = name + " #" + props.tags[i];
+    }
+  }
+  if ( props.location ) {
+    name = name + " @" + props.location;
+  }
+  if ( props.start ) {
+    name = name + " ~" + props.start;
+  }
+  if ( props.repeat ) {
+    name = name + " *" + props.repeat;
+  }
+  if ( props.estimate ) {
+    name = name + " =" + props.estimate;
+  }
+  if ( props.to ) {
+    name = name + " +" + props.to;
+  }
+  if ( props.url ) {
+    name = name + " " + props.url;
+  }
+  if ( props.note ) {
+    name = name + " //" + props.note;
+  }
+
+  // Set the request params
+  let params = {
+    timeline: user.timeline,
+    name: name,
+    parse: '1'
+  };
+
+  // Make the API Request
+  user.get('rtm.tasks.add', params, function(err) {
+    return callback(err);
+  });
+
+}
+
+/**
+ * API Call: rtm.tasks.complete
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function complete(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.complete', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.uncomplete
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function uncomplete(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.uncomplete', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setPriority
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {int} priority Task Priority
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function priority(listId, taskSeriesId, taskId, priority, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    priority: priority
+  };
+  user.get('rtm.tasks.setPriority', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.addTags
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string[]} tags Tags to Add
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function addTags(listId, taskSeriesId, taskId, tags, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    tags: tags.join(',')
+  };
+  user.get('rtm.tasks.addTags', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.delete
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function remove(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+  };
+  user.get('rtm.tasks.delete', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.movePriority
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} direction Direction to move 'up' or 'down'
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function movePriority(listId, taskSeriesId, taskId, direction, user, callback) {
+  if ( direction.toLowerCase() !== 'up' &amp;&amp; direction.toLowerCase() !== 'down' ) {
+    throw "Incorrect priority direction.  Must be either 'up' or 'down'";
+  }
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    direction: direction.toLowerCase()
+  };
+  user.get('rtm.tasks.movePriority', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.moveTo
+ * @param {number} listId RTM List ID (original)
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {number} toListId RTM List ID (new)
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function move(listId, taskSeriesId, taskId, toListId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    from_list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    to_list_id: toListId
+  };
+  user.get('rtm.tasks.moveTo', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.postpone
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function postpone(listId, taskSeriesId, taskId, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId
+  };
+  user.get('rtm.tasks.postpone', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.removeTags
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string[]} tags Tags to Remove
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function removeTags(listId, taskSeriesId, taskId, tags, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    tags: tags.join(',')
+  };
+  user.get('rtm.tasks.removeTags', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setDueDate
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} due Task Due Date (will be parsed by RTM)
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setDueDate(listId, taskSeriesId, taskId, due, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    due: due,
+    parse: 1
+  };
+  user.get('rtm.tasks.setDueDate', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setStartDate
+ * @param {number}   listId       RTM List ID
+ * @param {number}   taskSeriesId RTM Task Series ID
+ * @param {number}   taskId       RTM Task ID
+ * @param {string}   start        Task Start Date/Time (will be parsed by RTM)
+ * @param {RTMUser}  user         RTM User
+ * @param {Function} callback     Callback function(err)
+ */
+function setStartDate(listId, taskSeriesId, taskId, start, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    start: start,
+    parse: 1
+  };
+  user.get('rtm.tasks.setStartDate', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setName
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} name New Task Name
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setName(listId, taskSeriesId, taskId, name, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    name: name
+  };
+  user.get('rtm.tasks.setName', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setURL
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} url New Task URL
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function setURL(listId, taskSeriesId, taskId, url, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    url: url
+  };
+  user.get('rtm.tasks.setURL', params, function(err) {
+    return callback(err);
+  });
+}
+
+
+module.exports = {
+  get: get,
+  add: add,
+  complete: complete,
+  uncomplete: uncomplete,
+  priority: priority,
+  addTags: addTags,
+  remove: remove,
+  movePriority: movePriority,
+  move: move,
+  postpone: postpone,
+  removeTags: removeTags,
+  setDueDate: setDueDate,
+  setStartDate: setStartDate,
+  setName: setName,
+  setURL: setURL
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Apr 07 2019 18:19:20 GMT-0400 (EDT) using the <a href="https://github.com/dwaring87/docdash">@dwaring87/docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
