@@ -40,6 +40,9 @@ function get(user, filter, callback) {
           }
           for ( let j = 0; j < list.taskseries.length; j++ ) {
             let series = list.taskseries[j];
+            if ( series.name === "Add Support for Sub Tasks" ) {
+              console.log(series);
+            }
 
             // Parse the TaskSeries' Tasks
             if ( !Array.isArray(series.task) ) {
@@ -335,7 +338,7 @@ function removeTags(listId, taskSeriesId, taskId, tags, user, callback) {
  * @param {number} listId RTM List ID
  * @param {number} taskSeriesId RTM Task Series ID
  * @param {number} taskId RTM Task ID
- * @param {string} due Task Due Date
+ * @param {string} due Task Due Date (will be parsed by RTM)
  * @param {RTMUser} user RTM User
  * @param {function} callback function(err)
  * @private
@@ -350,6 +353,29 @@ function setDueDate(listId, taskSeriesId, taskId, due, user, callback) {
     parse: 1
   };
   user.get('rtm.tasks.setDueDate', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
+ * API Call: rtm.tasks.setStartDate
+ * @param {number}   listId       RTM List ID
+ * @param {number}   taskSeriesId RTM Task Series ID
+ * @param {number}   taskId       RTM Task ID
+ * @param {string}   start        Task Start Date/Time (will be parsed by RTM)
+ * @param {RTMUser}  user         RTM User
+ * @param {Function} callback     Callback function(err)
+ */
+function setStartDate(listId, taskSeriesId, taskId, start, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+    start: start,
+    parse: 1
+  };
+  user.get('rtm.tasks.setStartDate', params, function(err) {
     return callback(err);
   });
 }
@@ -414,6 +440,7 @@ module.exports = {
   postpone: postpone,
   removeTags: removeTags,
   setDueDate: setDueDate,
+  setStartDate: setStartDate,
   setName: setName,
   setURL: setURL
 };

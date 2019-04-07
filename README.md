@@ -263,6 +263,7 @@ The following **task** functions are available:
   - `increasePriority()`: increase the Priority of a Task
   - `move()`: move a Task to a different List
   - `setDueDate()`: set the due date of a Task
+  - `setStartDate()`: set the start date of a Task
   - `postpone()`: postpone the due date of Task by one day
   - `setName()`: set the name of a Task
   - `setURL()`: set the URL of a Task
