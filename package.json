@@ -17,8 +17,8 @@
     "docs": "jsdoc -c jsdoc.json --readme README.md --template $NODE_PATH/@dwaring87/docdash"
   },
   "devDependencies": {
-    "jsdoc": "^3.5.5",
-    "@dwaring87/docdash": "^0.4.1"
+    "@dwaring87/docdash": "^0.4.1",
+    "jsdoc": "^3.6.3"
   },
   "repository": {
     "type": "git",
