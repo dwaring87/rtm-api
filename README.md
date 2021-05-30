@@ -257,6 +257,7 @@ The following **task** functions are available:
   - `complete()`: mark a Task as completed
   - `uncomplete()`: mark a Task as NOT completed
   - `addTags()`: add one or tags to a Task
+  -  addNotes()`: add one or notes to a Task  
   - `removeTags()`: remove one or more tags from a Task
   - `priority()`: set the Priority of a Task
   - `decreasePriority()`: decrease the Priority of a Task

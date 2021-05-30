@@ -272,6 +272,40 @@ module.exports = function(user) {
 
   };
 
+
+  /**
+   * Add the specified note to the Task
+   * @param {int} index Task Index
+   * @param {string} title Title of the Note
+   * @param {string|string[]} notes Note(s) to add to task
+   * @param {function} callback Callback function(err)
+   * @param {RTMError} callback.err RTM API Error Response, if encountered
+   * @function RTMUser~tasks/addTags
+   */
+  rtn.addNotes = function(index, title, notes, callback) {
+    var title = (typeof title !== 'undefined') ? title : "";
+
+    // Get the Task
+    _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
+      if ( err ) {
+        return callback(err);
+      }
+
+      // Add the Note
+      return _tasks.addNotes(
+        listId,
+        taskSeriesId,
+        taskId,
+    title,
+        notes,
+        user,
+        callback
+      );
+
+    });
+
+  };
+
   /**
    * Remove the specified Task from the User's Account
    * @param {int} index Task Index
