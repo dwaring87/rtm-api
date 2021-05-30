@@ -280,7 +280,7 @@ module.exports = function(user) {
    * @param {string|string[]} notes Note(s) to add to task
    * @param {function} callback Callback function(err)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
-   * @function RTMUser~tasks/addTags
+   * @function RTMUser~tasks/addNotes
    */
   rtn.addNotes = function(index, title, notes, callback) {
     var title = (typeof title !== 'undefined') ? title : "";
@@ -296,7 +296,7 @@ module.exports = function(user) {
         listId,
         taskSeriesId,
         taskId,
-    title,
+    	title,
         notes,
         user,
         callback

@@ -236,7 +236,7 @@ function addNotes(listId, taskSeriesId, taskId, title, notes, user, callback) {
     list_id: listId,
     taskseries_id: taskSeriesId,
     task_id: taskId,
-  note_title: title,
+	note_title: title,
     note_text: notes
   };
   user.get('rtm.tasks.notes.add', params, function(err) {
