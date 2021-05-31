@@ -220,7 +220,7 @@ function addTags(listId, taskSeriesId, taskId, tags, user, callback) {
 }
 
 /**
- * API Call: rtm.tasks.addNotes
+ * API Call: rtm.tasks.notes.add
  * @param {number} listId RTM List ID
  * @param {number} taskSeriesId RTM Task Series ID
  * @param {number} taskId RTM Task ID
@@ -458,6 +458,7 @@ module.exports = {
   complete: complete,
   uncomplete: uncomplete,
   priority: priority,
+  addNotes: addNotes,
   addTags: addTags,
   remove: remove,
   movePriority: movePriority,
