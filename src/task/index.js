@@ -54,13 +54,13 @@ class RTMTask {
      * Task Creation Date
      * @type {Date|undefined}
      */
-    this.created = series.created.toString() === '' ? undefined : new Date(series.created);
+    this.created = series.created?.toString() === '' ? undefined : new Date(series.created);
 
     /**
      * Task Modification Date
      * @type {Date|undefined}
      */
-    this.modified = series.modified.toString() === '' ? undefined : new Date(series.modified);
+    this.modified = series.modified?.toString() === '' ? undefined : new Date(series.modified);
 
     /**
      * Task Name
@@ -84,7 +84,7 @@ class RTMTask {
      * Task Location ID
      * @type {number|undefined}
      */
-    this.location_id = series.location_id.toString() === '' ? undefined : parseFloat(series.location_id);
+    this.location_id = series.location_id?.toString() === '' ? undefined : parseFloat(series.location_id);
 
     /**
      * Task Tags
@@ -139,37 +139,37 @@ class RTMTask {
      * Task Due Date
      * @type {Date|undefined}
      */
-    this.due = task.due.toString() === '' ? undefined : new Date(task.due);
+    this.due = task.due?.toString() === '' ? undefined : new Date(task.due);
 
     /**
      * Task Due Time Flag (true when `due` includes a Due Time)
      * @type {boolean}
      */
-    this.has_due_time = task.has_due_time.toString() === '1';
+    this.has_due_time = task.has_due_time?.toString() === '1';
 
     /**
      * Task Start Date
      * @type {Date|undefined}
      */
-    this.start = task.start.toString() === '' ? undefined : new Date(task.start);
+    this.start = task.start?.toString() === '' ? undefined : new Date(task.start);
 
     /**
      * Task Start Time Flag (true when `start` includes a Start Time)
      * @type {boolean}
      */
-    this.has_start_time = task.has_start_time.toString() === '1';
+    this.has_start_time = task.has_start_time?.toString() === '1';
 
     /**
      * Task Added Date
      * @type {Date|undefined}
      */
-    this.added = task.added.toString() === '' ? undefined : new Date(task.added);
+    this.added = task.added?.toString() === '' ? undefined : new Date(task.added);
 
     /**
      * Task Completed Date
      * @type {Date|undefined}
      */
-    this.completed = task.completed.toString() === '' ? undefined : new Date(task.completed);
+    this.completed = task.completed?.toString() === '' ? undefined : new Date(task.completed);
 
     /**
      * Task Completed Flag (true when task is marked as completed)
@@ -181,25 +181,25 @@ class RTMTask {
      * Task Deleted Flag
      * @type {Date|undefined}
      */
-    this.deleted = task.deleted.toString() === '' ? undefined : new Date(task.deleted);
+    this.deleted = task.deleted?.toString() === '' ? undefined : new Date(task.deleted);
 
     /**
      * Task Priority (0, 1, 2, or 3)
      * @type {int}
      */
-    this.priority = task.priority.toString() === 'N' ? 0 : parseInt(task.priority);
+    this.priority = task.priority?.toString() === 'N' ? 0 : parseInt(task.priority);
 
     /**
      * Task Postponed Flag
      * @type {boolean}
      */
-    this.postponed = task.postponed.toString() === '1';
+    this.postponed = task.postponed?.toString() === '1';
 
     /**
      * Task Time Estimate
      * @type {string|undefined}
      */
-    this.estimate = task.estimate.toString() === '' ? undefined : task.estimate;
+    this.estimate = task.estimate?.toString() === '' ? undefined : task.estimate;
 
 
     // Assign Task Index

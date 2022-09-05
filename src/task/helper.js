@@ -40,9 +40,6 @@ function get(user, filter, callback) {
           }
           for ( let j = 0; j < list.taskseries.length; j++ ) {
             let series = list.taskseries[j];
-            if ( series.name === "Add Support for Sub Tasks" ) {
-              console.log(series);
-            }
 
             // Parse the TaskSeries' Tasks
             if ( !Array.isArray(series.task) ) {
