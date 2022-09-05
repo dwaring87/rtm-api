@@ -148,6 +148,18 @@ class RTMTask {
     this.has_due_time = task.has_due_time.toString() === '1';
 
     /**
+     * Task Start Date
+     * @type {Date|undefined}
+     */
+    this.start = task.start.toString() === '' ? undefined : new Date(task.start);
+
+    /**
+     * Task Start Time Flag (true when `start` includes a Start Time)
+     * @type {boolean}
+     */
+    this.has_start_time = task.has_start_time.toString() === '1';
+
+    /**
      * Task Added Date
      * @type {Date|undefined}
      */
