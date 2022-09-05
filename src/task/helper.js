@@ -220,6 +220,31 @@ function addTags(listId, taskSeriesId, taskId, tags, user, callback) {
 }
 
 /**
+ * API Call: rtm.tasks.notes.add
+ * @param {number} listId RTM List ID
+ * @param {number} taskSeriesId RTM Task Series ID
+ * @param {number} taskId RTM Task ID
+ * @param {string} title Title of Note
+ * @param {string|string[]} notes Note(s) to add to the Task
+ * @param {RTMUser} user RTM User
+ * @param {function} callback function(err)
+ * @private
+ */
+function addNotes(listId, taskSeriesId, taskId, title, notes, user, callback) {
+  let params = {
+    timeline: user.timeline,
+    list_id: listId,
+    taskseries_id: taskSeriesId,
+    task_id: taskId,
+	note_title: title,
+    note_text: notes
+  };
+  user.get('rtm.tasks.notes.add', params, function(err) {
+    return callback(err);
+  });
+}
+
+/**
  * API Call: rtm.tasks.delete
  * @param {number} listId RTM List ID
  * @param {number} taskSeriesId RTM Task Series ID
@@ -433,6 +458,7 @@ module.exports = {
   complete: complete,
   uncomplete: uncomplete,
   priority: priority,
+  addNotes: addNotes,
   addTags: addTags,
   remove: remove,
   movePriority: movePriority,
