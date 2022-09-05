@@ -274,3 +274,10 @@ Helper Functions.
   
 Examples using the helper functions can be found in the repository's 
 [wiki pages](https://github.com/dwaring87/rtm-api/wiki).
+
+
+## Advanced Configuration
+
+The API configuration (such as the URL and connection rate limiting parameters) are defined in the `config.js` file.  In addition, 
+the location of the cache file used to associate specific tasks with their Task ID numbers can be specified in the file or by 
+setting the `RTM_INDEX_CACHE` environment parameter.

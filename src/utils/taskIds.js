@@ -1,11 +1,9 @@
 'use strict';
 
-const os = require('os');
+const config = require('../../config');
 const fs = require('fs');
-const path = require('path');
 
-const FILENAME = '.rtm.indexcache.json';
-const FILE = path.normalize(os.homedir() + '/' + FILENAME);
+const FILE = config.task_id_cache_file;
 
 // Cache of User's Task Indices --> Task IDs
 let CACHE = {

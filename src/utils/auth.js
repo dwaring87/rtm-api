@@ -4,7 +4,7 @@ const RTMUser = require('../user/index.js');
 const sign = require('./sign.js');
 
 // API Configuration Properties
-const config = require('../../rtm.json');
+const config = require('../../config');
 const scheme = config.api.scheme;
 const base = config.api.url.auth;
 

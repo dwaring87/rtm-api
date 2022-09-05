@@ -1,4 +1,8 @@
-{
+
+const os = require('os');
+const path = require('path');
+
+module.exports = {
   "api": {
     "scheme": "https",
     "url": {
@@ -13,5 +17,6 @@
       "burstWait": 120000,
       "timeout": 1000
     }
-  }
+  },
+  "task_id_cache_file": process.env.RTM_INDEX_CACHE ? process.env.RTM_INDEX_CACHE : path.normalize(os.homedir() + '/' + '.rtm.indexcache.json')
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('../../rtm.json');
+const config = require('../../config');
 
 /**
  * ### RTM User
