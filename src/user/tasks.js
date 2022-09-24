@@ -85,12 +85,17 @@ module.exports = function(user) {
   /**
    * Get the RTMTask specified by its index
    * @param {int} index Task Index
+   * @param {string} [filter] Tasks Filter (RTM Advanced Search Syntax)
    * @param {function} callback Callback function(err, task)
    * @param {RTMError} callback.err RTM API Error Response, if encountered
    * @param {RTMTask} callback.task Matching RTM Task
    * @function RTMUser~tasks/getTask
    */
-  rtn.getTask = function(index, callback) {
+  rtn.getTask = function(index, filter, callback) {
+    if ( callback === undefined && typeof filter === 'function' ) {
+      callback = filter;
+      filter = "";
+    }
 
     // Get Task Info
     _getTaskInfo(index, function(err, listId, taskSeriesId, taskId) {
@@ -99,7 +104,7 @@ module.exports = function(user) {
       }
 
       // Get Task From API
-      user.tasks.get(function(err, tasks) {
+      user.tasks.get(filter, function(err, tasks) {
         if ( err ) {
           return callback(err);
         }
